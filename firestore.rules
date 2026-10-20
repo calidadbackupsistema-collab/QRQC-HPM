@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Lista blanca: un documento por correo autorizado -> hpm_allowed/<correo en minúsculas>
+    // Se crea SOLO desde la consola de Firebase (aquí está bloqueada la escritura).
+    function isMember() {
+      return request.auth != null
+        && request.auth.token.email != null
+        && exists(/databases/$(database)/documents/hpm_allowed/$(request.auth.token.email.lower()));
+    }
+
+    match /hpm_allowed/{email} {
+      allow read: if request.auth != null && request.auth.token.email.lower() == email;
+      allow write: if false;
+    }
+
+    // Colecciones de datos de ROCA y QRQC-D (una por módulo)
+    match /{col}/{docId} {
+      allow read, write: if isMember() && col in [
+        'quality_8d_reports_v1',
+        'hpm_9basics_reports_v1',
+        'hpm_2panel_reports_v1',
+        'hpm_dmaic_reports_v1',
+        'hpm_doe_reports_v1',
+        'hpm_qrqcd_board_v1',
+        'hpm_qrqcd_kpi_v1',
+        'hpm_qrqcd_meta_v1'
+      ];
+    }
+  }
+}

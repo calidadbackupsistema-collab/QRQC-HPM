@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#0B2D50">
+<title>QRQC-D | HPM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EAF1F7;--surface:#fff;--surface-alt:#EDF3F8;--ink:#10263B;--ink-soft:#5A6C7E;--ink-faint:#8797A8;--line:#D7E1EB;--line-strong:#C3D2E0;--accent:#0E75BC;--accent-ink:#0B2D50;--accent-soft:#E6F2FA;--cyan:#42C6FF;--success:#16834E;--success-bg:#E8F6EF;--warning:#C87F0A;--warning-bg:#FCF3E3;--danger:#D7263D;--danger-bg:#FDECEE;--radius:14px}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}body{background:radial-gradient(circle at 8% 3%,rgba(66,198,255,.16),transparent 27rem),radial-gradient(circle at 96% 12%,rgba(14,117,188,.13),transparent 30rem),linear-gradient(145deg,#f7fafc 0%,#eaf1f7 52%,#dce8f2 100%);color:var(--ink);font:14px/1.45 'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}button,input,textarea,select{font:inherit}:focus-visible{outline:3px solid rgba(66,198,255,.55);outline-offset:2px}
+[hidden]{display:none!important}.portal-screen{min-height:100vh;padding:24px;background:radial-gradient(circle at 18% 18%,rgba(215,38,61,.2),transparent 27rem),radial-gradient(circle at 78% 78%,rgba(14,117,188,.24),transparent 31rem),linear-gradient(145deg,#11171D,#090E14 55%,#141B22);color:#fff}.portal-shell{width:min(1320px,100%);margin:auto;border:1px solid #405064;border-radius:28px;background:linear-gradient(125deg,rgba(255,255,255,.11),rgba(18,28,48,.95) 32%,rgba(12,22,39,.98));padding:25px;box-shadow:0 28px 70px #0008;position:relative;overflow:hidden}.portal-shell:after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--danger),var(--cyan),#79E5CF)}.portal-head{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}.portal-brand{display:flex;align-items:center;gap:15px}.portal-brand .logo-box{width:145px;min-width:145px}.portal-brand h1{font-size:clamp(20px,3vw,30px);margin:0}.portal-brand p{margin:3px 0 0;color:#AFC5D8;font-size:12px}.portal-lang{display:flex;gap:6px}.portal-stage{margin-top:22px;min-height:490px;border:1px solid #263D59;border-radius:22px;background:linear-gradient(rgba(25,56,92,.28) 1px,transparent 1px),linear-gradient(90deg,rgba(25,56,92,.28) 1px,transparent 1px),radial-gradient(circle at center,rgba(31,99,151,.2),transparent 44%),#061229;background-size:100% 118px,160px 100%,auto,auto;display:grid;grid-template-columns:minmax(350px,1.25fr) minmax(300px,.75fr);align-items:center;gap:25px;padding:28px}.brain-wrap{position:relative;min-height:390px;border-radius:18px;overflow:hidden}#particleCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}.p-node{position:absolute;left:var(--nx);top:var(--ny);transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;padding:6px;cursor:pointer;color:var(--pc);z-index:2;transition:.2s ease}.p-node-circle{width:54px;height:54px;border-radius:50%;background:#071426;border:3px solid var(--pc);display:flex;align-items:center;justify-content:center;box-shadow:0 0 14px currentColor,inset 0 0 10px #0006;transition:.25s ease;position:relative}.p-node-circle::after{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px solid currentColor;opacity:.35;animation:pPulse 2.6s ease-out infinite}.p-node-lg{width:62px;height:62px}.p-node-label{font:700 12px 'IBM Plex Mono',monospace;color:#fff;pointer-events:none}.p-node-caption{font:700 10px 'IBM Plex Mono',monospace;color:#BFD7E8;letter-spacing:.08em;pointer-events:none}.p-node:hover,.p-node:focus-visible{transform:translate(-50%,-50%) scale(1.1)}.p-node:hover .p-node-circle,.p-node:focus-visible .p-node-circle{box-shadow:0 0 22px currentColor,inset 0 0 10px #0006}.p-node:focus{outline:none}.p-node:focus-visible .p-node-circle{outline:3px solid rgba(66,198,255,.7);outline-offset:3px}@keyframes pPulse{0%{transform:scale(1);opacity:.5}100%{transform:scale(1.6);opacity:0}}.portal-menu{display:grid;gap:12px}.portal-card{appearance:none;text-align:left;width:100%;display:grid;grid-template-columns:54px 1fr auto;align-items:center;gap:14px;padding:16px;border-radius:15px;color:#fff;background:rgba(255,255,255,.045);border:1px solid #354962;transition:.2s ease}.portal-card:hover{background:rgba(66,198,255,.1);border-color:#62CEF8;transform:translateX(-4px)}.portal-num{width:45px;height:45px;border-radius:50%;display:grid;place-items:center;background:#0B1728;border:4px solid var(--pc,#70D2FF);font:700 12px 'IBM Plex Mono',monospace;box-shadow:0 0 16px color-mix(in srgb,var(--pc) 35%,transparent)}.portal-card strong{font-size:15px}.portal-card small{display:block;color:#AFC5D8;margin-top:3px}.portal-arrow{color:var(--pc,#70D2FF);font-size:20px}.portal-foot{text-align:center;margin-top:16px;color:#728CA4;font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase}
+.module-container{max-width:1250px}.module-toolbar{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;box-shadow:0 8px 20px rgba(11,45,80,.05)}.module-sheet{padding:20px}.module-title{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;border-bottom:2px solid var(--accent-soft);padding-bottom:12px;margin-bottom:17px}.module-title h2{margin:0;color:var(--accent-ink)}.module-title p{margin:4px 0 0;color:var(--ink-soft);font-size:12px}.summary-pills{display:flex;gap:7px;flex-wrap:wrap}.summary-pill{border-radius:20px;padding:6px 10px;font:700 10px 'IBM Plex Mono',monospace;background:var(--surface-alt);color:var(--accent-ink)}.summary-pill.nc{background:var(--danger-bg);color:var(--danger)}.summary-pill.ok{background:var(--success-bg);color:var(--success)}.fivew-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}.audit-table{width:100%;border-collapse:collapse;min-width:850px}.audit-table th,.audit-table td{border-bottom:1px solid var(--line);padding:10px;vertical-align:middle}.audit-table th{background:var(--accent-ink);color:#fff;font-size:10px;text-transform:uppercase}.audit-table td:first-child{font:700 12px 'IBM Plex Mono',monospace;color:var(--accent)}.audit-choice{display:flex;gap:5px}.choice-btn{padding:6px 9px;font-size:10px}.choice-btn.selected[data-value="C"]{background:var(--success);border-color:var(--success);color:#fff}.choice-btn.selected[data-value="NC"]{background:var(--danger);border-color:var(--danger);color:#fff}.choice-btn.selected[data-value="NA"]{background:var(--ink-soft);border-color:var(--ink-soft);color:#fff}.two-panel-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.photo-panel{border:1px solid var(--line);border-radius:14px;background:#FAFCFE;overflow:hidden}.photo-panel h3{margin:0;padding:11px 14px;background:var(--accent-ink);color:#fff;font-size:13px}.photo-drop{min-height:280px;display:grid;place-items:center;padding:16px;background:linear-gradient(135deg,#F7FAFD,#EAF1F7);position:relative;overflow:hidden}
+.photo-ribbon{position:absolute;top:0;right:0;bottom:0;width:34px;display:flex;align-items:center;justify-content:center;color:#fff;font:800 15px 'IBM Plex Mono',monospace;letter-spacing:.1em;writing-mode:vertical-rl;text-orientation:mixed;box-shadow:-3px 0 10px #0004}
+.photo-ribbon.ng{background:linear-gradient(180deg,#E63950,#B01B2E)}
+.photo-ribbon.ok{background:linear-gradient(180deg,#2BAF74,#146840)}.photo-drop img{max-width:100%;max-height:360px;object-fit:contain;border-radius:8px}.photo-placeholder{text-align:center;color:var(--ink-faint)}.photo-placeholder b{display:block;font-size:30px;color:var(--accent);margin-bottom:5px}.panel-controls{padding:12px}.compression-note{font-size:10.5px;color:var(--ink-faint);margin-top:6px}.improvement-box{margin-top:16px}
+.method-modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;background:rgba(2,8,15,.78);backdrop-filter:blur(8px)}.method-dialog{width:min(620px,100%);border-radius:22px;padding:24px;background:linear-gradient(135deg,#142338,#0B1524);border:1px solid #49627D;color:#fff;box-shadow:0 30px 80px #000b;position:relative}.method-dialog:before{content:"";position:absolute;inset:0 0 auto;height:4px;border-radius:22px 22px 0 0;background:linear-gradient(90deg,var(--dialog-color,#66D4FF),var(--danger))}.method-dialog h2{margin:5px 0 10px;font-size:24px}.method-dialog p{color:#C0D2E2;line-height:1.65;margin:0}.method-kicker{font:700 10px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:var(--dialog-color,#66D4FF);text-transform:uppercase}.method-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:22px}.method-close{background:transparent;color:#D8E7F4;border-color:#52647A}.dmaic-flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-bottom:18px}.dmaic-step{border-radius:12px;padding:12px 9px;background:#0B2D50;color:#fff;border-top:4px solid var(--dc,#66D4FF);text-align:center}.dmaic-step b{display:block;font-size:18px}.dmaic-step small{font-size:9px;color:#BFD3E4}.dmaic-sections{display:grid;gap:12px}.dmaic-card{padding:15px;border-left:4px solid var(--dc,#66D4FF)}.dmaic-card h3{margin:0 0 10px;color:var(--accent-ink)}
+.brain-shell{fill:url(#brainBase);stroke:#8BDFFF;stroke-width:2}.topo-lines path{fill:none;stroke:url(#contourGlow);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.82}.topo-lines path:nth-child(3n){opacity:.42;stroke-width:1.2}.topo-lines path:nth-child(4n){stroke:#fff;opacity:.28}.brain-stem{fill:#132D47;stroke:#6CAECB;stroke-width:2}.cerebellum-line{fill:none;stroke:#9DDFF2;stroke-width:1.5;opacity:.55}
+.hero-wrap{width:min(1480px,calc(100% - 32px));margin:18px auto 0}.topbar{background:linear-gradient(118deg,rgba(7,35,62,.98),rgba(11,63,105,.95) 62%,rgba(14,117,188,.9));color:#fff;padding:18px 22px;border-radius:18px;border:1px solid rgba(255,255,255,.2);border-bottom:4px solid var(--danger);box-shadow:0 18px 48px rgba(5,35,61,.22)}.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.brand-row{display:flex;align-items:center;gap:16px;min-width:0}.logo-box{width:150px;min-width:150px;height:58px;padding:9px 12px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 7px 20px rgba(0,0,0,.22)}.logo-box img{display:block;max-width:100%;max-height:100%;object-fit:contain}.brand-copy{min-width:0}.brand-eyebrow{font-size:10px;font-weight:700;letter-spacing:.18em;color:#8EDCFF;text-transform:uppercase;margin-bottom:4px}.topbar h1{font-size:clamp(17px,2vw,21px);font-weight:700;margin:0}.topbar .sub{font-size:12px;color:#D5E8F7;margin-top:3px}.header-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}.hero-date{font:11.5px 'IBM Plex Mono',monospace;color:#D4E7F5;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);padding:7px 12px;border-radius:8px;text-transform:capitalize;white-space:nowrap}.lang-switch{display:flex;gap:4px}.lang-btn{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#D4E7F5;font-size:10.5px;font-weight:700;padding:6px 9px;border-radius:6px;cursor:pointer}.lang-btn:hover{background:rgba(255,255,255,.18)}.lang-btn.active{background:var(--cyan);color:var(--accent-ink);border-color:var(--cyan)}.method-badge{display:inline-flex;background:#fff;color:var(--accent-ink);font-size:10.5px;font-weight:700;border-radius:20px;padding:6px 10px}
+.container{max-width:1500px;margin:0 auto;padding:18px 20px 60px}.toolbar{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;box-shadow:0 8px 20px rgba(11,45,80,.05)}button{border:1px solid var(--line-strong);border-radius:7px;padding:8px 13px;font-weight:600;cursor:pointer;background:#fff;color:var(--ink)}button:hover{background:var(--surface-alt)}button.primary{background:linear-gradient(100deg,var(--accent-ink),var(--accent));border-color:var(--accent-ink);color:#fff;box-shadow:0 6px 16px rgba(14,70,112,.18)}button.success{background:var(--success);border-color:var(--success);color:#fff}button.danger{background:var(--danger-bg);border-color:#F3BFC7;color:var(--danger)}button.light{background:var(--surface-alt);color:var(--accent-ink)}button:disabled{opacity:.55;cursor:not-allowed}
+.layout{display:grid;grid-template-columns:290px minmax(0,1fr);gap:18px}.panel,.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 8px 20px rgba(11,45,80,.06)}.sidebar{padding:14px;height:calc(100vh - 185px);overflow:auto;position:sticky;top:12px}.sidebar h3{margin:4px 0 12px;color:var(--accent-ink);font-size:14px}.sidebar input{margin-bottom:10px}.report{padding:11px;border:1px solid var(--line);border-radius:9px;margin-bottom:8px;cursor:pointer;background:#FAFCFE}.report:hover{border-color:var(--accent)}.report.active{border-color:var(--accent);background:var(--accent-soft)}.report strong{display:block;font:600 11.5px 'IBM Plex Mono',monospace;color:var(--accent-ink)}.report div{font-size:12.5px;margin-top:3px}.report small{color:var(--ink-faint)}.content{padding:18px;min-width:0}.section{margin-bottom:20px}.section>h2{font-size:17px;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--accent-soft);color:var(--accent-ink)}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px;min-width:0}.field.span2{grid-column:span 2}.field.span4{grid-column:1/-1}label{font-size:11px;font-weight:600;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.03em}input,textarea,select{width:100%;border:1px solid var(--line-strong);border-radius:7px;padding:8px 9px;color:var(--ink);background:#fff;outline:none}input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}textarea{min-height:84px;resize:vertical;line-height:1.4}.mono{font-family:'IBM Plex Mono',monospace!important}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:9px}.data-table{width:100%;border-collapse:collapse;min-width:900px}.data-table th,.data-table td{border-bottom:1px solid var(--line);padding:7px;text-align:left;vertical-align:top}.data-table th{background:var(--surface-alt);font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.03em}.data-table input,.data-table textarea{border:1px solid var(--line);padding:7px}.data-table textarea{min-height:55px}.empty-row{color:var(--ink-faint);font-size:12px;text-align:center}.footer-note{font-size:11.5px;color:var(--ink-faint);margin-top:12px;padding:10px;background:var(--surface-alt);border-radius:8px}.feedback{margin-left:auto;font-size:12px;color:var(--success);font-weight:600}
+.saved-list{display:grid;gap:10px;margin-top:4px}.saved-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#FAFCFE}.saved-item:hover{border-color:var(--line-strong)}.saved-badge{font:700 10px 'IBM Plex Mono',monospace;padding:5px 9px;border-radius:20px;color:#fff;white-space:nowrap;text-align:center}.saved-badge.b8d{background:#0E75BC}.saved-badge.b9b{background:#16834E}.saved-badge.b2p{background:#5B63D3}.saved-badge.bdmaic{background:#C87F0A}.saved-badge.bdoe{background:#D7263D}
+.pareto-chart{display:grid;gap:8px}.pareto-row{display:grid;grid-template-columns:56px 1fr 70px;align-items:center;gap:10px}.pareto-label{font:700 11px 'IBM Plex Mono',monospace;color:var(--accent-ink)}.pareto-track{height:16px;border-radius:8px;background:var(--surface-alt);overflow:hidden}.pareto-fill{height:100%;background:var(--ink-faint);border-radius:8px}.pareto-fill.sig{background:linear-gradient(90deg,var(--accent),var(--danger))}.pareto-val{font:700 11px 'IBM Plex Mono',monospace;text-align:right;color:var(--ink-soft)}
+.doe-sig-row td{background:var(--danger-bg)}.doe-anova th{white-space:nowrap}.saved-main strong{display:block;font:700 12px 'IBM Plex Mono',monospace;color:var(--accent-ink)}.saved-main div{font-size:12.5px;margin-top:2px}.saved-main small{color:var(--ink-faint)}.saved-actions{display:flex;gap:6px}
+@media(max-width:650px){.saved-item{grid-template-columns:1fr}.saved-actions{justify-content:flex-start;margin-top:4px}}
+.team-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.team-card{border:1px solid var(--line);border-radius:10px;padding:12px;background:#FAFCFE}.team-card h4{margin:0 0 10px;color:var(--accent-ink);font-size:13px}.team-card .field{margin-bottom:9px}.subblock{padding:14px;margin-bottom:12px}.subblock h4{margin:0 0 10px;color:var(--accent-ink);font-size:14px}.subblock h5{margin:0 0 10px;color:var(--accent-ink);font-size:13px}.hint{font-size:12px;color:var(--ink-soft);margin:0 0 10px}.rubro-card{padding:14px;margin-bottom:12px;background:#FAFCFE}.file-meta{display:block;margin-top:4px;color:var(--ink-faint);font-size:11px}.file-preview{max-width:220px;border:1px solid var(--line);border-radius:8px;margin-top:8px}.inline-actions{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+.ishikawa-wrap{border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px;background:#FBFDFF;overflow:auto}.ishikawa-title{text-align:center;font-weight:700;color:var(--accent-ink);margin-bottom:12px}.fishbone{min-width:900px;height:420px;position:relative}.fishbone-spine{position:absolute;left:18%;right:16%;top:50%;height:5px;background:var(--accent);border-radius:5px}.fishbone-problem{position:absolute;right:1%;top:calc(50% - 30px);width:15%;padding:16px 8px;border:2px solid var(--accent);border-radius:8px;background:#fff;text-align:center;font-weight:700;font-size:12px}.m6{position:absolute;width:27%;padding:8px;border:1px solid var(--line);border-radius:8px;background:#fff;box-shadow:0 1px 4px #0000000a}.m6 strong{display:block;color:var(--accent);margin-bottom:5px;font-size:12px}.m6 textarea{min-height:70px;font-size:12px}.m1{left:8%;top:4%}.m2{left:38%;top:4%}.m3{left:8%;bottom:4%}.m4{left:38%;bottom:4%}.m5{left:68%;top:4%}.m1:after,.m2:after,.m5:after{content:"";position:absolute;bottom:-70px;left:50%;width:2px;height:70px;background:var(--accent);transform:rotate(-45deg);transform-origin:top}.m3:after,.m4:after{content:"";position:absolute;top:-70px;left:50%;width:2px;height:70px;background:var(--accent);transform:rotate(45deg);transform-origin:bottom}
+.stepper{display:flex;align-items:center;margin-bottom:18px;flex-wrap:wrap}.step{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:9px;background:var(--surface-alt);color:var(--ink-soft);font-weight:700;font-size:12px}.step-active{background:var(--accent-ink);color:#fff}.step-done{background:var(--success-bg);color:var(--success)}.step-locked{background:#EEF1F4;color:var(--ink-faint)}.step-icon{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center;font-size:12px;flex:0 0 22px}.step-sep{flex:0 0 26px;height:2px;background:var(--line);margin:0 4px}.phase-locked-card{padding:30px;text-align:center;color:var(--ink-faint)}.lock-icon{font-size:30px;margin-bottom:8px}.validation-banner{padding:12px 16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;background:var(--success-bg);border-color:#BFE6CF}.vb-title{color:var(--success);font-weight:700}.vb-meta{font-size:12px;color:#4B6358;margin-top:2px}.locked-phase{opacity:.65}.locked-phase input,.locked-phase textarea,.locked-phase select{pointer-events:none;background:#F1F5F9}.locked-phase button{display:none}.status-badge{display:inline-flex;padding:4px 9px;border-radius:20px;font-size:11px;font-weight:700;background:var(--accent-soft);color:var(--accent)}
+.phase-ribbon{margin-top:16px;padding:13px 16px;border-radius:14px;background:linear-gradient(120deg,rgba(3,18,32,.72),rgba(9,35,60,.66));border:1px solid rgba(142,220,255,.2);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.ribbon-phase{display:flex;align-items:center;gap:11px;min-width:0;padding:9px 12px;border-radius:11px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);transition:.2s ease}.ribbon-phase.active{background:rgba(66,198,255,.1);border-color:rgba(66,198,255,.42)}.ribbon-phase.done{background:rgba(22,131,78,.16);border-color:rgba(109,231,173,.36)}.ribbon-phase.locked{opacity:.48}.progress-ring{--ring:var(--cyan);--p:0deg;width:48px;height:48px;flex:0 0 48px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--ring) var(--p),rgba(255,255,255,.13) 0);position:relative;box-shadow:0 0 18px rgba(66,198,255,.12)}.progress-ring:before{content:"";position:absolute;inset:6px;border-radius:50%;background:#0A1F33}.progress-ring span{position:relative;z-index:1;font:700 10px 'IBM Plex Mono',monospace;color:#fff}.ribbon-phase.done .progress-ring{--ring:#6DE7AD}.ribbon-copy{min-width:0}.ribbon-copy strong{display:block;color:#fff;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ribbon-copy small{display:block;color:#AFC9DC;font-size:9.5px;margin-top:3px}
+.phase-overview{display:grid;grid-template-columns:98px minmax(0,1fr);gap:18px;align-items:center;padding:16px 18px;margin:0 0 15px;border-radius:16px;color:#EAF6FF;background:radial-gradient(circle at 0 50%,rgba(215,38,61,.23),transparent 34%),linear-gradient(125deg,#0B1A2D,#101C31 70%,#132239);border:1px solid #33455C;box-shadow:0 13px 28px rgba(7,27,47,.14)}.phase-overview .progress-ring{width:76px;height:76px;--ring:#70D2FF}.phase-overview .progress-ring:before{inset:8px;background:#111D30}.phase-overview .progress-ring span{font-size:16px}.breakdown-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.breakdown-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:10px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08)}.mini-ring{--p:0deg;width:34px;height:34px;flex:0 0 34px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#78E4D0 var(--p),rgba(255,255,255,.13) 0);position:relative}.mini-ring:before{content:"";position:absolute;inset:5px;border-radius:50%;background:#111D30}.mini-ring span{position:relative;font:700 8px 'IBM Plex Mono',monospace;color:#fff}.breakdown-item strong{display:block;font-size:11px;color:#fff}.breakdown-item small{color:#AFC5D8;font-size:9.5px}.phase-hidden-note{font-size:10px;color:#AFC9DC}.print-header{display:none}.print-logo{display:flex;align-items:center;gap:10px}.print-logo img{width:132px;height:42px;object-fit:contain}.print-brand-name{font-size:8px;font-weight:700;color:var(--accent-ink);letter-spacing:.08em}.print-copy{border-left:1px solid var(--line);padding-left:16px}.print-kicker{font:700 8px 'IBM Plex Mono',monospace;color:var(--accent);letter-spacing:.14em}.print-copy h1{font-size:17px;margin:3px 0 2px;color:var(--accent-ink)}.print-copy p{font-size:9px;margin:0;color:var(--ink-soft)}.print-control{text-align:right;padding:9px 12px;border-radius:8px;background:var(--accent-ink);color:#fff;min-width:160px}.print-control small{display:block;font-size:7px;text-transform:uppercase;letter-spacing:.1em;color:#A9D9F4}.print-control strong{display:block;font:700 10px 'IBM Plex Mono',monospace;margin:3px 0}.print-control span{font-size:8px;color:#D5E8F7}.app-footer{max-width:1500px;margin:0 auto 18px;padding:0 20px;color:var(--ink-faint);font-size:10.5px;text-align:center}
+@media(max-width:1000px){.layout{grid-template-columns:1fr}.sidebar{position:static;height:auto}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.field.span2{grid-column:span 2}.team-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.phase-ribbon{grid-template-columns:1fr}.breakdown-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.hero-wrap{width:calc(100% - 20px);margin-top:10px}.topbar{padding:15px}.logo-box{width:118px;min-width:118px;height:48px}.header-tools{width:100%;justify-content:space-between}.container{padding-inline:12px}.toolbar button{flex:1}.grid,.team-grid{grid-template-columns:1fr}.field.span2{grid-column:span 1}.stepper{flex-direction:column;align-items:stretch}.step-sep{display:none}.content{padding:14px}.validation-banner{align-items:flex-start;gap:10px}.phase-overview{grid-template-columns:1fr}.breakdown-list{grid-template-columns:1fr}.phase-overview>.progress-ring{margin:auto}.ribbon-copy strong{white-space:normal}}
+@media(max-width:800px){.portal-stage{grid-template-columns:1fr}.brain-wrap{min-height:270px}.fivew-grid,.two-panel-grid{grid-template-columns:1fr}.portal-screen{padding:10px}.portal-shell{padding:16px;border-radius:20px}}
+@media(max-width:800px){.dmaic-flow{grid-template-columns:1fr 1fr}.method-actions{flex-direction:column}.method-actions button{width:100%}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
+@page{size:auto;margin:12mm}@media print{body{background:#fff}.hero-wrap,.toolbar,.sidebar,.no-print,.app-footer,.portal-screen{display:none!important}.container{max-width:none;margin:0;padding:0}.layout{display:block}.content,.module-sheet{padding:0;border:0;box-shadow:none}.print-header{display:grid;grid-template-columns:155px 1fr 185px;align-items:center;gap:15px;border:1px solid var(--line-strong);border-top:7px solid var(--accent-ink);border-bottom:3px solid var(--danger);border-radius:8px;padding:10px 12px;margin-bottom:16px;background:linear-gradient(90deg,#fff,#F1F6FA)}.module-title{justify-content:flex-end;margin-bottom:10px}.module-title>div:first-child{display:none}.card{box-shadow:none}.section{break-inside:avoid}.locked-phase{opacity:1}.locked-phase input,.locked-phase textarea,.locked-phase select{pointer-events:auto;background:transparent}.data-table{font-size:9px;min-width:0}.data-table th,.data-table td{padding:4px}}
+/* ===== QRQC-D ===== */
+.q-meta-input{background:var(--surface-alt);border:1px solid var(--line);border-radius:9px;padding:8px 11px;font:700 12px 'IBM Plex Mono',monospace;width:140px}
+.q-kpi-section{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:18px 0}
+.q-kpi-card{background:#FAFCFE;border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.q-kpi-info{flex:1;min-width:180px}
+.q-kpi-info h3{margin:0 0 4px;font-size:15px;color:var(--accent-ink)}
+.q-kpi-desc{font-size:12px;color:var(--ink-soft);margin-bottom:8px}
+.q-kpi-inputs{display:flex;gap:12px;flex-wrap:wrap}
+.q-kpi-inputs label{font:700 10px 'IBM Plex Mono',monospace;color:var(--ink-faint);display:flex;flex-direction:column;gap:4px}
+.q-kpi-inputs input{width:110px;padding:7px 9px;border:1px solid var(--line);border-radius:8px}
+.gauge-value{font:800 28px 'IBM Plex Mono',monospace}
+.gauge-sub{font:600 10.5px 'IBM Plex Sans',sans-serif;fill:var(--ink-soft)}
+.q-table-scroll{overflow-x:auto}
+table.q-board-table{border-collapse:collapse;width:100%;min-width:1650px;font-size:12.5px}
+table.q-board-table th{background:var(--accent-ink);color:#fff;padding:9px 10px;text-align:left;font:700 10px 'IBM Plex Mono',monospace;white-space:nowrap}
+table.q-board-table td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+table.q-board-table tr.q-entry-occ td{border-bottom:none}
+table.q-board-table tr.q-entry-det td{background:#FAFCFE}
+.pill{display:inline-block;font:700 10px 'IBM Plex Mono',monospace;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.pill-open{background:var(--danger-bg);color:var(--danger)}
+.pill-close{background:#E8F6EF;color:#16834E}
+.pill-ncr{background:#D7263D;color:#fff}
+.pill-interno{background:#0E75BC;color:#fff}
+.q-phase-tag{font:700 9.5px 'IBM Plex Mono',monospace;padding:2px 7px;border-radius:6px;background:var(--surface-alt);color:var(--ink-soft)}
+.q-thumb{width:46px;height:46px;object-fit:cover;border-radius:8px;border:1px solid var(--line);cursor:pointer}
+.q-no-img{color:var(--ink-faint);font-size:11px}
+.q-progress-dots{display:flex;gap:5px}
+.q-progress-dots span{width:11px;height:11px;border-radius:50%;background:var(--line-strong);display:inline-block}
+.q-progress-dots span.on{background:#16834E}
+.q-row-actions{display:flex;gap:5px;white-space:nowrap}
+.q-gemba-cell{max-width:200px;white-space:pre-wrap}
+.q-empty-note{padding:26px;text-align:center;color:var(--ink-faint)}
+.q-modal-overlay{position:fixed;inset:0;background:#0B2D50cc;display:flex;align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto;z-index:60}
+.q-modal-card{background:#fff;border-radius:18px;max-width:820px;width:100%;padding:26px 28px 22px;box-shadow:0 30px 70px #00000055}
+.q-modal-card h2{margin:0 0 4px;color:var(--accent-ink)}
+.q-modal-sub{color:var(--ink-soft);font-size:12.5px;margin-bottom:16px}
+.q-modal-section{margin-bottom:16px;padding-top:12px;border-top:1px solid var(--line)}
+.q-modal-section:first-of-type{border-top:none;padding-top:0}
+.q-modal-section h4{margin:0 0 10px;font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--accent);font-family:'IBM Plex Mono',monospace}
+.q-progress-check{display:flex;gap:16px;flex-wrap:wrap}
+.q-progress-check label{display:flex;align-items:center;gap:7px;font:600 12px 'IBM Plex Sans',sans-serif;color:var(--ink-soft)}
+.q-img-upload{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.q-img-upload img{width:60px;height:60px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+.q-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+.q-lightbox-overlay{position:fixed;inset:0;background:#000c;display:flex;align-items:center;justify-content:center;z-index:70;cursor:zoom-out}
+.q-lightbox-overlay img{max-width:92vw;max-height:92vh;border-radius:10px}
+@media(max-width:820px){.q-kpi-section{grid-template-columns:1fr}}
+.q-trend-stats{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px}
+.q-stat-chip{display:flex;align-items:center;gap:8px;background:#FAFCFE;border:1px solid var(--line);border-radius:20px;padding:7px 14px;font-size:12.5px;color:var(--ink-soft)}
+.q-stat-chip b{color:var(--accent-ink);font:800 14px 'IBM Plex Mono',monospace}
+.q-stat-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.q-stat-red .q-stat-dot{background:#D7263D}
+.q-stat-orange .q-stat-dot{background:#F2994A}
+.q-trend-chart-wrap{overflow-x:auto;background:#FAFCFE;border:1px solid var(--line);border-radius:12px;padding:10px}
+.q-trend-legend{display:flex;gap:16px;margin-top:6px;font-size:11px;color:var(--ink-soft)}
+.q-trend-legend span{display:inline-flex;align-items:center;gap:5px}
+.hpm-xlink{display:inline-flex;align-items:center;gap:6px;background:#ffffff1f;border:1px solid #ffffff55;color:#fff;text-decoration:none;font:700 12px 'IBM Plex Mono',monospace;padding:7px 13px;border-radius:999px}
+.hpm-xlink:hover{background:#ffffff38}
+a.btnlink{display:inline-flex;align-items:center;text-decoration:none}
+.subblock .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.subblock .toolbar select{width:auto;min-width:170px}
+
+</style>
+</head>
+<body>
+<div class="hero-wrap" id="appHero"><header class="topbar"><div class="topbar-inner"><div class="brand-row"><div class="logo-box"><img class="hpm-logo" alt="Hyundai Polytech México"></div><div class="brand-copy"><div class="brand-eyebrow">Hyundai Polytech México</div><h1 id="moduleTitle">8D Quality Manager</h1><div class="sub" id="moduleSubtitle">Elaboración, seguimiento y almacenamiento de reportes</div></div></div><div class="header-tools"><a class="hpm-xlink" href="roca.html">ROCA ↗</a><span class="method-badge" id="moduleBadge">AIAG · Metodología 8D</span><div class="lang-switch" data-i18n-aria-label="aria_language"><button class="lang-btn" data-lang="es" type="button">ES</button><button class="lang-btn" data-lang="ko" type="button">한국어</button><button class="lang-btn" data-lang="en" type="button">EN</button></div><div class="hero-date" id="heroDate">—</div></div></div></header></div>
+<div style="height:12px"></div>
+<section class="container module-container" id="qrqcdApp">
+  <div class="module-toolbar no-print">
+    
+    <input class="q-meta-input" id="qMetaProject" placeholder="Proyecto / Línea" data-i18n-placeholder="q_project" oninput="qMetaChanged('project',this)">
+    <input class="q-meta-input" style="width:70px" id="qMetaYear" placeholder="Año" oninput="qMetaChanged('year',this)">
+    <button onclick="window.print()" data-i18n="btn_print">🖨 Imprimir / PDF</button>
+  </div>
+  <main class="card module-sheet">
+    <div class="module-title"><div><h2 data-i18n="q_title">QRQC-D / Tablero de Respuesta Rápida a Problemas de Calidad Digital</h2><p data-i18n="q_sub"></p></div></div>
+
+    <div class="q-kpi-section">
+      <div class="q-kpi-card">
+        <div class="gauge-wrap" id="gaugeNcr"></div>
+        <div class="q-kpi-info">
+          <h3 data-i18n="kpi_ncr_title">Reclamos Oficiales</h3>
+          <div class="q-kpi-desc" data-i18n="kpi_ncr_target">Objetivo: &lt;7 NCR</div>
+        </div>
+      </div>
+      <div class="q-kpi-card">
+        <div class="gauge-wrap" id="gaugeFtq"></div>
+        <div class="q-kpi-info">
+          <h3 data-i18n="kpi_ftq_title">FTQ del Proceso</h3>
+          <div class="q-kpi-desc" data-i18n="kpi_ftq_target">Objetivo: &lt;1% defectuoso en GP12</div>
+          <div class="q-kpi-inputs no-print">
+            <label><span data-i18n="kpi_produced">Piezas producidas</span><input type="number" step="any" id="qInpProduced" oninput="qKpiChanged('producedQty',this)"></label>
+            <label><span data-i18n="kpi_defect">Piezas con defecto</span><input type="number" step="any" id="qInpDefect" oninput="qKpiChanged('defectQty',this)"></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subblock">
+      <h4 data-i18n="q_trend_title">Tendencia mensual de reclamos</h4>
+      <div class="q-trend-stats">
+        <div class="q-stat-chip q-stat-red"><span class="q-stat-dot"></span><span data-i18n="q_stat_oficial">Reclamos oficiales del mes</span>: <b id="qStatOficial">0</b></div>
+        <div class="q-stat-chip q-stat-orange"><span class="q-stat-dot"></span><span data-i18n="q_stat_no_oficial">Reclamos no oficiales del mes</span>: <b id="qStatNoOficial">0</b></div>
+      </div>
+      <div id="qTrendChart" class="q-trend-chart-wrap"></div>
+    </div>
+
+    <div class="subblock">
+      <div class="toolbar no-print">
+        <input type="text" placeholder="Buscar por proyecto, no conformidad o líder…" data-i18n-placeholder="qrqc_search_ph" style="flex:1;min-width:220px" oninput="qFilterChanged('q',this)">
+        <select onchange="qFilterChanged('status',this)"><option value="" data-i18n="qrqc_all_status">Todos los estados</option><option value="OPEN">OPEN</option><option value="CLOSE">CLOSE</option></select>
+        <select onchange="qFilterChanged('type',this)"><option value="" data-i18n="qrqc_all_types">Todos los tipos</option><option value="ncr" data-i18n="qrqc_type_ncr">Reclamo cliente (NCR)</option><option value="interno" data-i18n="qrqc_type_internal">Hallazgo interno GP12</option></select>
+        <select id="qFilterMonth" onchange="qFilterChanged('month',this)"><option value="" data-i18n="qrqc_all_months">Todos los meses</option></select>
+        <button class="primary" onclick="qOpenModal()" data-i18n="btn_new_qrqcd">＋ Nuevo problema</button>
+      </div>
+      <div class="table-wrap q-table-scroll">
+        <table class="data-table q-board-table">
+          <thead><tr>
+            <th data-i18n="q_th_no">No.</th><th data-i18n="date">Fecha</th><th data-i18n="q_project">Proyecto / Pieza</th><th data-i18n="qrqc_type">Tipo</th><th data-i18n="q_nonconformity">No conformidad</th><th data-i18n="q_image">Imagen</th><th data-i18n="qrqc_status">Estado</th><th data-i18n="responsible">Líder de acción</th>
+            <th data-i18n="q_th_phase">Fase</th><th data-i18n="qrqc_root_cause">Causa</th><th data-i18n="qrqc_action">Acción</th>
+            <th data-i18n="q_date_opened">F. Apertura</th><th data-i18n="due_date">F. Compromiso</th><th data-i18n="closed_date">F. Cierre real</th><th data-i18n="q_progress">Progreso</th><th data-i18n="q_gemba">GEMBA Walk y comentarios</th><th class="no-print" data-i18n="q_th_actions">Acciones</th>
+          </tr></thead>
+          <tbody id="qBoardBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</section>
+
+<footer class="app-footer" id="appFooter" data-i18n="footer">Hyundai Polytech México · Sistema de gestión de calidad</footer>
+<div class="q-modal-overlay no-print" id="qModalOverlay" hidden></div>
+<div class="q-lightbox-overlay no-print" id="qLightbox" hidden onclick="qCloseLightbox()"><img id="qLightboxImg"></div>
+<script src="js/firebase-config.js"></script>
+<script src="js/hpm-common.js"></script>
+<script src="js/hpm-sync.js"></script>
+<script>
+const KEY='quality_8d_reports_v1';
+const KEY_9B_LIST='hpm_9basics_reports_v1';
+const KEY_2P_LIST='hpm_2panel_reports_v1';
+const KEY_DMAIC_LIST='hpm_dmaic_reports_v1';
+const KEY_DOE_LIST='hpm_doe_reports_v1';
+const KEY_QBOARD='hpm_qrqcd_board_v1';
+const KEY_QKPI='hpm_qrqcd_kpi_v1';
+const KEY_QMETA='hpm_qrqcd_meta_v1';
+let activeModule='qrqcd';
+let reports=[],audits=[],twoPanels=[],dmaics=[],does=[];
+let qboard=[],qkpi={producedQty:'',defectQty:''},qmeta={project:'',year:String(new Date().getFullYear())};
+let qFilters={q:'',status:'',type:'',month:''},qDraft=null,qEditingId=null;
+const qEntryEmpty={id:null,no:1,date:'',projectIssue:'',type:'interno',nonConformity:'',image:'',status:'OPEN',actionLeader:'',occCause:'',occAction:'',detCause:'',detAction:'',dateOpened:'',targetClose:'',actualClose:'',progress:{comm:false,ps:false,solved:false,systemic:false},gemba:'',linkedType:'',linkedId:null,linkedCode:''};
+
+function loadQ(){
+reports=loadList(KEY);audits=loadList(KEY_9B_LIST);twoPanels=loadList(KEY_2P_LIST);dmaics=loadList(KEY_DMAIC_LIST);does=loadList(KEY_DOE_LIST);
+qboard=loadList(KEY_QBOARD).map(r=>mergeDefaults(qEntryEmpty,r));
+try{qkpi=Object.assign({producedQty:'',defectQty:''},JSON.parse(localStorage.getItem(KEY_QKPI)||'null')||{})}catch(_){}
+try{qmeta=Object.assign({project:'',year:String(new Date().getFullYear())},JSON.parse(localStorage.getItem(KEY_QMETA)||'null')||{})}catch(_){}
+}
+function syncModuleHeader(){document.getElementById('moduleTitle').textContent=t('header_qrqcd');document.getElementById('moduleSubtitle').textContent=t('header_qrqcd_sub');document.getElementById('moduleBadge').textContent=t('badge_qrqcd');document.title='QRQC-D | HPM'}
+function setLanguage(lang){currentLang=lang;localStorage.setItem('hpm_lang',lang);applyI18n();renderQrqcdDashboard()}
+function openSavedAnalysis(type,id){location.href=HPM_PAGES.roca+'?open='+type+':'+id}
+
+function applyI18n(){document.documentElement.lang=currentLang;document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>el.placeholder=t(el.dataset.i18nPlaceholder));document.querySelectorAll('[data-i18n-aria-label]').forEach(el=>el.setAttribute('aria-label',t(el.dataset.i18nAriaLabel)));document.querySelectorAll('.lang-btn').forEach(btn=>{const active=btn.dataset.lang===currentLang;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active))});document.getElementById('heroDate').textContent=new Intl.DateTimeFormat(LOCALES[currentLang],{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date());syncModuleHeader()}
+document.querySelectorAll('.hpm-logo').forEach(img=>img.src=HPM_LOGO);document.querySelectorAll('.lang-btn').forEach(btn=>btn.onclick=()=>setLanguage(btn.dataset.lang));
+function typeLabel(type){return t({'8d':'portal_8d','9b':'portal_9b','2p':'portal_2p',dmaic:'portal_dmaic',doe:'portal_doe'}[type])}
+function typeBadgeClass(type){return{'8d':'b8d','9b':'b9b','2p':'b2p',dmaic:'bdmaic',doe:'bdoe'}[type]}
+function getAllSavedAnalyses(){const items=[];reports.forEach(r=>items.push({type:'8d',id:r.id,code:r.reportNo||t('no_number'),title:r.title||t('no_title'),meta:r.customer||'',date:r.date||'',updatedAt:r.updatedAt||''}));audits.forEach(r=>items.push({type:'9b',id:r.id,code:r.no||t('no_number'),title:r.what||t('no_title'),meta:r.auditor||'',date:r.date||'',updatedAt:r.updatedAt||''}));twoPanels.forEach(r=>items.push({type:'2p',id:r.id,code:r.no||t('no_number'),title:r.what||t('no_title'),meta:r.owner||'',date:r.date||'',updatedAt:r.updatedAt||''}));dmaics.forEach(r=>items.push({type:'dmaic',id:r.id,code:r.no||t('no_number'),title:r.problemStatement||t('no_title'),meta:r.leader||'',date:r.date||'',updatedAt:r.updatedAt||''}));does.forEach(r=>items.push({type:'doe',id:r.id,code:r.no||t('no_number'),title:r.title||r.responseName||t('no_title'),meta:r.responsible||'',date:r.date||'',updatedAt:r.updatedAt||''}));return items.sort((a,b)=>(b.updatedAt||b.date||'').localeCompare(a.updatedAt||a.date||''))}
+function renderSavedAnalyses(){const box=document.getElementById('savedAnalysesList');if(!box)return;const q=(document.getElementById('savedSearch')?.value||'').toLowerCase(),typeFilter=document.getElementById('savedFilterType')?.value||'';let items=getAllSavedAnalyses();if(typeFilter)items=items.filter(x=>x.type===typeFilter);if(q)items=items.filter(x=>`${x.code} ${x.title} ${x.meta}`.toLowerCase().includes(q));box.innerHTML=items.length?`<div class="saved-list">${items.map(x=>`<div class="saved-item"><span class="saved-badge ${typeBadgeClass(x.type)}">${esc(typeLabel(x.type))}</span><div class="saved-main"><strong>${esc(x.code)}</strong><div>${esc(x.title)}</div><small>${esc(x.meta)}${x.meta?' · ':''}${esc(x.date)}</small></div><div class="saved-actions no-print"><button type="button" class="light" onclick="openSavedAnalysis('${x.type}',${Number(x.id)})">${esc(t('btn_open_saved'))}</button><button type="button" class="danger" onclick="deleteSavedAnalysisItem('${x.type}',${Number(x.id)})">${esc(t('delete'))}</button></div></div>`).join('')}</div>`:`<p class="hint">${esc(t('no_saved'))}</p>`}
+/* ===== QRQC-D: Tablero maestro (alimentado por 8D/9B/2P/DMAIC/DOE) ===== */
+function persistQBoard(){try{localStorage.setItem(KEY_QBOARD,JSON.stringify(qboard))}catch(_){alert(t('storage_error'))}}
+function persistQKpi(){try{localStorage.setItem(KEY_QKPI,JSON.stringify(qkpi))}catch(_){}}
+function persistQMeta(){try{localStorage.setItem(KEY_QMETA,JSON.stringify(qmeta))}catch(_){}}
+function qMetaChanged(field,el){qmeta[field]=el.value;persistQMeta()}
+function qKpiChanged(field,el){qkpi[field]=el.value;persistQKpi();qRenderKpis()}
+function qFilterChanged(field,el){qFilters[field]=el.value;qRenderTable();if(field==='month')qRenderTrend()}
+function qNextNo(){return qboard.length?Math.max(...qboard.map(b=>b.no||0))+1:1}
+function qGaugeSVG(value,max,target,suffix,decimals){
+  const cx=110,cy=95,r=78,sw=16;
+  const pt=(deg,rad)=>{const a=deg*Math.PI/180;return[cx+rad*Math.cos(a),cy-rad*Math.sin(a)]};
+  const frac=Math.max(0,Math.min(value/max,0.999));
+  const endDeg=180-frac*180;
+  const p1=pt(180,r),p2=pt(0,r),pv=pt(endDeg,r);
+  const tFrac=Math.max(0,Math.min(target/max,1));
+  const tDeg=180-tFrac*180;
+  const t1=pt(tDeg,r-sw/2-7),t2=pt(tDeg,r+sw/2+5);
+  const isBad=value>=target;
+  const color=isBad?'var(--danger)':'#1F8A5A';
+  const displayVal=decimals?value.toFixed(decimals):Math.round(value);
+  return `<svg viewBox="0 0 220 150" width="220" height="150">
+    <path d="M ${p1[0]} ${p1[1]} A ${r} ${r} 0 0 1 ${p2[0]} ${p2[1]}" fill="none" stroke="#E3EAF1" stroke-width="${sw}" stroke-linecap="round"/>
+    <path d="M ${p1[0]} ${p1[1]} A ${r} ${r} 0 0 1 ${pv[0]} ${pv[1]}" fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round"/>
+    <line x1="${t1[0]}" y1="${t1[1]}" x2="${t2[0]}" y2="${t2[1]}" stroke="#10263B" stroke-width="2.5"/>
+    <text x="${cx}" y="${cy-2}" text-anchor="middle" class="gauge-value" fill="${color}">${displayVal}${suffix||''}</text>
+    <text x="${cx}" y="${cy+20}" text-anchor="middle" class="gauge-sub">${esc(t('kpi_meta_label'))} ${target}${suffix||''}</text>
+  </svg>`;
+}
+function qCurrentMonthKey(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
+function qDaysInMonth(y,m){return new Date(+y,+m,0).getDate()}
+function qTrendChartSVG(monthKey){
+  const parts=monthKey.split('-'),y=parts[0],m=parts[1];
+  const days=qDaysInMonth(y,m);
+  const oficial=new Array(days+1).fill(0),noOficial=new Array(days+1).fill(0);
+  qboard.forEach(b=>{
+    if(!b.date||b.date.slice(0,7)!==monthKey)return;
+    const d=+b.date.slice(8,10);if(d<1||d>days)return;
+    if(b.type==='ncr')oficial[d]++;else noOficial[d]++;
+  });
+  const maxVal=Math.max(1,...oficial.slice(1),...noOficial.slice(1));
+  const W=Math.max(560,days*24),H=190,padL=30,padR=14,padT=16,padB=26;
+  const plotW=W-padL-padR,plotH=H-padT-padB;
+  const xFor=d=>padL+(days>1?(d-1)/(days-1)*plotW:plotW/2);
+  const yFor=v=>padT+plotH-(v/maxVal)*plotH;
+  const lineFor=arr=>Array.from({length:days},(_,i)=>xFor(i+1)+','+yFor(arr[i+1])).join(' ');
+  const dotsFor=(arr,color)=>Array.from({length:days},(_,i)=>arr[i+1]>0?`<circle cx="${xFor(i+1)}" cy="${yFor(arr[i+1])}" r="3.4" fill="${color}"><title>${t('date')} ${i+1}: ${arr[i+1]}</title></circle>`:'').join('');
+  const step=days>25?5:days>15?3:days>7?2:1;
+  const xLabels=Array.from({length:days},(_,i)=>((i+1)%step===0||i===0||i===days-1)?`<text x="${xFor(i+1)}" y="${H-8}" font-size="8.5" text-anchor="middle" fill="#8797A8">${i+1}</text>`:'').join('');
+  const gridY=[0.25,0.5,0.75,1].map(f=>`<line x1="${padL}" y1="${padT+plotH*(1-f)}" x2="${W-padR}" y2="${padT+plotH*(1-f)}" stroke="#E3EAF1" stroke-width="1"/>`).join('');
+  return`<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:${W}px;display:block">${gridY}<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${H-padB}" stroke="#C3D2E0"/><line x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}" stroke="#C3D2E0"/><polyline points="${lineFor(noOficial)}" fill="none" stroke="#F2994A" stroke-width="1.5" opacity="0.75"/><polyline points="${lineFor(oficial)}" fill="none" stroke="#D7263D" stroke-width="1.5" opacity="0.85"/>${dotsFor(noOficial,'#F2994A')}${dotsFor(oficial,'#D7263D')}${xLabels}</svg>`;
+}
+function qRenderTrend(){
+  const box=document.getElementById('qTrendChart');if(!box)return;
+  const monthKey=qFilters.month||qCurrentMonthKey();
+  let oficialCount=0,noOficialCount=0;
+  qboard.forEach(b=>{if(b.date&&b.date.slice(0,7)===monthKey){if(b.type==='ncr')oficialCount++;else noOficialCount++}});
+  const so=document.getElementById('qStatOficial'),sn=document.getElementById('qStatNoOficial');
+  if(so)so.textContent=oficialCount;if(sn)sn.textContent=noOficialCount;
+  box.innerHTML=qTrendChartSVG(monthKey)+`<div class="q-trend-legend"><span><span class="q-stat-dot" style="background:#D7263D"></span>${esc(t('qrqc_type_ncr'))}</span><span><span class="q-stat-dot" style="background:#F2994A"></span>${esc(t('qrqc_type_internal'))}</span></div>`;
+}
+function qRenderKpis(){
+  const ncrCount=qboard.filter(b=>b.type==='ncr').length;
+  const gN=document.getElementById('gaugeNcr'); if(gN)gN.innerHTML=qGaugeSVG(ncrCount,15,7,'',0);
+  const prod=parseFloat(qkpi.producedQty)||0,def=parseFloat(qkpi.defectQty)||0;
+  const ftq=prod>0?(def/prod*100):0;
+  const gF=document.getElementById('gaugeFtq'); if(gF)gF.innerHTML=qGaugeSVG(ftq,5,1,'%',2);
+  qRenderTrend();
+}
+function qOpenModal(id){
+  if(id){const found=qboard.find(b=>b.id===id);if(!found)return;qDraft=clone(found);qEditingId=id}
+  else{qDraft=clone(qEntryEmpty);qDraft.id=Date.now();qDraft.no=qNextNo();qDraft.date=today();qDraft.dateOpened=today();qEditingId=null}
+  qRenderModal();
+  document.getElementById('qModalOverlay').hidden=false;
+}
+function qCloseModal(){const ov=document.getElementById('qModalOverlay');ov.hidden=true;ov.innerHTML='';qDraft=null;qEditingId=null}
+function qDraftFieldChanged(field,el){qDraft[field]=el.value}
+function qDraftProgressChanged(field,el){qDraft.progress[field]=el.checked}
+function qHandleImageUpload(event){
+  const file=event.target.files[0];if(!file)return;
+  hpmCompressImage(file,1280,0.72).then(data=>{qDraft.image=data;const img=document.getElementById('qModalImgPreview');if(img){img.src=data;img.style.display=''}});
+}
+function qRemoveImage(){qDraft.image='';const img=document.getElementById('qModalImgPreview');if(img){img.src='';img.style.display='none'}}
+function qLinkChanged(el){const val=el.value;if(!val){qDraft.linkedType='';qDraft.linkedId=null;qDraft.linkedCode='';return}const parts=val.split('|');const type=parts[0],id=+parts[1];const item=getAllSavedAnalyses().find(x=>x.type===type&&x.id===id);qDraft.linkedType=type;qDraft.linkedId=id;qDraft.linkedCode=item?item.code:''}
+function qRenderModal(){
+  const box=document.getElementById('qModalOverlay');
+  const d=qDraft;
+  const linkOptions=getAllSavedAnalyses().map(x=>`<option value="${x.type}|${x.id}" ${d.linkedType===x.type&&d.linkedId===x.id?'selected':''}>${esc(typeLabel(x.type))} · ${esc(x.code)} — ${esc(x.title)}</option>`).join('');
+  box.innerHTML=`<div class="q-modal-card">
+    <h2>${qEditingId?esc(t('q_edit_title')):esc(t('q_new_title'))}</h2>
+    <div class="q-modal-sub">No. ${d.no}</div>
+    <div class="q-modal-section">
+      <h4>${esc(t('general_data'))}</h4>
+      <div class="grid">
+        <div class="field"><label>${esc(t('date'))}</label><input type="date" value="${esc(d.date)}" oninput="qDraftFieldChanged('date',this)"></div>
+        <div class="field span2"><label>${esc(t('q_project'))}</label><input type="text" value="${esc(d.projectIssue)}" oninput="qDraftFieldChanged('projectIssue',this)"></div>
+        <div class="field"><label>${esc(t('qrqc_type'))}</label><select onchange="qDraftFieldChanged('type',this)">
+          <option value="interno" ${d.type==='interno'?'selected':''}>${esc(t('qrqc_type_internal'))}</option>
+          <option value="ncr" ${d.type==='ncr'?'selected':''}>${esc(t('qrqc_type_ncr'))}</option>
+        </select></div>
+        <div class="field span3"><label>${esc(t('q_nonconformity'))}</label><input type="text" value="${esc(d.nonConformity)}" oninput="qDraftFieldChanged('nonConformity',this)"></div>
+        <div class="field"><label>${esc(t('qrqc_status'))}</label><select onchange="qDraftFieldChanged('status',this)">
+          <option value="OPEN" ${d.status==='OPEN'?'selected':''}>OPEN</option>
+          <option value="CLOSE" ${d.status==='CLOSE'?'selected':''}>CLOSE</option>
+        </select></div>
+        <div class="field span2"><label>${esc(t('responsible'))}</label><input type="text" value="${esc(d.actionLeader)}" oninput="qDraftFieldChanged('actionLeader',this)"></div>
+        <div class="field span2"><label>${esc(t('q_image'))}</label>
+          <div class="q-img-upload">
+            <img id="qModalImgPreview" src="${d.image||''}" style="${d.image?'':'display:none'}">
+            <input type="file" accept="image/*" onchange="qHandleImageUpload(event)">
+            ${d.image?`<button type="button" class="light icon-btn" onclick="qRemoveImage()">${esc(t('q_remove_image'))}</button>`:''}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="q-modal-section"><h4>${esc(t('q_occurrence'))}</h4><div class="grid">
+      <div class="field span2"><label>${esc(t('qrqc_root_cause'))}</label><textarea oninput="qDraftFieldChanged('occCause',this)">${esc(d.occCause)}</textarea></div>
+      <div class="field span2"><label>${esc(t('qrqc_action'))}</label><textarea oninput="qDraftFieldChanged('occAction',this)">${esc(d.occAction)}</textarea></div>
+    </div></div>
+    <div class="q-modal-section"><h4>${esc(t('q_detection'))}</h4><div class="grid">
+      <div class="field span2"><label>${esc(t('qrqc_root_cause'))}</label><textarea oninput="qDraftFieldChanged('detCause',this)">${esc(d.detCause)}</textarea></div>
+      <div class="field span2"><label>${esc(t('qrqc_action'))}</label><textarea oninput="qDraftFieldChanged('detAction',this)">${esc(d.detAction)}</textarea></div>
+    </div></div>
+    <div class="q-modal-section"><h4>${esc(t('q_dates_progress'))}</h4><div class="grid">
+      <div class="field"><label>${esc(t('q_date_opened'))}</label><input type="date" value="${esc(d.dateOpened)}" oninput="qDraftFieldChanged('dateOpened',this)"></div>
+      <div class="field"><label>${esc(t('due_date'))}</label><input type="date" value="${esc(d.targetClose)}" oninput="qDraftFieldChanged('targetClose',this)"></div>
+      <div class="field"><label>${esc(t('closed_date'))}</label><input type="date" value="${esc(d.actualClose)}" oninput="qDraftFieldChanged('actualClose',this)"></div>
+      <div class="field"></div>
+      <div class="field span4"><label>${esc(t('q_progress'))}</label><div class="q-progress-check">
+        <label><input type="checkbox" ${d.progress.comm?'checked':''} onchange="qDraftProgressChanged('comm',this)"> ${esc(t('q_comm'))}</label>
+        <label><input type="checkbox" ${d.progress.ps?'checked':''} onchange="qDraftProgressChanged('ps',this)"> ${esc(t('q_ps'))}</label>
+        <label><input type="checkbox" ${d.progress.solved?'checked':''} onchange="qDraftProgressChanged('solved',this)"> ${esc(t('q_solved'))}</label>
+        <label><input type="checkbox" ${d.progress.systemic?'checked':''} onchange="qDraftProgressChanged('systemic',this)"> ${esc(t('q_systemic'))}</label>
+      </div></div>
+    </div></div>
+    <div class="q-modal-section"><h4>${esc(t('q_gemba'))}</h4><div class="field span4"><textarea oninput="qDraftFieldChanged('gemba',this)">${esc(d.gemba)}</textarea></div></div>
+    <div class="q-modal-section"><h4>${esc(t('qrqc_link_title'))}</h4><div class="grid">
+      <div class="field span3"><select onchange="qLinkChanged(this)"><option value="">${esc(t('qrqc_no_link'))}</option>${linkOptions}</select></div>
+      <div class="field">${d.linkedType?`<button type="button" class="light" onclick="qCloseModal();openSavedAnalysis('${d.linkedType}',${d.linkedId})">${esc(t('qrqc_open_linked'))} →</button>`:''}</div>
+    </div></div>
+    <div class="q-modal-actions">
+      ${qEditingId?`<button type="button" class="danger" onclick="qDeleteFromModal()">${esc(t('btn_delete'))}</button>`:''}
+      <button type="button" class="light" onclick="qCloseModal()">${esc(t('btn_cancel'))}</button>
+      <button type="button" class="primary" onclick="qSaveEntry()">${esc(t('btn_save'))}</button>
+    </div>
+  </div>`;
+}
+function qSaveEntry(){
+  if(!qDraft.projectIssue||!qDraft.projectIssue.trim()){alert(t('q_err_project'));return}
+  if(!qDraft.nonConformity||!qDraft.nonConformity.trim()){alert(t('q_err_nc'));return}
+  const idx=qboard.findIndex(b=>b.id===qDraft.id);
+  if(idx>=0)qboard[idx]=clone(qDraft);else qboard.unshift(clone(qDraft));
+  persistQBoard();qCloseModal();qRenderTable();qRenderKpis();renderQrqcdDashboard();
+}
+function qDeleteEntry(id){
+  const r=qboard.find(b=>b.id===id);
+  if(!confirm(t('delete_confirm',{report:r?('No. '+r.no):id})))return;
+  qboard=qboard.filter(b=>b.id!==id);
+  persistQBoard();qRenderTable();qRenderKpis();
+}
+function qDeleteFromModal(){if(qEditingId!=null){const id=qEditingId;qCloseModal();qDeleteEntry(id)}}
+function qOpenLightbox(src){document.getElementById('qLightboxImg').src=src;document.getElementById('qLightbox').hidden=false}
+function qCloseLightbox(){document.getElementById('qLightbox').hidden=true;document.getElementById('qLightboxImg').src=''}
+function qFilteredEntries(){
+  return qboard.filter(b=>{
+    if(qFilters.status&&b.status!==qFilters.status)return false;
+    if(qFilters.type&&b.type!==qFilters.type)return false;
+    if(qFilters.month&&(b.date||'').slice(0,7)!==qFilters.month)return false;
+    if(qFilters.q){const q=qFilters.q.toLowerCase();const hay=(b.projectIssue+' '+b.nonConformity+' '+b.actionLeader).toLowerCase();if(!hay.includes(q))return false}
+    return true;
+  }).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.no-a.no));
+}
+function qMonthLabel(y,mo){
+  const d=new Date(+y,+mo-1,1);
+  const locale=currentLang==='ko'?'ko-KR':currentLang==='en'?'en-US':'es-MX';
+  const label=d.toLocaleDateString(locale,{month:'long',year:'numeric'});
+  return label.charAt(0).toUpperCase()+label.slice(1);
+}
+function qBuildMonthOptions(){
+  const sel=document.getElementById('qFilterMonth');if(!sel)return;
+  const months=[...new Set(qboard.map(b=>(b.date||'').slice(0,7)).filter(Boolean))].sort().reverse();
+  if(qFilters.month&&!months.includes(qFilters.month))qFilters.month='';
+  const cur=qFilters.month;
+  sel.innerHTML=`<option value="">${esc(t('qrqc_all_months'))}</option>`+months.map(m=>{const parts=m.split('-');return `<option value="${m}" ${cur===m?'selected':''}>${esc(qMonthLabel(parts[0],parts[1]))}</option>`}).join('');
+}
+function qProgressDots(p){
+  const items=[['comm',t('q_comm')],['ps',t('q_ps')],['solved',t('q_solved')],['systemic',t('q_systemic')]];
+  return '<div class="q-progress-dots">'+items.map(it=>`<span class="${p[it[0]]?'on':''}" title="${esc(it[1])}"></span>`).join('')+'</div>';
+}
+function qRenderTable(){
+  qBuildMonthOptions();
+  const body=document.getElementById('qBoardBody');if(!body)return;
+  const items=qFilteredEntries();
+  if(!items.length){body.innerHTML=`<tr><td colspan="18"><div class="q-empty-note">${esc(t('q_empty_board'))}</div></td></tr>`;return}
+  body.innerHTML=items.map(e=>{
+    const statusPill=e.status==='OPEN'?'<span class="pill pill-open">OPEN</span>':'<span class="pill pill-close">CLOSE</span>';
+    const typePill=e.type==='ncr'?`<span class="pill pill-ncr">${esc(t('qrqc_type_ncr'))}</span>`:`<span class="pill pill-interno">${esc(t('qrqc_type_internal'))}</span>`;
+    const img=e.image?`<img class="q-thumb" src="${e.image}" onclick="qOpenLightbox(this.src)">`:'<span class="q-no-img">—</span>';
+    const linkBtn=e.linkedType?`<button class="icon-btn light" title="${esc(t('qrqc_open_linked'))}" onclick="openSavedAnalysis('${e.linkedType}',${e.linkedId})">🔗</button>`:'';
+    return `
+    <tr class="q-entry-occ">
+      <td rowspan="2" class="cell-mono">${e.no}</td>
+      <td rowspan="2">${esc(e.date)}</td>
+      <td rowspan="2" class="cell-title">${esc(e.projectIssue)}</td>
+      <td rowspan="2">${typePill}</td>
+      <td rowspan="2">${esc(e.nonConformity)}</td>
+      <td rowspan="2">${img}</td>
+      <td rowspan="2">${statusPill}</td>
+      <td rowspan="2">${esc(e.actionLeader)||'—'}</td>
+      <td><span class="q-phase-tag">OCCURRENCE</span></td>
+      <td>${esc(e.occCause)||'—'}</td>
+      <td>${esc(e.occAction)||'—'}</td>
+      <td rowspan="2">${esc(e.dateOpened)||'—'}</td>
+      <td rowspan="2">${esc(e.targetClose)||'—'}</td>
+      <td rowspan="2">${esc(e.actualClose)||'—'}</td>
+      <td rowspan="2">${qProgressDots(e.progress)}</td>
+      <td rowspan="2" class="q-gemba-cell">${esc(e.gemba)||'—'}</td>
+      <td rowspan="2" class="q-row-actions no-print">
+        <button class="icon-btn light" onclick="qOpenModal(${e.id})">✎</button>
+        ${linkBtn}
+        <button class="icon-btn danger" onclick="qDeleteEntry(${e.id})">🗑</button>
+      </td>
+    </tr>
+    <tr class="q-entry-det">
+      <td><span class="q-phase-tag">DETECTION</span></td>
+      <td>${esc(e.detCause)||'—'}</td>
+      <td>${esc(e.detAction)||'—'}</td>
+    </tr>`;
+  }).join('');
+}
+function renderQrqcdDashboard(){
+  const mp=document.getElementById('qMetaProject'),my=document.getElementById('qMetaYear'),ip=document.getElementById('qInpProduced'),idf=document.getElementById('qInpDefect');
+  if(mp)mp.value=qmeta.project; if(my)my.value=qmeta.year; if(ip)ip.value=qkpi.producedQty; if(idf)idf.value=qkpi.defectQty;
+  qRenderTable();qRenderKpis();
+}
+
+HPMSync.ready.then(()=>{
+loadQ();applyI18n();renderQrqcdDashboard();
+HPMSync.onRemote(()=>{loadQ();if(qDraft==null)renderQrqcdDashboard()});
+});
+
+</script>
+</body>
+</html>
