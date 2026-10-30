@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#0B2D50">
+<title>QRQC-D | HPM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EAF1F7;--surface:#fff;--surface-alt:#EDF3F8;--ink:#10263B;--ink-soft:#5A6C7E;--ink-faint:#8797A8;--line:#D7E1EB;--line-strong:#C3D2E0;--accent:#0E75BC;--accent-ink:#0B2D50;--accent-soft:#E6F2FA;--cyan:#42C6FF;--success:#16834E;--success-bg:#E8F6EF;--warning:#C87F0A;--warning-bg:#FCF3E3;--danger:#D7263D;--danger-bg:#FDECEE;--radius:14px}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}body{background:radial-gradient(circle at 8% 3%,rgba(66,198,255,.16),transparent 27rem),radial-gradient(circle at 96% 12%,rgba(14,117,188,.13),transparent 30rem),linear-gradient(145deg,#f7fafc 0%,#eaf1f7 52%,#dce8f2 100%);color:var(--ink);font:14px/1.45 'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}button,input,textarea,select{font:inherit}:focus-visible{outline:3px solid rgba(66,198,255,.55);outline-offset:2px}
+[hidden]{display:none!important}.portal-screen{min-height:100vh;padding:24px;background:radial-gradient(circle at 18% 18%,rgba(215,38,61,.2),transparent 27rem),radial-gradient(circle at 78% 78%,rgba(14,117,188,.24),transparent 31rem),linear-gradient(145deg,#11171D,#090E14 55%,#141B22);color:#fff}.portal-shell{width:min(1320px,100%);margin:auto;border:1px solid #405064;border-radius:28px;background:linear-gradient(125deg,rgba(255,255,255,.11),rgba(18,28,48,.95) 32%,rgba(12,22,39,.98));padding:25px;box-shadow:0 28px 70px #0008;position:relative;overflow:hidden}.portal-shell:after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--danger),var(--cyan),#79E5CF)}.portal-head{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}.portal-brand{display:flex;align-items:center;gap:15px}.portal-brand .logo-box{width:145px;min-width:145px}.portal-brand h1{font-size:clamp(20px,3vw,30px);margin:0}.portal-brand p{margin:3px 0 0;color:#AFC5D8;font-size:12px}.portal-lang{display:flex;gap:6px}.portal-stage{margin-top:22px;min-height:490px;border:1px solid #263D59;border-radius:22px;background:linear-gradient(rgba(25,56,92,.28) 1px,transparent 1px),linear-gradient(90deg,rgba(25,56,92,.28) 1px,transparent 1px),radial-gradient(circle at center,rgba(31,99,151,.2),transparent 44%),#061229;background-size:100% 118px,160px 100%,auto,auto;display:grid;grid-template-columns:minmax(350px,1.25fr) minmax(300px,.75fr);align-items:center;gap:25px;padding:28px}.brain-wrap{position:relative;min-height:390px;border-radius:18px;overflow:hidden}#particleCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}.p-node{position:absolute;left:var(--nx);top:var(--ny);transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;padding:6px;cursor:pointer;color:var(--pc);z-index:2;transition:.2s ease}.p-node-circle{width:54px;height:54px;border-radius:50%;background:#071426;border:3px solid var(--pc);display:flex;align-items:center;justify-content:center;box-shadow:0 0 14px currentColor,inset 0 0 10px #0006;transition:.25s ease;position:relative}.p-node-circle::after{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px solid currentColor;opacity:.35;animation:pPulse 2.6s ease-out infinite}.p-node-lg{width:62px;height:62px}.p-node-label{font:700 12px 'IBM Plex Mono',monospace;color:#fff;pointer-events:none}.p-node-caption{font:700 10px 'IBM Plex Mono',monospace;color:#BFD7E8;letter-spacing:.08em;pointer-events:none}.p-node:hover,.p-node:focus-visible{transform:translate(-50%,-50%) scale(1.1)}.p-node:hover .p-node-circle,.p-node:focus-visible .p-node-circle{box-shadow:0 0 22px currentColor,inset 0 0 10px #0006}.p-node:focus{outline:none}.p-node:focus-visible .p-node-circle{outline:3px solid rgba(66,198,255,.7);outline-offset:3px}@keyframes pPulse{0%{transform:scale(1);opacity:.5}100%{transform:scale(1.6);opacity:0}}.portal-menu{display:grid;gap:12px}.portal-card{appearance:none;text-align:left;width:100%;display:grid;grid-template-columns:54px 1fr auto;align-items:center;gap:14px;padding:16px;border-radius:15px;color:#fff;background:rgba(255,255,255,.045);border:1px solid #354962;transition:.2s ease}.portal-card:hover{background:rgba(66,198,255,.1);border-color:#62CEF8;transform:translateX(-4px)}.portal-num{width:45px;height:45px;border-radius:50%;display:grid;place-items:center;background:#0B1728;border:4px solid var(--pc,#70D2FF);font:700 12px 'IBM Plex Mono',monospace;box-shadow:0 0 16px color-mix(in srgb,var(--pc) 35%,transparent)}.portal-card strong{font-size:15px}.portal-card small{display:block;color:#AFC5D8;margin-top:3px}.portal-arrow{color:var(--pc,#70D2FF);font-size:20px}.portal-foot{text-align:center;margin-top:16px;color:#728CA4;font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase}
+.module-container{max-width:1250px}.module-toolbar{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;box-shadow:0 8px 20px rgba(11,45,80,.05)}.module-sheet{padding:20px}.module-title{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;border-bottom:2px solid var(--accent-soft);padding-bottom:12px;margin-bottom:17px}.module-title h2{margin:0;color:var(--accent-ink)}.module-title p{margin:4px 0 0;color:var(--ink-soft);font-size:12px}.summary-pills{display:flex;gap:7px;flex-wrap:wrap}.summary-pill{border-radius:20px;padding:6px 10px;font:700 10px 'IBM Plex Mono',monospace;background:var(--surface-alt);color:var(--accent-ink)}.summary-pill.nc{background:var(--danger-bg);color:var(--danger)}.summary-pill.ok{background:var(--success-bg);color:var(--success)}.fivew-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}.audit-table{width:100%;border-collapse:collapse;min-width:850px}.audit-table th,.audit-table td{border-bottom:1px solid var(--line);padding:10px;vertical-align:middle}.audit-table th{background:var(--accent-ink);color:#fff;font-size:10px;text-transform:uppercase}.audit-table td:first-child{font:700 12px 'IBM Plex Mono',monospace;color:var(--accent)}.audit-choice{display:flex;gap:5px}.choice-btn{padding:6px 9px;font-size:10px}.choice-btn.selected[data-value="C"]{background:var(--success);border-color:var(--success);color:#fff}.choice-btn.selected[data-value="NC"]{background:var(--danger);border-color:var(--danger);color:#fff}.choice-btn.selected[data-value="NA"]{background:var(--ink-soft);border-color:var(--ink-soft);color:#fff}.two-panel-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.photo-panel{border:1px solid var(--line);border-radius:14px;background:#FAFCFE;overflow:hidden}.photo-panel h3{margin:0;padding:11px 14px;background:var(--accent-ink);color:#fff;font-size:13px}.photo-drop{min-height:280px;display:grid;place-items:center;padding:16px;background:linear-gradient(135deg,#F7FAFD,#EAF1F7);position:relative;overflow:hidden}
+.photo-ribbon{position:absolute;top:0;right:0;bottom:0;width:34px;display:flex;align-items:center;justify-content:center;color:#fff;font:800 15px 'IBM Plex Mono',monospace;letter-spacing:.1em;writing-mode:vertical-rl;text-orientation:mixed;box-shadow:-3px 0 10px #0004}
+.photo-ribbon.ng{background:linear-gradient(180deg,#E63950,#B01B2E)}
+.photo-ribbon.ok{background:linear-gradient(180deg,#2BAF74,#146840)}.photo-drop img{max-width:100%;max-height:360px;object-fit:contain;border-radius:8px}.photo-placeholder{text-align:center;color:var(--ink-faint)}.photo-placeholder b{display:block;font-size:30px;color:var(--accent);margin-bottom:5px}.panel-controls{padding:12px}.compression-note{font-size:10.5px;color:var(--ink-faint);margin-top:6px}.improvement-box{margin-top:16px}
+.method-modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;background:rgba(2,8,15,.78);backdrop-filter:blur(8px)}.method-dialog{width:min(620px,100%);border-radius:22px;padding:24px;background:linear-gradient(135deg,#142338,#0B1524);border:1px solid #49627D;color:#fff;box-shadow:0 30px 80px #000b;position:relative}.method-dialog:before{content:"";position:absolute;inset:0 0 auto;height:4px;border-radius:22px 22px 0 0;background:linear-gradient(90deg,var(--dialog-color,#66D4FF),var(--danger))}.method-dialog h2{margin:5px 0 10px;font-size:24px}.method-dialog p{color:#C0D2E2;line-height:1.65;margin:0}.method-kicker{font:700 10px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:var(--dialog-color,#66D4FF);text-transform:uppercase}.method-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:22px}.method-close{background:transparent;color:#D8E7F4;border-color:#52647A}.dmaic-flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-bottom:18px}.dmaic-step{border-radius:12px;padding:12px 9px;background:#0B2D50;color:#fff;border-top:4px solid var(--dc,#66D4FF);text-align:center}.dmaic-step b{display:block;font-size:18px}.dmaic-step small{font-size:9px;color:#BFD3E4}.dmaic-sections{display:grid;gap:12px}.dmaic-card{padding:15px;border-left:4px solid var(--dc,#66D4FF)}.dmaic-card h3{margin:0 0 10px;color:var(--accent-ink)}
+.brain-shell{fill:url(#brainBase);stroke:#8BDFFF;stroke-width:2}.topo-lines path{fill:none;stroke:url(#contourGlow);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.82}.topo-lines path:nth-child(3n){opacity:.42;stroke-width:1.2}.topo-lines path:nth-child(4n){stroke:#fff;opacity:.28}.brain-stem{fill:#132D47;stroke:#6CAECB;stroke-width:2}.cerebellum-line{fill:none;stroke:#9DDFF2;stroke-width:1.5;opacity:.55}
+.hero-wrap{width:min(1480px,calc(100% - 32px));margin:18px auto 0}.topbar{background:linear-gradient(118deg,rgba(7,35,62,.98),rgba(11,63,105,.95) 62%,rgba(14,117,188,.9));color:#fff;padding:18px 22px;border-radius:18px;border:1px solid rgba(255,255,255,.2);border-bottom:4px solid var(--danger);box-shadow:0 18px 48px rgba(5,35,61,.22)}.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.brand-row{display:flex;align-items:center;gap:16px;min-width:0}.logo-box{width:150px;min-width:150px;height:58px;padding:9px 12px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 7px 20px rgba(0,0,0,.22)}.logo-box img{display:block;max-width:100%;max-height:100%;object-fit:contain}.brand-copy{min-width:0}.brand-eyebrow{font-size:10px;font-weight:700;letter-spacing:.18em;color:#8EDCFF;text-transform:uppercase;margin-bottom:4px}.topbar h1{font-size:clamp(17px,2vw,21px);font-weight:700;margin:0}.topbar .sub{font-size:12px;color:#D5E8F7;margin-top:3px}.header-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}.hero-date{font:11.5px 'IBM Plex Mono',monospace;color:#D4E7F5;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);padding:7px 12px;border-radius:8px;text-transform:capitalize;white-space:nowrap}.lang-switch{display:flex;gap:4px}.lang-btn{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#D4E7F5;font-size:10.5px;font-weight:700;padding:6px 9px;border-radius:6px;cursor:pointer}.lang-btn:hover{background:rgba(255,255,255,.18)}.lang-btn.active{background:var(--cyan);color:var(--accent-ink);border-color:var(--cyan)}.method-badge{display:inline-flex;background:#fff;color:var(--accent-ink);font-size:10.5px;font-weight:700;border-radius:20px;padding:6px 10px}
+.container{max-width:1500px;margin:0 auto;padding:18px 20px 60px}.toolbar{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;box-shadow:0 8px 20px rgba(11,45,80,.05)}button{border:1px solid var(--line-strong);border-radius:7px;padding:8px 13px;font-weight:600;cursor:pointer;background:#fff;color:var(--ink)}button:hover{background:var(--surface-alt)}button.primary{background:linear-gradient(100deg,var(--accent-ink),var(--accent));border-color:var(--accent-ink);color:#fff;box-shadow:0 6px 16px rgba(14,70,112,.18)}button.success{background:var(--success);border-color:var(--success);color:#fff}button.danger{background:var(--danger-bg);border-color:#F3BFC7;color:var(--danger)}button.light{background:var(--surface-alt);color:var(--accent-ink)}button:disabled{opacity:.55;cursor:not-allowed}
+.layout{display:grid;grid-template-columns:290px minmax(0,1fr);gap:18px}.panel,.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 8px 20px rgba(11,45,80,.06)}.sidebar{padding:14px;height:calc(100vh - 185px);overflow:auto;position:sticky;top:12px}.sidebar h3{margin:4px 0 12px;color:var(--accent-ink);font-size:14px}.sidebar input{margin-bottom:10px}.report{padding:11px;border:1px solid var(--line);border-radius:9px;margin-bottom:8px;cursor:pointer;background:#FAFCFE}.report:hover{border-color:var(--accent)}.report.active{border-color:var(--accent);background:var(--accent-soft)}.report strong{display:block;font:600 11.5px 'IBM Plex Mono',monospace;color:var(--accent-ink)}.report div{font-size:12.5px;margin-top:3px}.report small{color:var(--ink-faint)}.content{padding:18px;min-width:0}.section{margin-bottom:20px}.section>h2{font-size:17px;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--accent-soft);color:var(--accent-ink)}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px;min-width:0}.field.span2{grid-column:span 2}.field.span4{grid-column:1/-1}label{font-size:11px;font-weight:600;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.03em}input,textarea,select{width:100%;border:1px solid var(--line-strong);border-radius:7px;padding:8px 9px;color:var(--ink);background:#fff;outline:none}input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}textarea{min-height:84px;resize:vertical;line-height:1.4}.mono{font-family:'IBM Plex Mono',monospace!important}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:9px}.data-table{width:100%;border-collapse:collapse;min-width:900px}.data-table th,.data-table td{border-bottom:1px solid var(--line);padding:7px;text-align:left;vertical-align:top}.data-table th{background:var(--surface-alt);font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.03em}.data-table input,.data-table textarea{border:1px solid var(--line);padding:7px}.data-table textarea{min-height:55px}.empty-row{color:var(--ink-faint);font-size:12px;text-align:center}.footer-note{font-size:11.5px;color:var(--ink-faint);margin-top:12px;padding:10px;background:var(--surface-alt);border-radius:8px}.feedback{margin-left:auto;font-size:12px;color:var(--success);font-weight:600}
+.saved-list{display:grid;gap:10px;margin-top:4px}.saved-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#FAFCFE}.saved-item:hover{border-color:var(--line-strong)}.saved-badge{font:700 10px 'IBM Plex Mono',monospace;padding:5px 9px;border-radius:20px;color:#fff;white-space:nowrap;text-align:center}.saved-badge.b8d{background:#0E75BC}.saved-badge.b9b{background:#16834E}.saved-badge.b2p{background:#5B63D3}.saved-badge.bdmaic{background:#C87F0A}.saved-badge.bdoe{background:#D7263D}
+.pareto-chart{display:grid;gap:8px}.pareto-row{display:grid;grid-template-columns:56px 1fr 70px;align-items:center;gap:10px}.pareto-label{font:700 11px 'IBM Plex Mono',monospace;color:var(--accent-ink)}.pareto-track{height:16px;border-radius:8px;background:var(--surface-alt);overflow:hidden}.pareto-fill{height:100%;background:var(--ink-faint);border-radius:8px}.pareto-fill.sig{background:linear-gradient(90deg,var(--accent),var(--danger))}.pareto-val{font:700 11px 'IBM Plex Mono',monospace;text-align:right;color:var(--ink-soft)}
+.doe-sig-row td{background:var(--danger-bg)}.doe-anova th{white-space:nowrap}.saved-main strong{display:block;font:700 12px 'IBM Plex Mono',monospace;color:var(--accent-ink)}.saved-main div{font-size:12.5px;margin-top:2px}.saved-main small{color:var(--ink-faint)}.saved-actions{display:flex;gap:6px}
+@media(max-width:650px){.saved-item{grid-template-columns:1fr}.saved-actions{justify-content:flex-start;margin-top:4px}}
+.team-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.team-card{border:1px solid var(--line);border-radius:10px;padding:12px;background:#FAFCFE}.team-card h4{margin:0 0 10px;color:var(--accent-ink);font-size:13px}.team-card .field{margin-bottom:9px}.subblock{padding:14px;margin-bottom:12px}.subblock h4{margin:0 0 10px;color:var(--accent-ink);font-size:14px}.subblock h5{margin:0 0 10px;color:var(--accent-ink);font-size:13px}.hint{font-size:12px;color:var(--ink-soft);margin:0 0 10px}.rubro-card{padding:14px;margin-bottom:12px;background:#FAFCFE}.file-meta{display:block;margin-top:4px;color:var(--ink-faint);font-size:11px}.file-preview{max-width:220px;border:1px solid var(--line);border-radius:8px;margin-top:8px}.inline-actions{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+.ishikawa-wrap{border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px;background:#FBFDFF;overflow:auto}.ishikawa-title{text-align:center;font-weight:700;color:var(--accent-ink);margin-bottom:12px}.fishbone{min-width:900px;height:420px;position:relative}.fishbone-spine{position:absolute;left:18%;right:16%;top:50%;height:5px;background:var(--accent);border-radius:5px}.fishbone-problem{position:absolute;right:1%;top:calc(50% - 30px);width:15%;padding:16px 8px;border:2px solid var(--accent);border-radius:8px;background:#fff;text-align:center;font-weight:700;font-size:12px}.m6{position:absolute;width:27%;padding:8px;border:1px solid var(--line);border-radius:8px;background:#fff;box-shadow:0 1px 4px #0000000a}.m6 strong{display:block;color:var(--accent);margin-bottom:5px;font-size:12px}.m6 textarea{min-height:70px;font-size:12px}.m1{left:8%;top:4%}.m2{left:38%;top:4%}.m3{left:8%;bottom:4%}.m4{left:38%;bottom:4%}.m5{left:68%;top:4%}.m1:after,.m2:after,.m5:after{content:"";position:absolute;bottom:-70px;left:50%;width:2px;height:70px;background:var(--accent);transform:rotate(-45deg);transform-origin:top}.m3:after,.m4:after{content:"";position:absolute;top:-70px;left:50%;width:2px;height:70px;background:var(--accent);transform:rotate(45deg);transform-origin:bottom}
+.stepper{display:flex;align-items:center;margin-bottom:18px;flex-wrap:wrap}.step{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:9px;background:var(--surface-alt);color:var(--ink-soft);font-weight:700;font-size:12px}.step-active{background:var(--accent-ink);color:#fff}.step-done{background:var(--success-bg);color:var(--success)}.step-locked{background:#EEF1F4;color:var(--ink-faint)}.step-icon{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center;font-size:12px;flex:0 0 22px}.step-sep{flex:0 0 26px;height:2px;background:var(--line);margin:0 4px}.phase-locked-card{padding:30px;text-align:center;color:var(--ink-faint)}.lock-icon{font-size:30px;margin-bottom:8px}.validation-banner{padding:12px 16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;background:var(--success-bg);border-color:#BFE6CF}.vb-title{color:var(--success);font-weight:700}.vb-meta{font-size:12px;color:#4B6358;margin-top:2px}.locked-phase{opacity:.65}.locked-phase input,.locked-phase textarea,.locked-phase select{pointer-events:none;background:#F1F5F9}.locked-phase button{display:none}.status-badge{display:inline-flex;padding:4px 9px;border-radius:20px;font-size:11px;font-weight:700;background:var(--accent-soft);color:var(--accent)}
+.phase-ribbon{margin-top:16px;padding:13px 16px;border-radius:14px;background:linear-gradient(120deg,rgba(3,18,32,.72),rgba(9,35,60,.66));border:1px solid rgba(142,220,255,.2);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.ribbon-phase{display:flex;align-items:center;gap:11px;min-width:0;padding:9px 12px;border-radius:11px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);transition:.2s ease}.ribbon-phase.active{background:rgba(66,198,255,.1);border-color:rgba(66,198,255,.42)}.ribbon-phase.done{background:rgba(22,131,78,.16);border-color:rgba(109,231,173,.36)}.ribbon-phase.locked{opacity:.48}.progress-ring{--ring:var(--cyan);--p:0deg;width:48px;height:48px;flex:0 0 48px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--ring) var(--p),rgba(255,255,255,.13) 0);position:relative;box-shadow:0 0 18px rgba(66,198,255,.12)}.progress-ring:before{content:"";position:absolute;inset:6px;border-radius:50%;background:#0A1F33}.progress-ring span{position:relative;z-index:1;font:700 10px 'IBM Plex Mono',monospace;color:#fff}.ribbon-phase.done .progress-ring{--ring:#6DE7AD}.ribbon-copy{min-width:0}.ribbon-copy strong{display:block;color:#fff;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ribbon-copy small{display:block;color:#AFC9DC;font-size:9.5px;margin-top:3px}
+.phase-overview{display:grid;grid-template-columns:98px minmax(0,1fr);gap:18px;align-items:center;padding:16px 18px;margin:0 0 15px;border-radius:16px;color:#EAF6FF;background:radial-gradient(circle at 0 50%,rgba(215,38,61,.23),transparent 34%),linear-gradient(125deg,#0B1A2D,#101C31 70%,#132239);border:1px solid #33455C;box-shadow:0 13px 28px rgba(7,27,47,.14)}.phase-overview .progress-ring{width:76px;height:76px;--ring:#70D2FF}.phase-overview .progress-ring:before{inset:8px;background:#111D30}.phase-overview .progress-ring span{font-size:16px}.breakdown-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.breakdown-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:10px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08)}.mini-ring{--p:0deg;width:34px;height:34px;flex:0 0 34px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#78E4D0 var(--p),rgba(255,255,255,.13) 0);position:relative}.mini-ring:before{content:"";position:absolute;inset:5px;border-radius:50%;background:#111D30}.mini-ring span{position:relative;font:700 8px 'IBM Plex Mono',monospace;color:#fff}.breakdown-item strong{display:block;font-size:11px;color:#fff}.breakdown-item small{color:#AFC5D8;font-size:9.5px}.phase-hidden-note{font-size:10px;color:#AFC9DC}.print-header{display:none}.print-logo{display:flex;align-items:center;gap:10px}.print-logo img{width:132px;height:42px;object-fit:contain}.print-brand-name{font-size:8px;font-weight:700;color:var(--accent-ink);letter-spacing:.08em}.print-copy{border-left:1px solid var(--line);padding-left:16px}.print-kicker{font:700 8px 'IBM Plex Mono',monospace;color:var(--accent);letter-spacing:.14em}.print-copy h1{font-size:17px;margin:3px 0 2px;color:var(--accent-ink)}.print-copy p{font-size:9px;margin:0;color:var(--ink-soft)}.print-control{text-align:right;padding:9px 12px;border-radius:8px;background:var(--accent-ink);color:#fff;min-width:160px}.print-control small{display:block;font-size:7px;text-transform:uppercase;letter-spacing:.1em;color:#A9D9F4}.print-control strong{display:block;font:700 10px 'IBM Plex Mono',monospace;margin:3px 0}.print-control span{font-size:8px;color:#D5E8F7}.app-footer{max-width:1500px;margin:0 auto 18px;padding:0 20px;color:var(--ink-faint);font-size:10.5px;text-align:center}
+@media(max-width:1000px){.layout{grid-template-columns:1fr}.sidebar{position:static;height:auto}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.field.span2{grid-column:span 2}.team-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.phase-ribbon{grid-template-columns:1fr}.breakdown-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.hero-wrap{width:calc(100% - 20px);margin-top:10px}.topbar{padding:15px}.logo-box{width:118px;min-width:118px;height:48px}.header-tools{width:100%;justify-content:space-between}.container{padding-inline:12px}.toolbar button{flex:1}.grid,.team-grid{grid-template-columns:1fr}.field.span2{grid-column:span 1}.stepper{flex-direction:column;align-items:stretch}.step-sep{display:none}.content{padding:14px}.validation-banner{align-items:flex-start;gap:10px}.phase-overview{grid-template-columns:1fr}.breakdown-list{grid-template-columns:1fr}.phase-overview>.progress-ring{margin:auto}.ribbon-copy strong{white-space:normal}}
+@media(max-width:800px){.portal-stage{grid-template-columns:1fr}.brain-wrap{min-height:270px}.fivew-grid,.two-panel-grid{grid-template-columns:1fr}.portal-screen{padding:10px}.portal-shell{padding:16px;border-radius:20px}}
+@media(max-width:800px){.dmaic-flow{grid-template-columns:1fr 1fr}.method-actions{flex-direction:column}.method-actions button{width:100%}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
+@page{size:auto;margin:12mm}@media print{body{background:#fff}.hero-wrap,.toolbar,.sidebar,.no-print,.app-footer,.portal-screen{display:none!important}.container{max-width:none;margin:0;padding:0}.layout{display:block}.content,.module-sheet{padding:0;border:0;box-shadow:none}.print-header{display:grid;grid-template-columns:155px 1fr 185px;align-items:center;gap:15px;border:1px solid var(--line-strong);border-top:7px solid var(--accent-ink);border-bottom:3px solid var(--danger);border-radius:8px;padding:10px 12px;margin-bottom:16px;background:linear-gradient(90deg,#fff,#F1F6FA)}.module-title{justify-content:flex-end;margin-bottom:10px}.module-title>div:first-child{display:none}.card{box-shadow:none}.section{break-inside:avoid}.locked-phase{opacity:1}.locked-phase input,.locked-phase textarea,.locked-phase select{pointer-events:auto;background:transparent}.data-table{font-size:9px;min-width:0}.data-table th,.data-table td{padding:4px}}
+/* ===== QRQC-D ===== */
+.q-meta-input{background:var(--surface-alt);border:1px solid var(--line);border-radius:9px;padding:8px 11px;font:700 12px 'IBM Plex Mono',monospace;width:140px}
+.q-kpi-section{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:18px 0}
+.q-kpi-card{background:#FAFCFE;border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.q-kpi-info{flex:1;min-width:180px}
+.q-kpi-info h3{margin:0 0 4px;font-size:15px;color:var(--accent-ink)}
+.q-kpi-desc{font-size:12px;color:var(--ink-soft);margin-bottom:8px}
+.q-kpi-inputs{display:flex;gap:12px;flex-wrap:wrap}
+.q-kpi-inputs label{font:700 10px 'IBM Plex Mono',monospace;color:var(--ink-faint);display:flex;flex-direction:column;gap:4px}
+.q-kpi-inputs input{width:110px;padding:7px 9px;border:1px solid var(--line);border-radius:8px}
+.gauge-value{font:800 28px 'IBM Plex Mono',monospace}
+.gauge-sub{font:600 10.5px 'IBM Plex Sans',sans-serif;fill:var(--ink-soft)}
+.q-table-scroll{overflow-x:auto}
+table.q-board-table{border-collapse:collapse;width:100%;min-width:1650px;font-size:12.5px}
+table.q-board-table th{background:var(--accent-ink);color:#fff;padding:9px 10px;text-align:left;font:700 10px 'IBM Plex Mono',monospace;white-space:nowrap}
+table.q-board-table td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+table.q-board-table tr.q-entry-occ td{border-bottom:none}
+table.q-board-table tr.q-entry-det td{background:#FAFCFE}
+.pill{display:inline-block;font:700 10px 'IBM Plex Mono',monospace;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.pill-open{background:var(--danger-bg);color:var(--danger)}
+.pill-close{background:#E8F6EF;color:#16834E}
+.pill-ncr{background:#D7263D;color:#fff}
+.pill-interno{background:#0E75BC;color:#fff}
+.q-phase-tag{font:700 9.5px 'IBM Plex Mono',monospace;padding:2px 7px;border-radius:6px;background:var(--surface-alt);color:var(--ink-soft)}
+.q-thumb{width:46px;height:46px;object-fit:cover;border-radius:8px;border:1px solid var(--line);cursor:pointer}
+.q-no-img{color:var(--ink-faint);font-size:11px}
+.q-progress-dots{display:flex;gap:5px}
+.q-progress-dots span{width:11px;height:11px;border-radius:50%;background:var(--line-strong);display:inline-block}
+.q-progress-dots span.on{background:#16834E}
+.q-row-actions{display:flex;gap:5px;white-space:nowrap}
+.q-gemba-cell{max-width:200px;white-space:pre-wrap}
+.q-empty-note{padding:26px;text-align:center;color:var(--ink-faint)}
+.q-modal-overlay{position:fixed;inset:0;background:#0B2D50cc;display:flex;align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto;z-index:60}
+.q-modal-card{background:#fff;border-radius:18px;max-width:820px;width:100%;padding:26px 28px 22px;box-shadow:0 30px 70px #00000055}
+.q-modal-card h2{margin:0 0 4px;color:var(--accent-ink)}
+.q-modal-sub{color:var(--ink-soft);font-size:12.5px;margin-bottom:16px}
+.q-modal-section{margin-bottom:16px;padding-top:12px;border-top:1px solid var(--line)}
+.q-modal-section:first-of-type{border-top:none;padding-top:0}
+.q-modal-section h4{margin:0 0 10px;font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--accent);font-family:'IBM Plex Mono',monospace}
+.q-progress-check{display:flex;gap:16px;flex-wrap:wrap}
+.q-progress-check label{display:flex;align-items:center;gap:7px;font:600 12px 'IBM Plex Sans',sans-serif;color:var(--ink-soft)}
+.q-img-upload{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.q-img-upload img{width:60px;height:60px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+.q-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+.q-lightbox-overlay{position:fixed;inset:0;background:#000c;display:flex;align-items:center;justify-content:center;z-index:70;cursor:zoom-out}
+.q-lightbox-overlay img{max-width:92vw;max-height:92vh;border-radius:10px}
+@media(max-width:820px){.q-kpi-section{grid-template-columns:1fr}}
+.q-trend-stats{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px}
+.q-stat-chip{display:flex;align-items:center;gap:8px;background:#FAFCFE;border:1px solid var(--line);border-radius:20px;padding:7px 14px;font-size:12.5px;color:var(--ink-soft)}
+.q-stat-chip b{color:var(--accent-ink);font:800 14px 'IBM Plex Mono',monospace}
+.q-stat-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.q-stat-red .q-stat-dot{background:#D7263D}
+.q-stat-orange .q-stat-dot{background:#F2994A}
+.q-trend-chart-wrap{overflow-x:auto;background:#FAFCFE;border:1px solid var(--line);border-radius:12px;padding:10px}
+.q-trend-legend{display:flex;gap:16px;margin-top:6px;font-size:11px;color:var(--ink-soft)}
+.q-trend-legend span{display:inline-flex;align-items:center;gap:5px}
+.hpm-xlink{display:inline-flex;align-items:center;gap:6px;background:#ffffff1f;border:1px solid #ffffff55;color:#fff;text-decoration:none;font:700 12px 'IBM Plex Mono',monospace;padding:7px 13px;border-radius:999px}
+.hpm-xlink:hover{background:#ffffff38}
+a.btnlink{display:inline-flex;align-items:center;text-decoration:none}
+.subblock .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.subblock .toolbar select{width:auto;min-width:170px}
+
+
+.table-wrap.q-table-scroll,.q-table-scroll{overflow:visible}
+table.q-board-table{table-layout:fixed;min-width:0;width:100%;font-size:11.5px}
+table.q-board-table th{white-space:normal;padding:8px 5px;font-size:8.5px;line-height:1.25;vertical-align:bottom;overflow-wrap:anywhere}
+table.q-board-table td{padding:6px 5px;overflow-wrap:anywhere;word-break:break-word;line-height:1.3}
+.q-clamp{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.q-dates{font:500 9.5px 'IBM Plex Mono',monospace;color:var(--ink-soft);white-space:nowrap}.q-dates b{color:var(--accent-ink)}
+td.cell-mono b{font-size:13px}
+.q-sla{font-size:9.5px;padding:2px 5px}.q-delay-total{font-size:10.5px}
+.q-follow-btn,.q-doe-btn{padding:5px 8px!important;font-size:10.5px!important;white-space:nowrap}
+table.q-board-table .pill{padding:3px 7px;font-size:9px}
+.q-thumb{width:34px;height:34px}
+.q-row-actions{flex-direction:column;align-items:center;gap:4px}
+.q-phase-tag{font-size:8.5px;padding:2px 5px}
+@media(max-width:1100px){.table-wrap.q-table-scroll,.q-table-scroll{overflow-x:auto}table.q-board-table{min-width:1100px}}
+</style>
+</head>
+<body>
+<div class="hero-wrap" id="appHero"><header class="topbar"><div class="topbar-inner"><div class="brand-row"><div class="logo-box"><img class="hpm-logo" alt="Hyundai Polytech México"></div><div class="brand-copy"><div class="brand-eyebrow">Hyundai Polytech México</div><h1 id="moduleTitle">8D Quality Manager</h1><div class="sub" id="moduleSubtitle">Elaboración, seguimiento y almacenamiento de reportes</div></div></div><div class="header-tools"><a class="hpm-xlink" href="roca.html">ROCA ↗</a><span class="method-badge" id="moduleBadge">AIAG · Metodología 8D</span><div class="lang-switch" data-i18n-aria-label="aria_language"><button class="lang-btn" data-lang="es" type="button">ES</button><button class="lang-btn" data-lang="ko" type="button">한국어</button><button class="lang-btn" data-lang="en" type="button">EN</button></div><div class="hero-date" id="heroDate">—</div></div></div></header></div>
+<div style="height:12px"></div>
+<section class="container module-container" id="qrqcdApp">
+  <div class="module-toolbar no-print">
+    
+    <input class="q-meta-input" id="qMetaProject" placeholder="Proyecto / Línea" data-i18n-placeholder="q_project" oninput="qMetaChanged('project',this)">
+    <input class="q-meta-input" style="width:70px" id="qMetaYear" placeholder="Año" oninput="qMetaChanged('year',this)">
+    <button onclick="window.print()" data-i18n="btn_print">🖨 Imprimir / PDF</button>
+  </div>
+  <main class="card module-sheet">
+    <div class="module-title"><div><h2 data-i18n="q_title">QRQC-D / Tablero de Respuesta Rápida a Problemas de Calidad Digital</h2><p data-i18n="q_sub"></p></div></div>
+
+    <div class="q-kpi-section">
+      <div class="q-kpi-card">
+        <div class="gauge-wrap" id="gaugeNcr"></div>
+        <div class="q-kpi-info">
+          <h3 data-i18n="kpi_ncr_title">Reclamos Oficiales</h3>
+          <div class="q-kpi-desc" data-i18n="kpi_ncr_target">Objetivo: &lt;7 NCR</div>
+        </div>
+      </div>
+      <div class="q-kpi-card">
+        <div class="gauge-wrap" id="gaugeFtq"></div>
+        <div class="q-kpi-info">
+          <h3 data-i18n="kpi_ftq_title">FTQ del Proceso</h3>
+          <div class="q-kpi-desc" data-i18n="kpi_ftq_target">Objetivo: &lt;1% defectuoso en GP12</div>
+          <div class="q-kpi-inputs no-print">
+            <label><span data-i18n="kpi_produced">Piezas producidas</span><input type="number" step="any" id="qInpProduced" oninput="qKpiChanged('producedQty',this)"></label>
+            <label><span data-i18n="kpi_defect">Piezas con defecto</span><input type="number" step="any" id="qInpDefect" oninput="qKpiChanged('defectQty',this)"></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subblock">
+      <h4 data-i18n="q_trend_title">Tendencia mensual de reclamos</h4>
+      <div class="q-trend-stats">
+        <div class="q-stat-chip q-stat-red"><span class="q-stat-dot"></span><span data-i18n="q_stat_oficial">Reclamos oficiales del mes</span>: <b id="qStatOficial">0</b></div>
+        <div class="q-stat-chip q-stat-orange"><span class="q-stat-dot"></span><span data-i18n="q_stat_no_oficial">Reclamos no oficiales del mes</span>: <b id="qStatNoOficial">0</b></div>
+        <div class="q-stat-chip q-stat-late"><span class="q-stat-dot"></span><span data-i18n="q_stat_late">Con retraso (abiertos 8D/DMAIC)</span>: <b id="qStatLate">0</b></div>
+      </div>
+      <div id="qTrendChart" class="q-trend-chart-wrap"></div>
+    </div>
+
+    <div class="subblock">
+      <div class="toolbar no-print">
+        <input type="text" placeholder="Buscar por proyecto, no conformidad o líder…" data-i18n-placeholder="qrqc_search_ph" style="flex:1;min-width:220px" oninput="qFilterChanged('q',this)">
+        <select onchange="qFilterChanged('status',this)"><option value="" data-i18n="qrqc_all_status">Todos los estados</option><option value="OPEN">OPEN</option><option value="CLOSE">CLOSE</option></select>
+        <select onchange="qFilterChanged('type',this)"><option value="" data-i18n="qrqc_all_types">Todos los tipos</option><option value="ncr" data-i18n="qrqc_type_ncr">Reclamo cliente (NCR)</option><option value="interno" data-i18n="qrqc_type_internal">Hallazgo interno GP12</option></select>
+        <select id="qFilterMonth" onchange="qFilterChanged('month',this)"><option value="" data-i18n="qrqc_all_months">Todos los meses</option></select>
+        <button class="primary" onclick="qOpenModal()" data-i18n="btn_new_qrqcd">＋ Nuevo problema</button>
+      </div>
+      <div class="table-wrap q-table-scroll">
+        <table class="data-table q-board-table">
+          <colgroup><col style="width:4%"><col style="width:6%"><col style="width:5%"><col style="width:10%"><col style="width:4%"><col style="width:4%"><col style="width:13%"><col style="width:5%"><col style="width:4%"><col style="width:10%"><col style="width:10%"><col style="width:7%"><col style="width:4%"><col style="width:9%"><col style="width:5%" class="no-print"></colgroup>
+          <thead><tr>
+            <th data-i18n="q_th_nodate">No. / Fecha</th><th data-i18n="q_project">Proyecto / Pieza</th><th data-i18n="qrqc_type">Tipo</th><th data-i18n="q_nonconformity">No conformidad</th><th data-i18n="q_image">Imagen</th><th data-i18n="qrqc_status">Estado</th><th data-i18n="q_sla_th">Plazos / Retraso</th><th data-i18n="responsible">Líder de acción</th><th data-i18n="q_th_phase">Fase</th><th data-i18n="qrqc_root_cause">Causa</th><th data-i18n="qrqc_action">Acción</th><th data-i18n="q_th_dates">Fechas</th><th data-i18n="q_progress">Progreso</th><th data-i18n="q_gemba">GEMBA Walk y comentarios</th><th class="no-print" data-i18n="q_th_actions">Acciones</th>
+          </tr></thead>
+          <tbody id="qBoardBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</section>
+
+<footer class="app-footer" id="appFooter" data-i18n="footer">Hyundai Polytech México · Sistema de gestión de calidad</footer>
+<div class="q-modal-overlay no-print" id="qModalOverlay" hidden></div>
+<div class="q-lightbox-overlay no-print" id="qLightbox" hidden onclick="qCloseLightbox()"><img id="qLightboxImg"></div>
+<script>
+/* Configuración Firebase de HPM (valores públicos por diseño; la seguridad la dan Authentication + firestore.rules) */
+window.HPM_FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDI7IOegzgUnzSNQCXZbZSh4MI83GcEXKY",
+  authDomain: "qrqc-hpm.firebaseapp.com",
+  projectId: "qrqc-hpm",
+  storageBucket: "qrqc-hpm.firebasestorage.app",
+  messagingSenderId: "1097955539720",
+  appId: "1:1097955539720:web:ecff07c068452b47050abd"
+};
+
+/* Acceso abierto con la liga (temporal). Para candadear: cambia a true y publica firestore.rules.locked */
+window.HPM_REQUIRE_LOGIN = false;
+
+</script>
+<script>
+/* HPM · Recursos compartidos (ROCA + QRQC-D): logo, textos ES/KO/EN y utilidades */
+const DOC_CONTROL_CODE='HPM-CALIDAD-FO-01';
+const HPM_LOGO="data:image/png;base64,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";
+const LOCALES={es:'es-MX',ko:'ko-KR',en:'en-US'};
+const I18N={
+es:{app_title:'8D Quality Manager',app_subtitle:'Elaboración, seguimiento y almacenamiento de reportes 8D · Flujo por fases',method_badge:'AIAG · Metodología 8D',aria_language:'Selector de idioma',btn_new:'＋ Nuevo 8D',btn_save:'💾 Guardar',btn_print:'🖨 Imprimir / PDF',btn_export:'⇩ Exportar respaldo',btn_import:'⇧ Importar',saved_reports:'Reportes guardados',search_ph:'Buscar 8D…',footer:'Hyundai Polytech México · Sistema de Gestión de Calidad · HPM-CALIDAD-FO-01',member:'Integrante {n}',name:'Nombre',area:'Área',responsibilities:'Responsabilidades',ishikawa_title:'Diagrama de Ishikawa — 5M',problem_effect:'PROBLEMA / EFECTO',labor:'Mano de Obra',machine:'Máquina',method:'Método',material:'Material',measurement:'Medición',attached_file:'Archivo adjunto: {file}',upload_problem:'Sube una fotografía o documento (imagen o PDF)',download:'⇩ Descargar',delete:'Eliminar',evidence_desc_ph:'Descripción de la evidencia',attach_evidence:'Adjunta evidencia: Excel, PowerPoint, Word, PDF, imagen, etc.',download_file:'⇩ Descargar archivo',remove_file:'Eliminar archivo',why_n:'¿Por qué {n}?',root_cause:'Causa raíz',action:'Acción',no_rows:'Sin registros. Agrega una fila.',add_row:'＋ Agregar fila',origin:'Origen',floor_action:'Acción a verificar en piso',responsible:'Responsable',floor_verified:'Verificado en piso',verification_date:'Fecha de verificación',comments:'Comentarios',evidence:'Evidencia',attached:'Adjunto: {file}',no_evidence:'Sin evidencia',checklist_empty:'Aún no se ha generado el checklist. Selecciona “Generar / actualizar checklist”.',origin_d3:'D3 · Contención',origin_d5:'D5 · Correctiva',generate_empty:'No hay acciones capturadas en D3 o D5. Complétalas antes de generar el checklist.',phase1_prompt:'Nombre de quien valida la Fase 1 (Equipo, Problem Statement y Contención):',phase2_prompt:'Nombre de quien valida la Fase 2 (Análisis de causa y Acciones correctivas):',phase3_prompt:'Nombre de quien valida la Fase 3 (Auditoría en piso):',phase1_reopen:'¿Reabrir la Fase 1 para editarla? Revisa también las fases posteriores si modificas información clave.',phase2_reopen:'¿Reabrir la Fase 2 para editarla?',phase3_reopen:'¿Reabrir la Fase 3 para editarla?',before_phase1:'Antes de validar la Fase 1, completa lo siguiente:',before_phase2:'Antes de continuar a la Fase 3, completa todos los campos:',before_phase3:'Antes de finalizar la auditoría, completa lo siguiente:',validated:'{phase} validada',validated_by:'Por {name} · {date}',edit:'✎ Editar',phase1_step:'Fase 1 · Reacción Inicial',phase2_step:'Fase 2 · Análisis y Acciones Correctivas',phase3_step:'Fase 3 · Auditoría en Piso',report_id:'Identificación del reporte',title_problem:'Título / problema',report_no:'No. 8D',date:'Fecha',customer:'Cliente',part_no:'No. de parte',part_name:'Nombre de parte',plant_area:'Planta / área',owner_8d:'Responsable 8D',status:'Estatus',status_open:'Abierto',status_progress:'En proceso',status_customer:'Pendiente cliente',status_closed:'Cerrado',d1_title:'D1 — Equipo de trabajo',team_name:'Nombre del equipo / proyecto 8D',d2_title:'D2 — Descripción del problema (Problem Statement)',problem_desc:'Descripción clara del defecto / problema',where:'¿Dónde se detectó?',when:'¿Cuándo ocurrió?',who:'¿Quién / proceso involucrado?',scope:'Cantidad / lote / alcance',additional_evidence:'Evidencia / datos adicionales',problem_photo:'Fotografía del problema',d3_title:'D3 — Acciones de contención (iniciales)',d4_title:'D4 — Análisis de causa raíz (RCA)',brainstorm_step:'Paso 1 · Lluvia de ideas',brainstorm_hint:'Enlista las causas potenciales identificadas por el equipo antes de clasificarlas en el Ishikawa.',ishikawa_step:'Paso 2 · Diagrama de Ishikawa (5M)',whys_step:'Paso 3 · Selección de los 3 rubros y 5 Porqués',whys_hint:'A partir de la lluvia de ideas y el Ishikawa, profundiza con 5 Porqués en cada uno de los tres rubros.',occurrence:'Rubro 1 · Ocurrencia',detection:'Rubro 2 · Detección',systemic:'Rubro 3 · Sistémico',global_root:'Causa raíz global confirmada',root_evidence:'Evidencia que confirma la causa',d5_title:'D5 — Acciones correctivas permanentes (CAR)',d6_title:'D6 — Verificación en piso (checklist de auditoría)',d6_hint:'Checklist generado desde las acciones de contención D3 y correctivas D5. Cada punto debe verificarse físicamente antes de marcarlo.',generate_checklist:'↻ Generar / actualizar checklist desde D3 y D5',d7_title:'D7 — Prevención de recurrencia',preventive:'Acciones preventivas',pfmea:'Actualización AMEF / PFMEA',control_plan:'Actualización Plan de Control',work_instruction:'Actualización Instrucción de Trabajo',training:'Entrenamiento / capacitación',audit:'Auditoría / LPA / seguimiento',d8_title:'D8 — Cierre y reconocimiento',closure:'Criterio / declaración de cierre',lessons:'Lecciones aprendidas',approved_by:'Aprobado por',approval_date:'Fecha de aprobación',phase1_title:'FASE 1 — Reacción Inicial (D1 · D2 · D3)',phase2_title:'FASE 2 — Análisis de Causa Raíz y Acciones Correctivas (D4 · D5)',phase3_title:'FASE 3 — Auditoría en Piso (D6 · D7)',validate_p1:'✔ Validar Fase 1 y continuar a Fase 2 →',validate_p2:'✔ Validar Fase 2 y continuar a Fase 3 →',validate_p3:'✔ Finalizar Auditoría',lock_p2:'Completa y valida la Fase 1 para desbloquear esta fase.',lock_p3:'Completa y valida la Fase 2 para desbloquear esta fase.',lock_d8:'Completa y valida la Fase 3 (Auditoría) para desbloquear el cierre.',local_note:'Los reportes y evidencias se guardan localmente en este navegador. Usa “Exportar respaldo” para conservar una copia. Los archivos grandes pueden exceder la capacidad disponible.',save_ok:'Reporte 8D guardado correctamente.',delete_confirm:'¿Eliminar el reporte {report}? Esta acción no se puede deshacer.',no_number:'Sin número',no_title:'Sin título',no_customer:'Sin cliente',no_saved:'No hay reportes guardados.',import_ok:'Respaldo importado.',invalid_json:'Archivo JSON no válido.',file_too_large:'El archivo supera el límite de 4 MB.',backup_name:'8D_respaldo_HPM.json',d3_h1:'Acción de contención',d3_h2:'Responsable',d3_h3:'Fecha compromiso',d3_h4:'Fecha real',d3_h5:'Estatus',d3_h6:'Evidencia / resultado',d5_h1:'Acción correctiva',d5_h2:'Tipo: Ocurrencia / Detección / Sistémico',d5_h3:'Responsable',d5_h4:'Fecha compromiso',d5_h5:'Fecha real',d5_h6:'Estatus',d5_h7:'Evidencia',brain_h1:'Idea / causa potencial',brain_h2:'Categoría (5M)',brain_h3:'Propuesto por',v_title:'Título / problema',v_team:'Nombre del equipo / proyecto 8D (D1)',v_member:'Al menos un integrante con nombre (D1)',v_problem:'Descripción clara del problema (D2)',v_where:'¿Dónde se detectó? (D2)',v_when:'¿Cuándo ocurrió? (D2)',v_d3:'Al menos una acción de contención (D3)',v_brain:'Lluvia de ideas: al menos una causa potencial (D4)',v_ishikawa:'Ishikawa — {label} (D4)',v_whys:'5 Porqués incompletos — Rubro {label} (D4)',v_rubric_root:'Causa raíz del rubro {label} (D4)',v_global:'Causa raíz global confirmada (D4)',v_d5:'Al menos una acción correctiva CAR (D5)',v_car:'CAR fila {row}: falta “{field}” (D5)',v_checklist:'Genera el checklist de verificación en piso (D6)',v_floor:'Punto {n} sin verificar en piso: “{text}”',v_preventive:'Acciones preventivas (D7)',v_audit:'Auditoría / LPA / seguimiento (D7)'},
+ko:{app_title:'8D 품질 관리',app_subtitle:'8D 보고서 작성, 후속 조치 및 저장 · 단계별 진행',method_badge:'AIAG · 8D 방법론',aria_language:'언어 선택',btn_new:'＋ 신규 8D',btn_save:'💾 저장',btn_print:'🖨 인쇄 / PDF',btn_export:'⇩ 백업 내보내기',btn_import:'⇧ 가져오기',saved_reports:'저장된 보고서',search_ph:'8D 검색…',footer:'Hyundai Polytech México · 품질 경영 시스템 · HPM-CALIDAD-FO-01',member:'팀원 {n}',name:'이름',area:'부서',responsibilities:'담당 업무',ishikawa_title:'특성요인도 — 5M',problem_effect:'문제 / 영향',labor:'작업자',machine:'설비',method:'방법',material:'자재',measurement:'측정',attached_file:'첨부 파일: {file}',upload_problem:'사진 또는 문서 업로드 (이미지 또는 PDF)',download:'⇩ 다운로드',delete:'삭제',evidence_desc_ph:'증빙 설명',attach_evidence:'증빙 첨부: Excel, PowerPoint, Word, PDF, 이미지 등',download_file:'⇩ 파일 다운로드',remove_file:'파일 삭제',why_n:'왜? {n}',root_cause:'근본 원인',action:'작업',no_rows:'기록이 없습니다. 행을 추가하세요.',add_row:'＋ 행 추가',origin:'출처',floor_action:'현장 확인 조치',responsible:'담당자',floor_verified:'현장 확인 완료',verification_date:'확인일',comments:'비고',evidence:'증빙',attached:'첨부: {file}',no_evidence:'증빙 없음',checklist_empty:'체크리스트가 생성되지 않았습니다. “체크리스트 생성 / 업데이트”를 선택하세요.',origin_d3:'D3 · 봉쇄조치',origin_d5:'D5 · 시정조치',generate_empty:'D3 또는 D5에 등록된 조치가 없습니다. 먼저 조치를 입력하세요.',phase1_prompt:'1단계 승인자 이름 (팀, 문제 정의 및 봉쇄조치):',phase2_prompt:'2단계 승인자 이름 (원인 분석 및 시정조치):',phase3_prompt:'3단계 승인자 이름 (현장 감사):',phase1_reopen:'1단계를 다시 열어 수정하시겠습니까? 주요 정보가 변경되면 후속 단계도 검토하세요.',phase2_reopen:'2단계를 다시 열어 수정하시겠습니까?',phase3_reopen:'3단계를 다시 열어 수정하시겠습니까?',before_phase1:'1단계를 승인하기 전에 다음 항목을 완료하세요:',before_phase2:'3단계로 진행하기 전에 모든 항목을 완료하세요:',before_phase3:'감사를 완료하기 전에 다음 항목을 완료하세요:',validated:'{phase} 승인 완료',validated_by:'승인자 {name} · {date}',edit:'✎ 수정',phase1_step:'1단계 · 초기 대응',phase2_step:'2단계 · 분석 및 시정조치',phase3_step:'3단계 · 현장 감사',report_id:'보고서 식별',title_problem:'제목 / 문제',report_no:'8D 번호',date:'일자',customer:'고객사',part_no:'품번',part_name:'부품명',plant_area:'공장 / 부서',owner_8d:'8D 담당자',status:'상태',status_open:'진행 전',status_progress:'진행 중',status_customer:'고객 회신 대기',status_closed:'완료',d1_title:'D1 — 팀 구성',team_name:'팀명 / 8D 프로젝트',d2_title:'D2 — 문제 설명 (Problem Statement)',problem_desc:'결함 / 문제 명확화',where:'검출 위치',when:'발생 시점',who:'관련 작업자 / 공정',scope:'수량 / LOT / 영향 범위',additional_evidence:'추가 증빙 / 데이터',problem_photo:'문제 사진',d3_title:'D3 — 초기 봉쇄조치',d4_title:'D4 — 근본 원인 분석 (RCA)',brainstorm_step:'1단계 · 브레인스토밍',brainstorm_hint:'팀이 파악한 잠재 원인을 Ishikawa로 분류하기 전에 나열하세요.',ishikawa_step:'2단계 · 특성요인도 (5M)',whys_step:'3단계 · 3개 항목 선정 및 5 Whys',whys_hint:'브레인스토밍과 Ishikawa 결과를 바탕으로 세 항목 각각에 5 Whys를 수행하세요.',occurrence:'항목 1 · 발생',detection:'항목 2 · 검출',systemic:'항목 3 · 시스템',global_root:'확정된 종합 근본 원인',root_evidence:'원인을 입증하는 증빙',d5_title:'D5 — 영구 시정조치 (CAR)',d6_title:'D6 — 현장 확인 (감사 체크리스트)',d6_hint:'D3 봉쇄조치와 D5 시정조치에서 생성된 체크리스트입니다. 각 항목을 현장에서 직접 확인하세요.',generate_checklist:'↻ D3 및 D5에서 체크리스트 생성 / 업데이트',d7_title:'D7 — 재발 방지',preventive:'예방조치',pfmea:'FMEA / PFMEA 업데이트',control_plan:'Control Plan 업데이트',work_instruction:'작업표준서 업데이트',training:'교육 / 훈련',audit:'감사 / LPA / 후속 조치',d8_title:'D8 — 종결 및 공로 인정',closure:'종결 기준 / 선언',lessons:'교훈',approved_by:'승인자',approval_date:'승인일',phase1_title:'1단계 — 초기 대응 (D1 · D2 · D3)',phase2_title:'2단계 — 근본 원인 분석 및 시정조치 (D4 · D5)',phase3_title:'3단계 — 현장 감사 (D6 · D7)',validate_p1:'✔ 1단계 승인 후 2단계로 →',validate_p2:'✔ 2단계 승인 후 3단계로 →',validate_p3:'✔ 감사 완료',lock_p2:'이 단계를 열려면 1단계를 완료하고 승인하세요.',lock_p3:'이 단계를 열려면 2단계를 완료하고 승인하세요.',lock_d8:'종결을 열려면 3단계(감사)를 완료하고 승인하세요.',local_note:'보고서와 증빙은 이 브라우저에 로컬 저장됩니다. 사본 보관을 위해 “백업 내보내기”를 사용하세요. 큰 파일은 저장 용량을 초과할 수 있습니다.',save_ok:'8D 보고서가 저장되었습니다.',delete_confirm:'보고서 {report}을(를) 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.',no_number:'번호 없음',no_title:'제목 없음',no_customer:'고객사 없음',no_saved:'저장된 보고서가 없습니다.',import_ok:'백업을 가져왔습니다.',invalid_json:'유효하지 않은 JSON 파일입니다.',file_too_large:'파일이 4 MB 제한을 초과합니다.',backup_name:'8D_HPM_백업.json',d3_h1:'봉쇄조치',d3_h2:'담당자',d3_h3:'목표일',d3_h4:'완료일',d3_h5:'상태',d3_h6:'증빙 / 결과',d5_h1:'시정조치',d5_h2:'구분: 발생 / 검출 / 시스템',d5_h3:'담당자',d5_h4:'목표일',d5_h5:'완료일',d5_h6:'상태',d5_h7:'증빙',brain_h1:'아이디어 / 잠재 원인',brain_h2:'분류 (5M)',brain_h3:'제안자',v_title:'제목 / 문제',v_team:'팀명 / 8D 프로젝트 (D1)',v_member:'이름이 입력된 팀원 1명 이상 (D1)',v_problem:'명확한 문제 설명 (D2)',v_where:'검출 위치 (D2)',v_when:'발생 시점 (D2)',v_d3:'봉쇄조치 1건 이상 (D3)',v_brain:'브레인스토밍: 잠재 원인 1건 이상 (D4)',v_ishikawa:'Ishikawa — {label} (D4)',v_whys:'5 Whys 미완료 — {label} 항목 (D4)',v_rubric_root:'{label} 항목 근본 원인 (D4)',v_global:'확정된 종합 근본 원인 (D4)',v_d5:'CAR 시정조치 1건 이상 (D5)',v_car:'CAR {row}행: “{field}” 누락 (D5)',v_checklist:'현장 확인 체크리스트 생성 (D6)',v_floor:'{n}번 항목 현장 미확인: “{text}”',v_preventive:'예방조치 (D7)',v_audit:'감사 / LPA / 후속 조치 (D7)'},
+en:{app_title:'8D Quality Manager',app_subtitle:'Create, follow up and store 8D reports · Phase workflow',method_badge:'AIAG · 8D Methodology',aria_language:'Language selector',btn_new:'＋ New 8D',btn_save:'💾 Save',btn_print:'🖨 Print / PDF',btn_export:'⇩ Export backup',btn_import:'⇧ Import',saved_reports:'Saved reports',search_ph:'Search 8D…',footer:'Hyundai Polytech México · Quality Management System · HPM-CALIDAD-FO-01',member:'Member {n}',name:'Name',area:'Area',responsibilities:'Responsibilities',ishikawa_title:'Ishikawa Diagram — 5M',problem_effect:'PROBLEM / EFFECT',labor:'Manpower',machine:'Machine',method:'Method',material:'Material',measurement:'Measurement',attached_file:'Attached file: {file}',upload_problem:'Upload a photograph or document (image or PDF)',download:'⇩ Download',delete:'Delete',evidence_desc_ph:'Evidence description',attach_evidence:'Attach evidence: Excel, PowerPoint, Word, PDF, image, etc.',download_file:'⇩ Download file',remove_file:'Remove file',why_n:'Why {n}?',root_cause:'Root cause',action:'Action',no_rows:'No records. Add a row.',add_row:'＋ Add row',origin:'Source',floor_action:'Action to verify on the floor',responsible:'Owner',floor_verified:'Verified on the floor',verification_date:'Verification date',comments:'Comments',evidence:'Evidence',attached:'Attached: {file}',no_evidence:'No evidence',checklist_empty:'The checklist has not been generated. Select “Generate / update checklist”.',origin_d3:'D3 · Containment',origin_d5:'D5 · Corrective action',generate_empty:'No actions have been entered in D3 or D5. Complete them before generating the checklist.',phase1_prompt:'Name of the Phase 1 validator (Team, Problem Statement and Containment):',phase2_prompt:'Name of the Phase 2 validator (Cause analysis and Corrective actions):',phase3_prompt:'Name of the Phase 3 validator (Floor audit):',phase1_reopen:'Reopen Phase 1 for editing? Review later phases if key information changes.',phase2_reopen:'Reopen Phase 2 for editing?',phase3_reopen:'Reopen Phase 3 for editing?',before_phase1:'Before validating Phase 1, complete the following:',before_phase2:'Before continuing to Phase 3, complete all fields:',before_phase3:'Before completing the audit, complete the following:',validated:'{phase} validated',validated_by:'By {name} · {date}',edit:'✎ Edit',phase1_step:'Phase 1 · Initial Response',phase2_step:'Phase 2 · Analysis and Corrective Actions',phase3_step:'Phase 3 · Floor Audit',report_id:'Report identification',title_problem:'Title / problem',report_no:'8D No.',date:'Date',customer:'Customer',part_no:'Part No.',part_name:'Part name',plant_area:'Plant / area',owner_8d:'8D owner',status:'Status',status_open:'Open',status_progress:'In progress',status_customer:'Pending customer',status_closed:'Closed',d1_title:'D1 — Build the team',team_name:'Team name / 8D project',d2_title:'D2 — Problem description (Problem Statement)',problem_desc:'Clear defect / problem description',where:'Where was it detected?',when:'When did it occur?',who:'Who / process involved?',scope:'Quantity / lot / scope',additional_evidence:'Additional evidence / data',problem_photo:'Problem photograph',d3_title:'D3 — Initial containment actions',d4_title:'D4 — Root cause analysis (RCA)',brainstorm_step:'Step 1 · Brainstorming',brainstorm_hint:'List the potential causes identified by the team before classifying them in the Ishikawa.',ishikawa_step:'Step 2 · Ishikawa Diagram (5M)',whys_step:'Step 3 · Select three categories and perform 5 Whys',whys_hint:'Use the brainstorming and Ishikawa results to perform 5 Whys for each of the three categories.',occurrence:'Category 1 · Occurrence',detection:'Category 2 · Detection',systemic:'Category 3 · Systemic',global_root:'Confirmed global root cause',root_evidence:'Evidence confirming the cause',d5_title:'D5 — Permanent corrective actions (CAR)',d6_title:'D6 — Floor verification (audit checklist)',d6_hint:'Checklist generated from D3 containment and D5 corrective actions. Verify each item physically before marking it complete.',generate_checklist:'↻ Generate / update checklist from D3 and D5',d7_title:'D7 — Prevent recurrence',preventive:'Preventive actions',pfmea:'Update FMEA / PFMEA',control_plan:'Update Control Plan',work_instruction:'Update Work Instruction',training:'Training',audit:'Audit / LPA / follow-up',d8_title:'D8 — Closure and team recognition',closure:'Closure criterion / statement',lessons:'Lessons learned',approved_by:'Approved by',approval_date:'Approval date',phase1_title:'PHASE 1 — Initial Response (D1 · D2 · D3)',phase2_title:'PHASE 2 — Root Cause Analysis and Corrective Actions (D4 · D5)',phase3_title:'PHASE 3 — Floor Audit (D6 · D7)',validate_p1:'✔ Validate Phase 1 and continue to Phase 2 →',validate_p2:'✔ Validate Phase 2 and continue to Phase 3 →',validate_p3:'✔ Complete Audit',lock_p2:'Complete and validate Phase 1 to unlock this phase.',lock_p3:'Complete and validate Phase 2 to unlock this phase.',lock_d8:'Complete and validate Phase 3 (Audit) to unlock closure.',local_note:'Reports and evidence are stored locally in this browser. Use “Export backup” to retain a copy. Large files may exceed available storage.',save_ok:'8D report saved successfully.',delete_confirm:'Delete report {report}? This action cannot be undone.',no_number:'No number',no_title:'No title',no_customer:'No customer',no_saved:'No saved reports.',import_ok:'Backup imported.',invalid_json:'Invalid JSON file.',file_too_large:'The file exceeds the 4 MB limit.',backup_name:'8D_HPM_backup.json',d3_h1:'Containment action',d3_h2:'Owner',d3_h3:'Target date',d3_h4:'Actual date',d3_h5:'Status',d3_h6:'Evidence / result',d5_h1:'Corrective action',d5_h2:'Type: Occurrence / Detection / Systemic',d5_h3:'Owner',d5_h4:'Target date',d5_h5:'Actual date',d5_h6:'Status',d5_h7:'Evidence',brain_h1:'Idea / potential cause',brain_h2:'Category (5M)',brain_h3:'Proposed by',v_title:'Title / problem',v_team:'Team name / 8D project (D1)',v_member:'At least one named team member (D1)',v_problem:'Clear problem description (D2)',v_where:'Where detected? (D2)',v_when:'When occurred? (D2)',v_d3:'At least one containment action (D3)',v_brain:'Brainstorming: at least one potential cause (D4)',v_ishikawa:'Ishikawa — {label} (D4)',v_whys:'Incomplete 5 Whys — {label} category (D4)',v_rubric_root:'Root cause for {label} category (D4)',v_global:'Confirmed global root cause (D4)',v_d5:'At least one CAR corrective action (D5)',v_car:'CAR row {row}: missing “{field}” (D5)',v_checklist:'Generate the floor verification checklist (D6)',v_floor:'Item {n} not verified on the floor: “{text}”',v_preventive:'Preventive actions (D7)',v_audit:'Audit / LPA / follow-up (D7)'}
+};
+Object.assign(I18N.es,{portal_title:'Centro de Resolución de Problemas',portal_sub:'Seleccione la metodología adecuada para documentar, analizar y verificar.',portal_8d:"8D's",portal_8d_sub:'Solución estructurada de problemas',portal_9b:'Auditoría 9B',portal_9b_sub:'Nueve básicos del proceso',portal_2p:'2-Panel',portal_2p_sub:'Antes, después y mejora implementada',portal_foot:'HPM · CENTRO DE SOLUCIÓN DE PROBLEMAS',btn_home:'⌂ Inicio',btn_new_audit:'＋ Nueva auditoría',btn_new_2p:'＋ Nuevo 2-Panel',header_9b:'Auditoría 9 Básicos del Proceso',header_9b_sub:'Verificación simple de cumplimiento precedida por metodología 5W2H',badge_9b:'HPM · AUDITORÍA DE PROCESO',header_2p:'RCA 2 Método de 2 Paneles Simple',header_2p_sub:'Documentación visual de mejora mediante comparación antes y después',badge_2p:'HPM · MEJORA CONTINUA',audit_title:'Auditoría de 9 Básicos del Proceso',audit_sub:'Defina primero el problema con 5W2H y después evalúe cada requisito.',two_title:'RCA 2 Método de 2 Paneles Simple',two_sub:'Defina la situación mediante 5W2H y documente visualmente la mejora.',general_data:'Datos generales',fivew2h_title:'Definición del problema · 5W2H',audit_no:'No. de auditoría',two_no:'No. de reporte',auditor:'Auditor',process_area:'Proceso / área',what_5:'¿Qué ocurrió?',why_5:'¿Por qué es un problema?',where_5:'¿Dónde ocurrió?',when_5:'¿Cuándo ocurrió?',who_5:'¿Quién está involucrado?',how_5:'¿Cómo ocurrió?',howmuch_5:'¿Cuánto / alcance?',audit_question:'Punto de auditoría',audit_result:'Resultado',comply:'Cumple',noncomply:'No cumple',na:'N/A',audit_comments:'Comentarios / evidencia',audit_summary:'Resumen de auditoría',q1:'Involucra a los dueños del proceso',q2:'Verificar el estado inicial de la máquina',q3:'Verificar el sistema de medición y su calibración',q4:'Asegurar que el método se ejecute correctamente',q5:'Asegurar que el material sea el correcto',q6:'Verificar que la herramienta en la operación sea la correcta',q7:'Revisar que no existan cables, sensores o partes flojas',q8:'Asegurar que los parámetros sean los correctos',q9:'Revisar que se cumpla el AMEF',before:'Antes',after:'Después',upload_image:'Seleccionar imagen',image_pending:'Imagen pendiente',improvement_desc:'Descripción de la mejora realizada',compression_note:'La imagen se convierte automáticamente a JPEG de baja resolución para reducir el peso del registro.',audit_saved:'Auditoría guardada correctamente.',two_saved:'Reporte 2-Panel guardado correctamente.',required_5w2h:'Complete los siete campos de 5W2H antes de guardar.',required_audit:'Evalúe los nueve puntos antes de guardar.',required_two:'Agregue las imágenes de antes y después y describa la mejora.',storage_error:'No fue posible guardar. El almacenamiento del navegador puede estar lleno.'});
+Object.assign(I18N.ko,{portal_title:'문제 해결 센터',portal_sub:'문서화, 분석 및 검증에 적합한 방법론을 선택하세요.',portal_8d:'8D',portal_8d_sub:'체계적인 문제 해결',portal_9b:'9대 기본 감사',portal_9b_sub:'공정의 9대 기본 항목',portal_2p:'2-Panel',portal_2p_sub:'개선 전, 개선 후 및 실행 내용',portal_foot:'HPM · 문제 해결 센터',btn_home:'⌂ 홈',btn_new_audit:'＋ 신규 감사',btn_new_2p:'＋ 신규 2-Panel',header_9b:'공정 9대 기본 감사',header_9b_sub:'5W2H 문제 정의 후 적합 여부를 간단히 검증합니다.',badge_9b:'HPM · 공정 감사',header_2p:'RCA 2 단순 2패널 기법',header_2p_sub:'개선 전후 비교를 통한 시각적 개선 문서',badge_2p:'HPM · 지속적 개선',audit_title:'공정 9대 기본 감사',audit_sub:'먼저 5W2H로 문제를 정의한 후 각 요구사항을 평가하세요.',two_title:'RCA 2 단순 2패널 기법',two_sub:'5W2H로 상황을 정의하고 개선 내용을 시각적으로 기록하세요.',general_data:'일반 정보',fivew2h_title:'문제 정의 · 5W2H',audit_no:'감사 번호',two_no:'보고서 번호',auditor:'감사자',process_area:'공정 / 부서',what_5:'무엇이 발생했습니까?',why_5:'왜 문제입니까?',where_5:'어디에서 발생했습니까?',when_5:'언제 발생했습니까?',who_5:'누가 관련되어 있습니까?',how_5:'어떻게 발생했습니까?',howmuch_5:'수량 / 영향 범위',audit_question:'감사 항목',audit_result:'결과',comply:'적합',noncomply:'부적합',na:'해당 없음',audit_comments:'비고 / 증빙',audit_summary:'감사 요약',q1:'공정 책임자를 참여시킨다',q2:'설비의 초기 상태를 확인한다',q3:'측정 시스템 및 교정 상태를 확인한다',q4:'작업 방법이 올바르게 수행되는지 확인한다',q5:'올바른 자재가 사용되는지 확인한다',q6:'공정에서 올바른 치공구가 사용되는지 확인한다',q7:'케이블, 센서 또는 부품의 풀림이 없는지 확인한다',q8:'공정 조건이 올바른지 확인한다',q9:'FMEA 요구사항 준수 여부를 확인한다',before:'개선 전',after:'개선 후',upload_image:'이미지 선택',image_pending:'이미지 미등록',improvement_desc:'실행한 개선 내용',compression_note:'저장 용량을 줄이기 위해 이미지는 자동으로 저해상도 JPEG로 변환됩니다.',audit_saved:'감사가 저장되었습니다.',two_saved:'2-Panel 보고서가 저장되었습니다.',required_5w2h:'저장하기 전에 5W2H의 7개 항목을 모두 입력하세요.',required_audit:'저장하기 전에 9개 항목을 모두 평가하세요.',required_two:'개선 전후 이미지와 개선 내용을 입력하세요.',storage_error:'브라우저 저장 공간이 부족하여 저장할 수 없습니다.'});
+Object.assign(I18N.en,{portal_title:'Problem Solving Center',portal_sub:'Select the appropriate methodology to document, analyze and verify.',portal_8d:"8D's",portal_8d_sub:'Structured problem solving',portal_9b:'9B Audit',portal_9b_sub:'Nine process basics',portal_2p:'2-Panel',portal_2p_sub:'Before, after and implemented improvement',portal_foot:'HPM · PROBLEM SOLVING CENTER',btn_home:'⌂ Home',btn_new_audit:'＋ New audit',btn_new_2p:'＋ New 2-Panel',header_9b:'Nine Process Basics Audit',header_9b_sub:'Simple compliance verification preceded by the 5W2H method',badge_9b:'HPM · PROCESS AUDIT',header_2p:'RCA 2 Simple Two-Panel Method',header_2p_sub:'Visual improvement documentation through before-and-after comparison',badge_2p:'HPM · CONTINUOUS IMPROVEMENT',audit_title:'Nine Process Basics Audit',audit_sub:'Define the problem with 5W2H first, then evaluate each requirement.',two_title:'RCA 2 Simple Two-Panel Method',two_sub:'Define the situation through 5W2H and visually document the improvement.',general_data:'General information',fivew2h_title:'Problem definition · 5W2H',audit_no:'Audit No.',two_no:'Report No.',auditor:'Auditor',process_area:'Process / area',what_5:'What happened?',why_5:'Why is it a problem?',where_5:'Where did it occur?',when_5:'When did it occur?',who_5:'Who is involved?',how_5:'How did it occur?',howmuch_5:'How much / scope?',audit_question:'Audit item',audit_result:'Result',comply:'Complies',noncomply:'Does not comply',na:'N/A',audit_comments:'Comments / evidence',audit_summary:'Audit summary',q1:'Involve the process owners',q2:'Verify the initial machine condition',q3:'Verify the measurement system and calibration status',q4:'Ensure the method is performed correctly',q5:'Ensure the correct material is used',q6:'Verify the correct tooling is used in the operation',q7:'Check for loose cables, sensors or parts',q8:'Ensure the process parameters are correct',q9:'Verify compliance with the FMEA',before:'Before',after:'After',upload_image:'Select image',image_pending:'Image pending',improvement_desc:'Description of the implemented improvement',compression_note:'The image is automatically converted to low-resolution JPEG to reduce record size.',audit_saved:'Audit saved successfully.',two_saved:'2-Panel report saved successfully.',required_5w2h:'Complete all seven 5W2H fields before saving.',required_audit:'Evaluate all nine items before saving.',required_two:'Add the before and after images and describe the improvement.',storage_error:'Unable to save. Browser storage may be full.'});
+Object.assign(I18N.es,{portal_dmaic:'DMAIC',portal_dmaic_sub:'Six Sigma y control estadístico',recommended_use:'Aplicación recomendada',btn_cancel:'Cancelar',btn_open_tool:'Abrir herramienta →',method_8d_desc:'Se recomienda para problemas externos o de cliente y para problemas complejos que requieren un análisis sistemático, eliminación de la causa y permanencia de la mejora.',method_9b_desc:'Auditoría para problemas internos de la compañía. Revisa condiciones lógicas del proceso y sus posibles fallas. Se recomienda ante IPPM altos en GP12, scrap elevado, paro de máquina o problemas generales del proceso.',method_2p_desc:'Se utiliza cuando el problema no requiere un análisis profundo porque la solución es evidente y puede demostrarse claramente mediante un comparativo antes y después.',method_dmaic_desc:'Herramienta Six Sigma enfocada en el análisis mediante control estadístico. Es de largo plazo y se recomienda para proyectos grandes a nivel planta, como reducción del porcentaje de scrap y ahorros de costos significativos.',btn_new_dmaic:'＋ Nuevo DMAIC',header_dmaic:'Proyecto DMAIC',header_dmaic_sub:'Solución Six Sigma basada en datos y control estadístico',badge_dmaic:'SIX SIGMA · DMAIC',dmaic_title:'Proyecto DMAIC',dmaic_sub:'Definir · Medir · Analizar · Mejorar · Controlar',dmaic_no:'No. de proyecto',project_leader:'Líder del proyecto',project_sponsor:'Patrocinador',define_stage:'Definir',measure_stage:'Medir',analyze_stage:'Analizar',improve_stage:'Mejorar',control_stage:'Controlar',business_case:'Caso de negocio / impacto financiero',problem_statement_dmaic:'Declaración del problema',project_goal:'Objetivo cuantificado',project_scope:'Alcance y límites',baseline:'Línea base',critical_metrics:'Indicadores críticos / Y del proyecto',data_plan:'Plan de recolección de datos',current_performance:'Desempeño actual / capacidad',potential_causes:'Causas potenciales',statistical_analysis:'Análisis estadístico realizado',confirmed_roots:'Causas raíz confirmadas con datos',selected_solutions:'Soluciones seleccionadas',pilot_results:'Resultados del piloto',verified_benefits:'Beneficios verificados / ahorro',dmaic_control_plan:'Plan de control',response_plan:'Plan de reacción',process_transfer:'Transferencia al dueño del proceso',dmaic_saved:'Proyecto DMAIC guardado correctamente.'});
+Object.assign(I18N.ko,{portal_dmaic:'DMAIC',portal_dmaic_sub:'Six Sigma 및 통계적 관리',recommended_use:'권장 적용 분야',btn_cancel:'취소',btn_open_tool:'도구 열기 →',method_8d_desc:'외부 또는 고객 문제와 체계적 분석, 원인 제거 및 개선 유지가 필요한 복잡한 문제에 권장됩니다.',method_9b_desc:'사내 문제를 위한 감사입니다. 공정의 논리적 조건과 잠재적 실패를 검토하며 GP12 IPPM 상승, 높은 스크랩, 설비 정지 또는 일반 공정 문제에 권장됩니다.',method_2p_desc:'깊은 분석이 필요하지 않고 해결책이 명확하며 개선 전후 비교로 입증할 수 있는 문제에 사용합니다.',method_dmaic_desc:'통계적 관리를 통한 분석에 초점을 둔 Six Sigma 도구입니다. 장기 프로젝트이며 스크랩률 감소 및 큰 비용 절감과 같은 전사적 대형 프로젝트에 권장됩니다.',btn_new_dmaic:'＋ 신규 DMAIC',header_dmaic:'DMAIC 프로젝트',header_dmaic_sub:'데이터 및 통계적 관리 기반 Six Sigma 문제 해결',badge_dmaic:'SIX SIGMA · DMAIC',dmaic_title:'DMAIC 프로젝트',dmaic_sub:'정의 · 측정 · 분석 · 개선 · 관리',dmaic_no:'프로젝트 번호',project_leader:'프로젝트 리더',project_sponsor:'스폰서',define_stage:'정의',measure_stage:'측정',analyze_stage:'분석',improve_stage:'개선',control_stage:'관리',business_case:'비즈니스 사례 / 재무 영향',problem_statement_dmaic:'문제 정의',project_goal:'정량적 목표',project_scope:'범위 및 한계',baseline:'기준선',critical_metrics:'핵심 지표 / 프로젝트 Y',data_plan:'데이터 수집 계획',current_performance:'현재 성능 / 공정 능력',potential_causes:'잠재 원인',statistical_analysis:'수행한 통계 분석',confirmed_roots:'데이터로 확인된 근본 원인',selected_solutions:'선정된 해결책',pilot_results:'파일럿 결과',verified_benefits:'검증된 효과 / 절감',dmaic_control_plan:'관리 계획',response_plan:'반응 계획',process_transfer:'공정 책임자에게 이관',dmaic_saved:'DMAIC 프로젝트가 저장되었습니다.'});
+Object.assign(I18N.en,{portal_dmaic:'DMAIC',portal_dmaic_sub:'Six Sigma and statistical control',recommended_use:'Recommended application',btn_cancel:'Cancel',btn_open_tool:'Open tool →',method_8d_desc:'Recommended for external or customer problems and complex problems requiring systematic analysis, cause elimination and sustained improvement.',method_9b_desc:'An audit for internal company problems. It reviews logical process conditions and potential failures. Recommended for high GP12 IPPM, elevated scrap, machine downtime or general process problems.',method_2p_desc:'Used when the problem does not require deep analysis because the solution is evident and can be clearly demonstrated with a before-and-after comparison.',method_dmaic_desc:'A Six Sigma tool focused on analysis through statistical control. It is long-term and recommended for large plant-level projects such as scrap percentage reduction and significant cost savings.',btn_new_dmaic:'＋ New DMAIC',header_dmaic:'DMAIC Project',header_dmaic_sub:'Data-driven Six Sigma problem solving and statistical control',badge_dmaic:'SIX SIGMA · DMAIC',dmaic_title:'DMAIC Project',dmaic_sub:'Define · Measure · Analyze · Improve · Control',dmaic_no:'Project No.',project_leader:'Project leader',project_sponsor:'Project sponsor',define_stage:'Define',measure_stage:'Measure',analyze_stage:'Analyze',improve_stage:'Improve',control_stage:'Control',business_case:'Business case / financial impact',problem_statement_dmaic:'Problem statement',project_goal:'Quantified goal',project_scope:'Scope and boundaries',baseline:'Baseline',critical_metrics:'Critical metrics / Project Y',data_plan:'Data collection plan',current_performance:'Current performance / capability',potential_causes:'Potential causes',statistical_analysis:'Statistical analysis performed',confirmed_roots:'Root causes confirmed with data',selected_solutions:'Selected solutions',pilot_results:'Pilot results',verified_benefits:'Verified benefits / savings',dmaic_control_plan:'Control plan',response_plan:'Reaction plan',process_transfer:'Transfer to process owner',dmaic_saved:'DMAIC project saved successfully.'});
+Object.assign(I18N.es,{saved_analyses_title:'Análisis guardados',saved_analyses_sub:'Consulta cualquier análisis guardado en este navegador y ábrelo para continuar editándolo.',saved_search_ph:'Buscar por número, título o responsable…',filter_all:'Todas las metodologías',btn_open_saved:'Abrir'});
+Object.assign(I18N.ko,{saved_analyses_title:'저장된 분석',saved_analyses_sub:'이 브라우저에 저장된 모든 분석을 조회하고 열어서 계속 편집할 수 있습니다.',saved_search_ph:'번호, 제목 또는 담당자로 검색…',filter_all:'모든 방법론',btn_open_saved:'열기'});
+Object.assign(I18N.en,{saved_analyses_title:'Saved analyses',saved_analyses_sub:'Look up any analysis saved in this browser and open it to keep editing.',saved_search_ph:'Search by number, title or owner…',filter_all:'All methodologies',btn_open_saved:'Open'});
+Object.assign(I18N.es,{portal_doe:'DOE',portal_doe_sub:'Diseño de experimentos factorial (2 a 5 factores)',method_doe_desc:'Diseño de experimentos factorial 2^k. Permite validar de forma simultánea entre 2 y 5 factores (variables de proceso) para identificar cuáles influyen de manera significativa en la respuesta, y si existe interacción entre ellos. Basado en Walpole, Myers & Myers, capítulo 15.',btn_new_doe:'＋ Nuevo DOE',header_doe:'Diseño de Experimentos (DOE)',header_doe_sub:'Experimento factorial 2^k · Cálculo de efectos y análisis de varianza',badge_doe:'DOE · FACTORIAL 2^k',doe_title:'Diseño de Experimentos Factorial 2^k',doe_sub:'Valide de 2 a 5 factores simultáneamente y determine cuáles, y sus interacciones, influyen de forma significativa en la respuesta.',doe_no:'No. de DOE',doe_setup_title:'Configuración del experimento',num_factors:'Número de factores (k)',num_replicates:'Réplicas por combinación (n)',alpha_level:'Nivel de significancia (α)',response_name:'Variable de respuesta',response_name_ph:'Ej. Contracción, Rendimiento, Defectos por lote…',factor_definitions:'Definición de factores',factor_definitions_hint:'Asigne un nombre y los niveles bajo (-1) y alto (+1) para cada factor a evaluar.',factor_col:'Factor',factor_name:'Nombre del factor',level_low:'Nivel bajo (-1)',level_high:'Nivel alto (+1)',response_matrix:'Matriz de combinaciones y respuestas',response_matrix_hint:'Capture la(s) respuesta(s) observada(s) para cada una de las {n} combinaciones de tratamiento (orden estándar de Yates).',combo_col:'Combinación',high_factors_col:'Factores en nivel alto',replicates_col:'Respuestas (réplicas)',total:'Total',btn_calculate:'Calcular efectos y ANOVA',doe_pareto_title:'Gráfica de Pareto de efectos',doe_anova_title:'Tabla de análisis de varianza (ANOVA)',source:'Fuente',order_col:'Orden',effect_col:'Efecto',contrast_col:'Contraste',ss_col:'Suma de cuadrados',df_col:'GL',ms_col:'Cuadrado medio',f_col:'F₀',p_col:'Valor P',significant_col:'¿Significativo?',yes_label:'Sí',no_label:'No',error_row:'Error',total_row:'Total',doe_pooled_note:'Al no haber réplicas (n=1), el error se estimó agrupando las sumas de cuadrados de las interacciones de orden 3 o superior, bajo el supuesto de que dichas interacciones de orden superior son despreciables (Walpole, sección 15.3).',doe_no_error_note:'Con 2 factores y sin réplicas (n=1) no es posible estimar un término de error para realizar la prueba F. Agregue réplicas (n≥2) o incremente el número de factores para poder validar la significancia estadística.',doe_conclusion_sig:'Con un nivel de significancia α={alpha}, resultaron estadísticamente significativos: {effects}. Revise las interacciones significativas antes de interpretar los efectos principales por separado.',doe_conclusion_none:'Con el nivel de significancia seleccionado, ningún efecto principal ni interacción resultó estadísticamente significativo.',conclusions_label:'Conclusiones e interpretación',doe_err_response_name:'Indique el nombre de la variable de respuesta antes de calcular.',doe_err_missing_data:'Complete todas las respuestas de la matriz de combinaciones antes de calcular.',doe_all_low:'Todos los factores en nivel bajo',doe_saved:'Análisis DOE guardado correctamente.'});
+Object.assign(I18N.ko,{portal_doe:'DOE',portal_doe_sub:'요인 실험 설계 (2~5개 요인)',method_doe_desc:'2^k 요인 실험 설계입니다. 2~5개의 공정 변수(요인)를 동시에 검증하여 반응에 유의미한 영향을 미치는 요인과 요인 간 상호작용을 파악합니다. Walpole, Myers & Myers 15장 기준.',btn_new_doe:'＋ 신규 DOE',header_doe:'실험 설계 (DOE)',header_doe_sub:'2^k 요인 실험 · 효과 계산 및 분산분석',badge_doe:'DOE · 2^k 요인설계',doe_title:'2^k 요인 실험 설계',doe_sub:'2~5개의 요인을 동시에 검증하고, 어떤 요인과 상호작용이 반응에 유의미한 영향을 미치는지 확인합니다.',doe_no:'DOE 번호',doe_setup_title:'실험 설정',num_factors:'요인 수 (k)',num_replicates:'조합별 반복 수 (n)',alpha_level:'유의수준 (α)',response_name:'반응 변수',response_name_ph:'예: 수축률, 수율, 로트당 불량 수…',factor_definitions:'요인 정의',factor_definitions_hint:'평가할 각 요인의 이름과 저수준(-1), 고수준(+1)을 지정하세요.',factor_col:'요인',factor_name:'요인 이름',level_low:'저수준 (-1)',level_high:'고수준 (+1)',response_matrix:'조합 및 반응 행렬',response_matrix_hint:'{n}개의 처리 조합(Yates 표준 순서) 각각에 대한 관측 반응값을 입력하세요.',combo_col:'조합',high_factors_col:'고수준 요인',replicates_col:'반응값(반복)',total:'합계',btn_calculate:'효과 및 ANOVA 계산',doe_pareto_title:'효과 파레토 그림',doe_anova_title:'분산분석표 (ANOVA)',source:'요인',order_col:'차수',effect_col:'효과',contrast_col:'대비',ss_col:'제곱합',df_col:'자유도',ms_col:'평균제곱',f_col:'F₀',p_col:'P값',significant_col:'유의함?',yes_label:'예',no_label:'아니오',error_row:'오차',total_row:'합계',doe_pooled_note:'반복이 없는 경우(n=1), 3차 이상 상호작용의 제곱합을 합쳐 오차를 추정했습니다. 고차 상호작용은 무시할 수 있다고 가정합니다 (Walpole 15.3절).',doe_no_error_note:'요인이 2개이고 반복이 없는 경우(n=1)에는 F검정을 위한 오차항을 추정할 수 없습니다. 반복(n≥2)을 추가하거나 요인 수를 늘리세요.',doe_conclusion_sig:'유의수준 α={alpha}에서 다음이 통계적으로 유의합니다: {effects}. 유의한 상호작용이 있는 경우 주효과를 개별적으로 해석하기 전에 반드시 검토하세요.',doe_conclusion_none:'선택한 유의수준에서 유의한 주효과나 상호작용이 없습니다.',conclusions_label:'결론 및 해석',doe_err_response_name:'계산하기 전에 반응 변수 이름을 입력하세요.',doe_err_missing_data:'계산하기 전에 조합 행렬의 모든 반응값을 입력하세요.',doe_all_low:'모든 요인이 저수준',doe_saved:'DOE 분석이 저장되었습니다.'});
+Object.assign(I18N.en,{portal_doe:'DOE',portal_doe_sub:'Factorial design of experiments (2 to 5 factors)',method_doe_desc:'2^k factorial design of experiments. Validates 2 to 5 process factors at once to identify which ones, and which interactions, significantly influence the response. Based on Walpole, Myers & Myers, chapter 15.',btn_new_doe:'＋ New DOE',header_doe:'Design of Experiments (DOE)',header_doe_sub:'2^k factorial experiment · Effect calculation and analysis of variance',badge_doe:'DOE · 2^k FACTORIAL',doe_title:'2^k Factorial Design of Experiments',doe_sub:'Validate 2 to 5 factors at once and determine which factors, and their interactions, significantly influence the response.',doe_no:'DOE No.',doe_setup_title:'Experiment setup',num_factors:'Number of factors (k)',num_replicates:'Replicates per combination (n)',alpha_level:'Significance level (α)',response_name:'Response variable',response_name_ph:'E.g. Shrinkage, Yield, Defects per lot…',factor_definitions:'Factor definitions',factor_definitions_hint:'Assign a name and the low (-1) and high (+1) levels for each factor to evaluate.',factor_col:'Factor',factor_name:'Factor name',level_low:'Low level (-1)',level_high:'High level (+1)',response_matrix:'Treatment combination and response matrix',response_matrix_hint:'Enter the observed response(s) for each of the {n} treatment combinations (standard Yates order).',combo_col:'Combination',high_factors_col:'Factors at high level',replicates_col:'Responses (replicates)',total:'Total',btn_calculate:'Calculate effects and ANOVA',doe_pareto_title:'Pareto chart of effects',doe_anova_title:'Analysis of variance table (ANOVA)',source:'Source',order_col:'Order',effect_col:'Effect',contrast_col:'Contrast',ss_col:'Sum of squares',df_col:'DF',ms_col:'Mean square',f_col:'F₀',p_col:'P-value',significant_col:'Significant?',yes_label:'Yes',no_label:'No',error_row:'Error',total_row:'Total',doe_pooled_note:'With no replicates (n=1), the error was estimated by pooling the sums of squares of order-3-and-higher interactions, assuming those higher-order interactions are negligible (Walpole, section 15.3).',doe_no_error_note:'With 2 factors and no replicates (n=1), no error term can be estimated for the F-test. Add replicates (n≥2) or increase the number of factors to validate statistical significance.',doe_conclusion_sig:'At a significance level of α={alpha}, the following were statistically significant: {effects}. Review significant interactions before interpreting main effects on their own.',doe_conclusion_none:'At the selected significance level, no main effect or interaction was statistically significant.',conclusions_label:'Conclusions and interpretation',doe_err_response_name:'Enter the response variable name before calculating.',doe_err_missing_data:'Fill in every response in the combination matrix before calculating.',doe_all_low:'All factors at low level',doe_saved:'DOE analysis saved successfully.'});
+Object.assign(I18N.es,{portal_qrqcd:'QRQC-D',portal_qrqcd_sub:'Tablero QRQC Nivel 1 (Clientes) y Nivel 2 (GP12/Inspección de Contención)',header_qrqcd:'QRQC-D / Tablero de Respuesta Rápida a Problemas de Calidad Digital',header_qrqcd_sub:'',badge_qrqcd:'QRQC-D · GP12',btn_new_qrqcd:'＋ Nuevo problema',btn_send_qrqcd:'📋 Enviar a QRQC-D',btn_delete:'🗑 Eliminar',due_date:'Fecha compromiso',closed_date:'Fecha de cierre',qrqc_type:'Tipo de problema',qrqc_type_ncr:'Reclamo cliente (NCR)',qrqc_type_internal:'Hallazgo interno GP12',qrqc_status:'Estado',qrqc_root_cause:'Causa raíz',qrqc_action:'Acción',qrqc_search_ph:'Buscar por proyecto, no conformidad o líder…',qrqc_all_status:'Todos los estados',qrqc_all_types:'Todos los tipos',qrqc_all_months:'Todos los meses',qrqc_link_title:'Vincular a un análisis guardado',qrqc_no_link:'Sin análisis vinculado',qrqc_open_linked:'Abrir análisis vinculado',q_title:'QRQC-D / Tablero de Respuesta Rápida a Problemas de Calidad Digital',q_sub:'',q_project:'Proyecto / Pieza',q_nonconformity:'No conformidad / Descripción',q_image:'Imagen de referencia',q_remove_image:'Quitar',q_occurrence:'Ocurrencia',q_detection:'Detección',q_dates_progress:'Fechas y progreso',q_date_opened:'Fecha apertura',q_progress:'Progreso',q_comm:'Comunicación',q_ps:'Solución de problema',q_solved:'Acciones resueltas',q_systemic:'Acciones sistémicas (lecciones aprendidas)',q_gemba:'GEMBA Walk y comentarios',q_new_title:'Nuevo problema QRQC',q_edit_title:'Editar problema QRQC',q_err_project:'Indique el Proyecto / Pieza antes de guardar.',q_err_nc:'Indique la No conformidad antes de guardar.',q_sent_ok:'✓ Enviado a QRQC-D',q_empty_board:'No hay problemas registrados. Use un botón “Enviar a QRQC-D” desde cualquier herramienta, o “＋ Nuevo problema” aquí.',q_th_no:'No.',q_th_phase:'Fase',q_th_actions:'Acciones',kpi_ncr_title:'Reclamos Oficiales',kpi_ncr_target:'Objetivo: <7 NCR',kpi_ftq_title:'FTQ del Proceso',kpi_ftq_target:'Objetivo: <1% defectuoso en GP12',kpi_produced:'Piezas producidas',kpi_defect:'Piezas con defecto',kpi_meta_label:'Meta:',q_trend_title:'Tendencia mensual de reclamos',q_stat_oficial:'Reclamos oficiales del mes',q_stat_no_oficial:'Reclamos no oficiales del mes'});
+Object.assign(I18N.en,{portal_qrqcd:'QRQC-D',portal_qrqcd_sub:'QRQC board Level 1 (Customers) and Level 2 (GP12/Containment Inspection)',header_qrqcd:'QRQC-D / Digital Quick Response Quality Problem Board',header_qrqcd_sub:'',badge_qrqcd:'QRQC-D · GP12',btn_new_qrqcd:'＋ New problem',btn_send_qrqcd:'📋 Send to QRQC-D',btn_delete:'🗑 Delete',due_date:'Due date',closed_date:'Closed date',qrqc_type:'Problem type',qrqc_type_ncr:'Customer complaint (NCR)',qrqc_type_internal:'Internal GP12 finding',qrqc_status:'Status',qrqc_root_cause:'Root cause',qrqc_action:'Action',qrqc_search_ph:'Search by project, non-conformity or leader…',qrqc_all_status:'All statuses',qrqc_all_types:'All types',qrqc_all_months:'All months',qrqc_link_title:'Link to a saved analysis',qrqc_no_link:'No linked analysis',qrqc_open_linked:'Open linked analysis',q_title:'QRQC-D / Digital Quick Response Quality Problem Board',q_sub:'',q_project:'Project / Part',q_nonconformity:'Non-conformity / Description',q_image:'Reference image',q_remove_image:'Remove',q_occurrence:'Occurrence',q_detection:'Detection',q_dates_progress:'Dates and progress',q_date_opened:'Date opened',q_progress:'Progress',q_comm:'Communication',q_ps:'Problem solving',q_solved:'Actions solved',q_systemic:'Systemic actions (lessons learned)',q_gemba:'GEMBA Walk and comments',q_new_title:'New QRQC problem',q_edit_title:'Edit QRQC problem',q_err_project:'Enter the Project / Part before saving.',q_err_nc:'Enter the Non-conformity before saving.',q_sent_ok:'✓ Sent to QRQC-D',q_empty_board:'No problems registered. Use a “Send to QRQC-D” button from any tool, or “＋ New problem” here.',q_th_no:'No.',q_th_phase:'Phase',q_th_actions:'Actions',kpi_ncr_title:'Official Complaints',kpi_ncr_target:'Target: <7 NCR',kpi_ftq_title:'Process FTQ',kpi_ftq_target:'Target: <1% defective in GP12',kpi_produced:'Units produced',kpi_defect:'Defective units',kpi_meta_label:'Target:',q_trend_title:'Monthly complaint trend',q_stat_oficial:'Official complaints this month',q_stat_no_oficial:'Unofficial complaints this month'});
+Object.assign(I18N.ko,{portal_qrqcd:'QRQC-D',portal_qrqcd_sub:'QRQC 레벨 1(고객) 및 레벨 2(GP12/봉쇄검사) 보드',header_qrqcd:'QRQC-D / 디지털 품질 문제 신속대응 보드',header_qrqcd_sub:'',badge_qrqcd:'QRQC-D · GP12',btn_new_qrqcd:'＋ 신규 문제',btn_send_qrqcd:'📋 QRQC-D로 전송',btn_delete:'🗑 삭제',due_date:'완료 목표일',closed_date:'종료일',qrqc_type:'문제 유형',qrqc_type_ncr:'고객불만(NCR)',qrqc_type_internal:'GP12 내부 발견',qrqc_status:'상태',qrqc_root_cause:'근본 원인',qrqc_action:'조치',qrqc_search_ph:'프로젝트, 부적합 또는 담당자로 검색…',qrqc_all_status:'모든 상태',qrqc_all_types:'모든 유형',qrqc_all_months:'모든 월',qrqc_link_title:'저장된 분석에 연결',qrqc_no_link:'연결된 분석 없음',qrqc_open_linked:'연결된 분석 열기',q_title:'QRQC-D / 디지털 품질 문제 신속대응 보드',q_sub:'',q_project:'프로젝트 / 부품',q_nonconformity:'부적합 / 설명',q_image:'참조 이미지',q_remove_image:'제거',q_occurrence:'발생(Occurrence)',q_detection:'검출(Detection)',q_dates_progress:'일정 및 진행 상황',q_date_opened:'개설일',q_progress:'진행 상황',q_comm:'커뮤니케이션',q_ps:'문제 해결',q_solved:'조치 완료',q_systemic:'시스템적 조치(교훈)',q_gemba:'GEMBA Walk 및 코멘트',q_new_title:'신규 QRQC 문제',q_edit_title:'QRQC 문제 편집',q_err_project:'저장하기 전에 프로젝트/부품을 입력하세요.',q_err_nc:'저장하기 전에 부적합 사항을 입력하세요.',q_sent_ok:'✓ QRQC-D로 전송됨',q_empty_board:'등록된 문제가 없습니다. 각 도구의 "QRQC-D로 전송" 버튼을 사용하거나 여기서 "＋ 신규 문제"를 사용하세요.',q_th_no:'번호',q_th_phase:'단계',q_th_actions:'작업',kpi_ncr_title:'공식 고객불만',kpi_ncr_target:'목표: 7건 미만(NCR)',kpi_ftq_title:'공정 FTQ',kpi_ftq_target:'목표: GP12 불량률 1% 미만',kpi_produced:'생산량',kpi_defect:'불량 수량',kpi_meta_label:'목표:',q_trend_title:'월간 불만 추이',q_stat_oficial:'이번 달 공식 불만',q_stat_no_oficial:'이번 달 비공식 불만'});
+Object.assign(I18N.es,{print_system:'SISTEMA DE GESTIÓN DE CALIDAD',print_doc_code:'Código de documento',print_code:'No. de registro',print_generated:'Fecha de emisión'});Object.assign(I18N.ko,{print_system:'품질 경영 시스템',print_doc_code:'문서 코드',print_code:'등록 번호',print_generated:'발행일'});Object.assign(I18N.en,{print_system:'QUALITY MANAGEMENT SYSTEM',print_doc_code:'Document code',print_code:'Record No.',print_generated:'Issue date'});
+let currentLang=localStorage.getItem('hpm_lang')||'es';if(!I18N[currentLang])currentLang='es';
+const t=(key,vars={})=>String((I18N[currentLang]||I18N.es)[key]??I18N.es[key]??key).replace(/\{(\w+)\}/g,(_,k)=>vars[k]??'');
+const clone=x=>JSON.parse(JSON.stringify(x));
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+const today=()=>{const d=new Date();return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+function makeCode(prefix){const d=new Date(),p=n=>String(n).padStart(2,'0');return`${prefix}-${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`}
+function printHeaderHTML(title,code,subtitle=''){const issued=new Intl.DateTimeFormat(LOCALES[currentLang],{year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());return`<div class="print-header"><div class="print-logo"><img src="${HPM_LOGO}" alt="Hyundai Polytech México"><div class="print-brand-name">HYUNDAI<br>POLYTECH<br>MÉXICO</div></div><div class="print-copy"><div class="print-kicker">${esc(t('print_system'))}</div><h1>${esc(title)}</h1><p>${esc(subtitle)}</p></div><div class="print-control"><small>${esc(t('print_doc_code'))}</small><strong>${esc(DOC_CONTROL_CODE)}</strong><small>${esc(t('print_code'))}</small><strong>${esc(code||'—')}</strong><span>${esc(t('print_generated'))}: ${esc(issued)}</span></div></div>`}
+function mergeDefaults(tmpl,r){if(Array.isArray(tmpl))return r!==undefined&&Array.isArray(r)?r:clone(tmpl);if(tmpl&&typeof tmpl==='object'){if(!r||typeof r!=='object')r={};const out={};for(const k in tmpl)out[k]=mergeDefaults(tmpl[k],r[k]);return out}return r!==undefined?r:tmpl}
+function loadList(key){try{const saved=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(saved)?saved:[]}catch(_){return[]}}
+
+function hpmCompressImage(file,maxPx,quality){return new Promise((resolve,reject)=>{const r=new FileReader();r.onerror=reject;r.onload=()=>{const img=new Image();img.onerror=reject;img.onload=()=>{const s=Math.min(1,(maxPx||1280)/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(img.width*s));c.height=Math.max(1,Math.round(img.height*s));c.getContext('2d').drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',quality||0.72))};img.src=r.result};r.readAsDataURL(file)})}
+const HPM_PAGES={qrqcd:'index.html',roca:'roca.html'};
+
+</script>
+<script>
+/* ============================================================
+   HPM · Capa de datos  (localStorage  <->  Firebase Firestore)
+   - Las apps siguen usando localStorage; esta capa lo replica en Firestore.
+   - Sin configuración de Firebase => modo local (todo funciona igual).
+   - Con Firebase: inicio de sesión, sincronización por registro y en vivo.
+   Expone window.HPMSync = { enabled, ready, status, user, onRemote(fn), signOut() }
+   ============================================================ */
+(function () {
+  'use strict';
+  var KEYS = ['quality_8d_reports_v1', 'hpm_9basics_reports_v1', 'hpm_2panel_reports_v1',
+    'hpm_dmaic_reports_v1', 'hpm_doe_reports_v1', 'hpm_qrqcd_board_v1',
+    'hpm_qrqcd_kpi_v1', 'hpm_qrqcd_meta_v1'];
+  var OBJECT_KEYS = { hpm_qrqcd_kpi_v1: 1, hpm_qrqcd_meta_v1: 1 };      // se guardan como 1 documento
+  var MAX_DOC = 900 * 1024;                                              // límite Firestore = 1 MiB
+  var FB_VER = '10.14.1';
+  var cfg = window.HPM_FIREBASE_CONFIG || {};
+  var enabled = !!(cfg.apiKey && !/^TU_|YOUR_/i.test(cfg.apiKey) && cfg.projectId && !/^TU_|YOUR_/i.test(cfg.projectId));
+
+  var listeners = [], statusListeners = [];
+  var api = { role: enabled ? '' : 'master', enabled: enabled, status: enabled ? 'connecting' : 'local', userEmail: '', ready: null, KEYS: KEYS,
+    onRemote: function (fn) { listeners.push(fn); },
+    onStatus: function (fn) { statusListeners.push(fn); },
+    maxFileBytes: enabled ? 700 * 1024 : 4 * 1024 * 1024 };
+  window.HPMSync = api;
+  function setStatus(s, extra) { api.status = s; statusListeners.forEach(function (f) { try { f(s, extra); } catch (e) {} }); }
+
+  /* ---------- Utilidades locales ---------- */
+  var nativeSet = Storage.prototype.setItem, nativeRemove = Storage.prototype.removeItem;
+  var suppress = false;
+  function readLocal(key) { try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch (e) { return null; } }
+  function writeLocalSilently(key, value) { suppress = true; try { nativeSet.call(localStorage, key, JSON.stringify(value)); } finally { suppress = false; } }
+  function toMap(key, value) {            // valor local -> { docId: jsonString }
+    var m = {};
+    if (OBJECT_KEYS[key]) { if (value && typeof value === 'object' && !Array.isArray(value)) m._obj = JSON.stringify(value); }
+    else if (Array.isArray(value)) value.forEach(function (it) { if (it && it.id != null) m[String(it.id)] = JSON.stringify(it); });
+    return m;
+  }
+  function fromMap(key, m) {
+    if (OBJECT_KEYS[key]) return m._obj ? JSON.parse(m._obj) : null;
+    return Object.keys(m).map(function (k) { return JSON.parse(m[k]); }).sort(function (a, b) { return Number(b.id) - Number(a.id); });
+  }
+  function sameMap(a, b) {
+    var ka = Object.keys(a), kb = Object.keys(b);
+    if (ka.length !== kb.length) return false;
+    return ka.every(function (k) { return a[k] === b[k]; });
+  }
+
+  if (!enabled) { api.ready = Promise.resolve(); return; }
+
+  /* ---------- Modo Firebase ---------- */
+  var REQUIRE_LOGIN = window.HPM_REQUIRE_LOGIN !== false;   // false = acceso abierto con la liga (temporal)
+  var DOMAIN = 'qrqc-hpm.app';
+  var ROLES = { master: { id: 'master', email: 'alberto.garcia@hdsr.co.kr' } };  // prueba: solo Usuario Master. La contraseña real en Firebase es 'hpm-' + contraseña tecleada (Firebase exige 6+ caracteres)
+  var ROLE_NAMES = { es: { master: 'Usuario Master', ingeniero: 'Ingeniero de Calidad', champion: 'Champion' }, en: { master: 'Master user', ingeniero: 'Quality Engineer', champion: 'Champion' }, ko: { master: '마스터 사용자', ingeniero: '품질 엔지니어', champion: '챔피언' } };
+  var CHAMPION_KEYS = ['hpm_qrqcd_board_v1', 'hpm_qrqcd_kpi_v1', 'hpm_qrqcd_meta_v1'];
+  var T = { es: { pin: 'PIN de acceso', wrong: 'PIN incorrecto.', noroca: 'Tu rol solo tiene acceso a QRQC-D.', nodel: 'Tu rol no permite eliminar registros.', gotoq: 'QRQC-D →', title: 'Acceso al sistema de calidad', email: 'Correo', pass: 'Contraseña', login: 'Entrar', google: 'Entrar con Google',
+      or: 'o', err: 'No se pudo iniciar sesión. Verifica tus datos.', denied: 'Tu correo no está autorizado. Solicita acceso al administrador de calidad.',
+      out: 'Salir', sync: 'Sincronizado', saving: 'Guardando…', offline: 'Sin conexión (datos locales)', error: 'Error de sincronización' },
+    en: { pin: 'Access PIN', wrong: 'Wrong PIN.', noroca: 'Your role only has access to QRQC-D.', nodel: 'Your role cannot delete records.', gotoq: 'QRQC-D →', title: 'Quality system access', email: 'Email', pass: 'Password', login: 'Sign in', google: 'Sign in with Google', or: 'or',
+      err: 'Sign-in failed. Check your details.', denied: 'Your email is not authorized. Ask the quality administrator for access.',
+      out: 'Sign out', sync: 'Synced', saving: 'Saving…', offline: 'Offline (local data)', error: 'Sync error' },
+    ko: { pin: '접속 PIN', wrong: 'PIN이 올바르지 않습니다.', noroca: '현재 권한은 QRQC-D만 사용할 수 있습니다.', nodel: '현재 권한으로는 기록을 삭제할 수 없습니다.', gotoq: 'QRQC-D →', title: '품질 시스템 로그인', email: '이메일', pass: '비밀번호', login: '로그인', google: 'Google로 로그인', or: '또는',
+      err: '로그인에 실패했습니다.', denied: '승인되지 않은 이메일입니다. 품질 관리자에게 문의하세요.', out: '로그아웃',
+      sync: '동기화됨', saving: '저장 중…', offline: '오프라인 (로컬 데이터)', error: '동기화 오류' } };
+  function tx(k) { var l = localStorage.getItem('hpm_lang') || 'es'; return (T[l] || T.es)[k] || T.es[k]; }
+
+  var fb = {}, db, auth, lastRemote = {}, pushTimers = {}, firstDone = {};
+
+  function injectCss() {
+    var s = document.createElement('style');
+    s.textContent = '#hpmLogin{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 20% 15%,#14507f,#06182a 70%);font-family:"IBM Plex Sans",system-ui,sans-serif}' +
+      '#hpmLogin form{width:min(380px,100%);background:#fff;border-radius:18px;padding:28px 26px;box-shadow:0 30px 80px #0008}' +
+      '#hpmLogin img{height:44px;display:block;margin:0 auto 14px}#hpmLogin h2{margin:0 0 16px;font-size:18px;text-align:center;color:#0B2D50}' +
+      '#hpmLogin label{display:block;font:700 11px "IBM Plex Mono",monospace;color:#5A6C7E;margin:10px 0 4px;text-transform:uppercase}' +
+      '#hpmLogin input{width:100%;padding:10px 12px;border:1px solid #D7E1EB;border-radius:9px;font-size:14px}' +
+      '#hpmLogin button{width:100%;margin-top:14px;padding:11px;border:0;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;background:#0B2D50;color:#fff}' +
+      '#hpmLogin button.g{background:#fff;color:#10263B;border:1px solid #C5D2DF}#hpmLogin .or{text-align:center;color:#8797A8;font-size:12px;margin-top:12px}' +
+      '#hpmLogin .err{color:#C0182F;font-size:12.5px;margin-top:10px;min-height:16px;text-align:center}' +
+      '#hpmChip{position:fixed;left:12px;bottom:12px;z-index:900;display:flex;gap:8px;align-items:center;background:#0B2D50ee;color:#fff;padding:6px 12px;border-radius:999px;font:600 11.5px "IBM Plex Sans",sans-serif;box-shadow:0 6px 20px #0004}' +
+      '#hpmChip i{width:8px;height:8px;border-radius:50%;background:#4ADE80;display:inline-block}#hpmChip.saving i{background:#FFD26F}#hpmChip.error i,#hpmChip.offline i{background:#FF6B7F}' +
+      '#hpmChip button{background:#ffffff22;color:#fff;border:0;border-radius:999px;padding:3px 10px;cursor:pointer;font:inherit}@media print{#hpmChip,#hpmLogin{display:none!important}}';
+    document.head.appendChild(s);
+  }
+
+  function showLogin(message) {
+    return new Promise(function (resolve) {
+      var ov = document.getElementById('hpmLogin');
+      if (!ov) {
+        ov = document.createElement('div'); ov.id = 'hpmLogin';
+        ov.innerHTML = '<form><img alt="HPM"><h2></h2><label></label><input type="email" id="hpmEm" autocomplete="username" required><label></label><input type="password" id="hpmPin" autocomplete="current-password" required><button type="submit" id="hpmGo"></button><div class="err" id="hpmErr"></div></form>';
+        document.body.appendChild(ov);
+      }
+      ov.querySelector('img').src = (typeof HPM_LOGO !== 'undefined') ? HPM_LOGO : '';
+      var lb = ov.querySelectorAll('label'); ov.querySelector('h2').textContent = tx('title'); lb[0].textContent = tx('email'); lb[1].textContent = tx('pass');
+      document.getElementById('hpmGo').textContent = tx('login');
+      var err = document.getElementById('hpmErr'); err.textContent = message || '';
+      ov.hidden = false; var inp = document.getElementById('hpmPin'); inp.value = ''; document.getElementById('hpmEm').focus();
+      ov.querySelector('form').onsubmit = function (e) {
+        e.preventDefault(); err.textContent = '';
+        var em = document.getElementById('hpmEm').value.trim().toLowerCase(), pw = inp.value;
+        fb.auth.signInWithEmailAndPassword(auth, em, 'hpm-' + pw).then(function () { resolve(); }).catch(function (e) {
+          var c = (e && e.code) || '', hint = {
+            'auth/invalid-credential': 'Correo o contraseña incorrectos. En Firebase la cuenta debe existir con contraseña hpm-<clave>.',
+            'auth/user-not-found': 'La cuenta no existe en Firebase (Authentication → Users).',
+            'auth/wrong-password': 'Contraseña incorrecta (en Firebase debe ser hpm-<clave>).',
+            'auth/operation-not-allowed': 'Habilita Correo/contraseña en Authentication → Método de acceso.',
+            'auth/unauthorized-domain': 'Agrega este dominio en Authentication → Settings → Authorized domains.',
+            'auth/too-many-requests': 'Demasiados intentos; espera unos minutos.',
+            'auth/network-request-failed': 'Sin conexión a Firebase.' }[c];
+          err.textContent = tx('err') + ' [' + (c || 'error') + ']' + (hint ? ' ' + hint : ''); inp.value = '';
+        });
+      };
+    });
+  }
+
+  function roleName() { var l = localStorage.getItem('hpm_lang') || 'es'; return (ROLE_NAMES[l] || ROLE_NAMES.es)[api.role] || ''; }
+  function mountChip() {
+    var c = document.getElementById('hpmChip'); if (!c) { c = document.createElement('div'); c.id = 'hpmChip'; document.body.appendChild(c); }
+    function paint(s) {
+      c.className = s === 'saving' ? 'saving' : (s === 'error' ? 'error' : (s === 'offline' ? 'offline' : ''));
+      c.innerHTML = '<i></i><span>☁ ' + (REQUIRE_LOGIN ? roleName() + ' · ' : '') + tx(s === 'ok' ? 'sync' : s) + '</span>' + (REQUIRE_LOGIN ? '<button type="button">' + tx('out') + '</button>' : '');
+      if (REQUIRE_LOGIN) c.querySelector('button').onclick = function () { api.signOut(); };
+    }
+    paint('ok'); api.onStatus(paint);
+  }
+
+  function applyRole() {
+    var role = api.role;
+    if (role === 'master') return;
+    var deny = function () { alert(tx('nodel')); };
+    ['deleteReport', 'deleteAudit', 'deleteTwoPanel', 'deleteDMAIC', 'deleteDOE', 'deleteSavedAnalysisItem', 'qDeleteEntry', 'qDeleteFromModal'].forEach(function (n) { if (typeof window[n] === 'function') window[n] = deny; });
+    if (role === 'champion') {
+      var st = document.createElement('style'); st.textContent = 'button[onclick="qOpenModal()"]{display:none!important}'; document.head.appendChild(st);
+      if (/roca\.html/i.test(location.pathname)) {
+        var b = document.createElement('div'); b.id = 'hpmLogin';
+        b.innerHTML = '<form style="text-align:center"><h2>' + tx('noroca') + '</h2><a href="index.html"><button type="button">' + tx('gotoq') + '</button></a></form>';
+        document.body.appendChild(b);
+      }
+    }
+  }
+
+  api.signOut = function () { return fb.auth.signOut(auth).then(function () { location.reload(); }); };
+
+  /* ---------- Empuje local -> Firestore ---------- */
+  function schedulePush(key) {
+    clearTimeout(pushTimers[key]); setStatus('saving');
+    pushTimers[key] = setTimeout(function () { pushKey(key); }, 700);
+  }
+  function pushKey(key) {
+    if (!db || !firstDone[key]) return Promise.resolve();
+    var local = toMap(key, readLocal(key)), remote = lastRemote[key] || {};
+    var batch = fb.fs.writeBatch(db), n = 0, skipped = 0;
+    Object.keys(local).forEach(function (id) {
+      if (remote[id] === local[id]) return;
+      if (local[id].length > MAX_DOC) { skipped++; return; }
+      batch.set(fb.fs.doc(db, key, id), { j: local[id], by: api.userEmail, ts: Date.now() }); n++;
+    });
+    Object.keys(remote).forEach(function (id) { if (!(id in local)) { batch.delete(fb.fs.doc(db, key, id)); n++; } });
+    if (skipped) alert('Un registro supera 900 KB y no se sincronizó (reduce imágenes/archivos).');
+    if (!n) { setStatus('ok'); return Promise.resolve(); }
+    var snapshotLocal = {}; Object.keys(local).forEach(function (id) { if (local[id].length <= MAX_DOC) snapshotLocal[id] = local[id]; });
+    return batch.commit().then(function () { lastRemote[key] = snapshotLocal; setStatus('ok'); })
+      .catch(function (e) { console.error('HPM sync', e); setStatus('error'); });
+  }
+
+  Storage.prototype.setItem = function (k, v) {
+    nativeSet.call(this, k, v);
+    if (this === window.localStorage && !suppress && KEYS.indexOf(k) > -1) schedulePush(k);
+  };
+  Storage.prototype.removeItem = function (k) {
+    nativeRemove.call(this, k);
+    if (this === window.localStorage && !suppress && KEYS.indexOf(k) > -1) schedulePush(k);
+  };
+
+  /* ---------- Escucha Firestore -> local ---------- */
+  function listen(key) {
+    return new Promise(function (resolve) {
+      var first = true;
+      fb.fs.onSnapshot(fb.fs.collection(db, key), function (snap) {
+        if (snap.metadata.hasPendingWrites && !first) return;           // eco de escritura local
+        var remote = {}; snap.forEach(function (d) { var j = d.data().j; if (typeof j === 'string') remote[d.id] = j; });
+        var local = toMap(key, readLocal(key));
+        if (first) {
+          first = false;
+          var flag = 'hpm_sync_init_' + key;
+          if (!localStorage.getItem(flag)) {                           // primera vez: fusionar local + nube
+            var merged = Object.assign({}, local, remote);
+            writeLocalSilently(key, fromMap(key, merged) || (OBJECT_KEYS[key] ? {} : []));
+            suppress = true; try { nativeSet.call(localStorage, flag, '1'); } finally { suppress = false; }
+            lastRemote[key] = remote; firstDone[key] = true; pushKey(key);
+          } else {                                                       // la nube manda
+            if (!sameMap(local, remote)) writeLocalSilently(key, fromMap(key, remote) || (OBJECT_KEYS[key] ? {} : []));
+            lastRemote[key] = remote; firstDone[key] = true;
+          }
+          resolve(); return;
+        }
+        lastRemote[key] = remote;
+        if (sameMap(local, remote)) return;
+        writeLocalSilently(key, fromMap(key, remote) || (OBJECT_KEYS[key] ? {} : []));
+        listeners.forEach(function (f) { try { f(key); } catch (e) { console.error(e); } });
+      }, function (e) {
+        console.error('HPM listen', key, e);
+        if (e && e.code === 'permission-denied') { setStatus('error'); }
+        firstDone[key] = true; resolve();
+      });
+    });
+  }
+
+  /* ---------- Arranque ---------- */
+  api.ready = (async function () {
+    try {
+      var base = 'https://www.gstatic.com/firebasejs/' + FB_VER + '/';
+      var m = await Promise.all([import(base + 'firebase-app.js'), import(base + 'firebase-auth.js'), import(base + 'firebase-firestore.js')]);
+      var app = m[0].initializeApp(cfg);
+      fb.auth = m[1]; fb.fs = m[2]; auth = fb.auth.getAuth(app);
+      db = fb.fs.initializeFirestore ? fb.fs.initializeFirestore(app, { localCache: fb.fs.persistentLocalCache ? fb.fs.persistentLocalCache() : undefined }) : fb.fs.getFirestore(app);
+    } catch (e) { console.error('HPM Firebase no disponible, modo local', e); setStatus('offline'); return; }
+    injectCss();
+    if (REQUIRE_LOGIN) {
+    var user = await new Promise(function (res) { var un = fb.auth.onAuthStateChanged(auth, function (u) { un(); res(u); }); });
+    var msg = '';
+    while (true) {
+      if (!user) { await showLogin(msg); user = auth.currentUser; }
+      api.userEmail = (user.email || '').toLowerCase();
+      var found = Object.keys(ROLES).map(function (k) { return ROLES[k]; }).filter(function (r) { return r.email === api.userEmail; })[0];
+      if (!found) { await fb.auth.signOut(auth); user = null; msg = tx('wrong'); continue; }
+      api.role = found.id;
+      try { await fb.fs.getDocs(fb.fs.collection(db, api.role === 'champion' ? CHAMPION_KEYS[0] : KEYS[0])); break; }
+      catch (e) {
+        if (e && e.code === 'permission-denied') { await fb.auth.signOut(auth); user = null; msg = tx('wrong'); continue; }
+        setStatus('offline'); break;
+      }
+    }
+    } else { api.role = 'master'; api.userEmail = ''; }
+    var ov = document.getElementById('hpmLogin'); if (ov) ov.hidden = true;
+    mountChip();
+    var timeout = new Promise(function (r) { setTimeout(r, 9000); });
+    var active = api.role === 'champion' ? CHAMPION_KEYS : KEYS;
+    KEYS = active;
+    await Promise.race([Promise.all(active.map(listen)), timeout]);
+    applyRole();
+  })();
+})();
+
+</script>
+<script>
+const KEY='quality_8d_reports_v1';
+const KEY_9B_LIST='hpm_9basics_reports_v1';
+const KEY_2P_LIST='hpm_2panel_reports_v1';
+const KEY_DMAIC_LIST='hpm_dmaic_reports_v1';
+const KEY_DOE_LIST='hpm_doe_reports_v1';
+const KEY_QBOARD='hpm_qrqcd_board_v1';
+const KEY_QKPI='hpm_qrqcd_kpi_v1';
+const KEY_QMETA='hpm_qrqcd_meta_v1';
+let activeModule='qrqcd';
+let reports=[],audits=[],twoPanels=[],dmaics=[],does=[];
+let qboard=[],qkpi={producedQty:'',defectQty:''},qmeta={project:'',year:String(new Date().getFullYear())};
+let qFilters={q:'',status:'',type:'',month:''},qDraft=null,qEditingId=null;
+const qEntryEmpty={id:null,no:1,date:'',projectIssue:'',type:'interno',nonConformity:'',image:'',status:'OPEN',actionLeader:'',occCause:'',occAction:'',detCause:'',detAction:'',dateOpened:'',targetClose:'',actualClose:'',progress:{comm:false,ps:false,solved:false,systemic:false},gemba:'',stages:{cont:'',rca:'',act:'',close:'',fin:'',d:'',m:'',a:'',i:'',c:''},doe:{required:false,id:null,status:''},linkedType:'',linkedId:null,linkedCode:''};
+
+function loadQ(){
+reports=loadList(KEY);audits=loadList(KEY_9B_LIST);twoPanels=loadList(KEY_2P_LIST);dmaics=loadList(KEY_DMAIC_LIST);does=loadList(KEY_DOE_LIST);
+qboard=loadList(KEY_QBOARD).map(r=>mergeDefaults(qEntryEmpty,r));
+try{qkpi=Object.assign({producedQty:'',defectQty:''},JSON.parse(localStorage.getItem(KEY_QKPI)||'null')||{})}catch(_){}
+try{qmeta=Object.assign({project:'',year:String(new Date().getFullYear())},JSON.parse(localStorage.getItem(KEY_QMETA)||'null')||{})}catch(_){}
+}
+function syncModuleHeader(){document.getElementById('moduleTitle').textContent=t('header_qrqcd');document.getElementById('moduleSubtitle').textContent=t('header_qrqcd_sub');document.getElementById('moduleBadge').textContent=t('badge_qrqcd');document.title='QRQC-D | HPM'}
+function setLanguage(lang){currentLang=lang;localStorage.setItem('hpm_lang',lang);applyI18n();renderQrqcdDashboard()}
+function openSavedAnalysis(type,id){location.href=HPM_PAGES.roca+'?open='+type+':'+id}
+
+function applyI18n(){document.documentElement.lang=currentLang;document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>el.placeholder=t(el.dataset.i18nPlaceholder));document.querySelectorAll('[data-i18n-aria-label]').forEach(el=>el.setAttribute('aria-label',t(el.dataset.i18nAriaLabel)));document.querySelectorAll('.lang-btn').forEach(btn=>{const active=btn.dataset.lang===currentLang;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active))});document.getElementById('heroDate').textContent=new Intl.DateTimeFormat(LOCALES[currentLang],{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date());syncModuleHeader()}
+document.querySelectorAll('.hpm-logo').forEach(img=>img.src=HPM_LOGO);document.querySelectorAll('.lang-btn').forEach(btn=>btn.onclick=()=>setLanguage(btn.dataset.lang));
+function typeLabel(type){return t({'8d':'portal_8d','9b':'portal_9b','2p':'portal_2p',dmaic:'portal_dmaic',doe:'portal_doe'}[type])}
+function typeBadgeClass(type){return{'8d':'b8d','9b':'b9b','2p':'b2p',dmaic:'bdmaic',doe:'bdoe'}[type]}
+function getAllSavedAnalyses(){const items=[];reports.forEach(r=>items.push({type:'8d',id:r.id,code:r.reportNo||t('no_number'),title:r.title||t('no_title'),meta:r.customer||'',date:r.date||'',updatedAt:r.updatedAt||''}));audits.forEach(r=>items.push({type:'9b',id:r.id,code:r.no||t('no_number'),title:r.what||t('no_title'),meta:r.auditor||'',date:r.date||'',updatedAt:r.updatedAt||''}));twoPanels.forEach(r=>items.push({type:'2p',id:r.id,code:r.no||t('no_number'),title:r.what||t('no_title'),meta:r.owner||'',date:r.date||'',updatedAt:r.updatedAt||''}));dmaics.forEach(r=>items.push({type:'dmaic',id:r.id,code:r.no||t('no_number'),title:r.problemStatement||t('no_title'),meta:r.leader||'',date:r.date||'',updatedAt:r.updatedAt||''}));does.forEach(r=>items.push({type:'doe',id:r.id,code:r.no||t('no_number'),title:r.title||r.responseName||t('no_title'),meta:r.responsible||'',date:r.date||'',updatedAt:r.updatedAt||''}));return items.sort((a,b)=>(b.updatedAt||b.date||'').localeCompare(a.updatedAt||a.date||''))}
+function renderSavedAnalyses(){const box=document.getElementById('savedAnalysesList');if(!box)return;const q=(document.getElementById('savedSearch')?.value||'').toLowerCase(),typeFilter=document.getElementById('savedFilterType')?.value||'';let items=getAllSavedAnalyses();if(typeFilter)items=items.filter(x=>x.type===typeFilter);if(q)items=items.filter(x=>`${x.code} ${x.title} ${x.meta}`.toLowerCase().includes(q));box.innerHTML=items.length?`<div class="saved-list">${items.map(x=>`<div class="saved-item"><span class="saved-badge ${typeBadgeClass(x.type)}">${esc(typeLabel(x.type))}</span><div class="saved-main"><strong>${esc(x.code)}</strong><div>${esc(x.title)}</div><small>${esc(x.meta)}${x.meta?' · ':''}${esc(x.date)}</small></div><div class="saved-actions no-print"><button type="button" class="light" onclick="openSavedAnalysis('${x.type}',${Number(x.id)})">${esc(t('btn_open_saved'))}</button><button type="button" class="danger" onclick="deleteSavedAnalysisItem('${x.type}',${Number(x.id)})">${esc(t('delete'))}</button></div></div>`).join('')}</div>`:`<p class="hint">${esc(t('no_saved'))}</p>`}
+/* ===== QRQC-D: Tablero maestro (alimentado por 8D/9B/2P/DMAIC/DOE) ===== */
+function persistQBoard(){try{localStorage.setItem(KEY_QBOARD,JSON.stringify(qboard))}catch(_){alert(t('storage_error'))}}
+function persistQKpi(){try{localStorage.setItem(KEY_QKPI,JSON.stringify(qkpi))}catch(_){}}
+function persistQMeta(){try{localStorage.setItem(KEY_QMETA,JSON.stringify(qmeta))}catch(_){}}
+function qMetaChanged(field,el){qmeta[field]=el.value;persistQMeta()}
+function qKpiChanged(field,el){qkpi[field]=el.value;persistQKpi();qRenderKpis()}
+function qFilterChanged(field,el){qFilters[field]=el.value;qRenderTable();if(field==='month')qRenderTrend()}
+function qNextNo(){return qboard.length?Math.max(...qboard.map(b=>b.no||0))+1:1}
+function qGaugeSVG(value,max,target,suffix,decimals){
+  const cx=110,cy=95,r=78,sw=16;
+  const pt=(deg,rad)=>{const a=deg*Math.PI/180;return[cx+rad*Math.cos(a),cy-rad*Math.sin(a)]};
+  const frac=Math.max(0,Math.min(value/max,0.999));
+  const endDeg=180-frac*180;
+  const p1=pt(180,r),p2=pt(0,r),pv=pt(endDeg,r);
+  const tFrac=Math.max(0,Math.min(target/max,1));
+  const tDeg=180-tFrac*180;
+  const t1=pt(tDeg,r-sw/2-7),t2=pt(tDeg,r+sw/2+5);
+  const isBad=value>=target;
+  const color=isBad?'var(--danger)':'#1F8A5A';
+  const displayVal=decimals?value.toFixed(decimals):Math.round(value);
+  return `<svg viewBox="0 0 220 150" width="220" height="150">
+    <path d="M ${p1[0]} ${p1[1]} A ${r} ${r} 0 0 1 ${p2[0]} ${p2[1]}" fill="none" stroke="#E3EAF1" stroke-width="${sw}" stroke-linecap="round"/>
+    <path d="M ${p1[0]} ${p1[1]} A ${r} ${r} 0 0 1 ${pv[0]} ${pv[1]}" fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round"/>
+    <line x1="${t1[0]}" y1="${t1[1]}" x2="${t2[0]}" y2="${t2[1]}" stroke="#10263B" stroke-width="2.5"/>
+    <text x="${cx}" y="${cy-2}" text-anchor="middle" class="gauge-value" fill="${color}">${displayVal}${suffix||''}</text>
+    <text x="${cx}" y="${cy+20}" text-anchor="middle" class="gauge-sub">${esc(t('kpi_meta_label'))} ${target}${suffix||''}</text>
+  </svg>`;
+}
+function qCurrentMonthKey(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
+function qDaysInMonth(y,m){return new Date(+y,+m,0).getDate()}
+function qTrendChartSVG(monthKey){
+  const parts=monthKey.split('-'),y=parts[0],m=parts[1];
+  const days=qDaysInMonth(y,m);
+  const oficial=new Array(days+1).fill(0),noOficial=new Array(days+1).fill(0);
+  qboard.forEach(b=>{
+    if(!b.date||b.date.slice(0,7)!==monthKey)return;
+    const d=+b.date.slice(8,10);if(d<1||d>days)return;
+    if(b.type==='ncr')oficial[d]++;else noOficial[d]++;
+  });
+  const maxVal=Math.max(1,...oficial.slice(1),...noOficial.slice(1));
+  const W=Math.max(560,days*24),H=190,padL=30,padR=14,padT=16,padB=26;
+  const plotW=W-padL-padR,plotH=H-padT-padB;
+  const xFor=d=>padL+(days>1?(d-1)/(days-1)*plotW:plotW/2);
+  const yFor=v=>padT+plotH-(v/maxVal)*plotH;
+  const lineFor=arr=>Array.from({length:days},(_,i)=>xFor(i+1)+','+yFor(arr[i+1])).join(' ');
+  const dotsFor=(arr,color)=>Array.from({length:days},(_,i)=>arr[i+1]>0?`<circle cx="${xFor(i+1)}" cy="${yFor(arr[i+1])}" r="3.4" fill="${color}"><title>${t('date')} ${i+1}: ${arr[i+1]}</title></circle>`:'').join('');
+  const step=days>25?5:days>15?3:days>7?2:1;
+  const xLabels=Array.from({length:days},(_,i)=>((i+1)%step===0||i===0||i===days-1)?`<text x="${xFor(i+1)}" y="${H-8}" font-size="8.5" text-anchor="middle" fill="#8797A8">${i+1}</text>`:'').join('');
+  const gridY=[0.25,0.5,0.75,1].map(f=>`<line x1="${padL}" y1="${padT+plotH*(1-f)}" x2="${W-padR}" y2="${padT+plotH*(1-f)}" stroke="#E3EAF1" stroke-width="1"/>`).join('');
+  return`<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:${W}px;display:block">${gridY}<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${H-padB}" stroke="#C3D2E0"/><line x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}" stroke="#C3D2E0"/><polyline points="${lineFor(noOficial)}" fill="none" stroke="#F2994A" stroke-width="1.5" opacity="0.75"/><polyline points="${lineFor(oficial)}" fill="none" stroke="#D7263D" stroke-width="1.5" opacity="0.85"/>${dotsFor(noOficial,'#F2994A')}${dotsFor(oficial,'#D7263D')}${xLabels}</svg>`;
+}
+function qRenderTrend(){
+  const box=document.getElementById('qTrendChart');if(!box)return;
+  const monthKey=qFilters.month||qCurrentMonthKey();
+  let oficialCount=0,noOficialCount=0;
+  qboard.forEach(b=>{if(b.date&&b.date.slice(0,7)===monthKey){if(b.type==='ncr')oficialCount++;else noOficialCount++}});
+  const so=document.getElementById('qStatOficial'),sn=document.getElementById('qStatNoOficial');
+  if(so)so.textContent=oficialCount;if(sn)sn.textContent=noOficialCount;
+  box.innerHTML=qTrendChartSVG(monthKey)+`<div class="q-trend-legend"><span><span class="q-stat-dot" style="background:#D7263D"></span>${esc(t('qrqc_type_ncr'))}</span><span><span class="q-stat-dot" style="background:#F2994A"></span>${esc(t('qrqc_type_internal'))}</span></div>`;
+}
+function qRenderKpis(){
+  const ncrCount=qboard.filter(b=>b.type==='ncr').length;
+  const gN=document.getElementById('gaugeNcr'); if(gN)gN.innerHTML=qGaugeSVG(ncrCount,15,7,'',0);
+  const prod=parseFloat(qkpi.producedQty)||0,def=parseFloat(qkpi.defectQty)||0;
+  const ftq=prod>0?(def/prod*100):0;
+  const gF=document.getElementById('gaugeFtq'); if(gF)gF.innerHTML=qGaugeSVG(ftq,5,1,'%',2);
+  qRenderTrend();
+}
+function qOpenModal(id){
+  if(id){const found=qboard.find(b=>b.id===id);if(!found)return;qDraft=clone(found);qEditingId=id}
+  else{qDraft=clone(qEntryEmpty);qDraft.id=Date.now();qDraft.no=qNextNo();qDraft.date=today();qDraft.dateOpened=today();qEditingId=null}
+  qRenderModal();
+  document.getElementById('qModalOverlay').hidden=false;
+}
+function qCloseModal(){const ov=document.getElementById('qModalOverlay');ov.hidden=true;ov.innerHTML='';qDraft=null;qEditingId=null}
+function qDraftFieldChanged(field,el){qDraft[field]=el.value}
+function qDraftStageChanged(k,el){qDraft.stages=qDraft.stages||{};qDraft.stages[k]=el.value}
+function qDraftProgressChanged(field,el){qDraft.progress[field]=el.checked}
+function qHandleImageUpload(event){
+  const file=event.target.files[0];if(!file)return;
+  hpmCompressImage(file,1280,0.72).then(data=>{qDraft.image=data;const img=document.getElementById('qModalImgPreview');if(img){img.src=data;img.style.display=''}});
+}
+function qRemoveImage(){qDraft.image='';const img=document.getElementById('qModalImgPreview');if(img){img.src='';img.style.display='none'}}
+function qLinkChanged(el){const val=el.value;if(!val){qDraft.linkedType='';qDraft.linkedId=null;qDraft.linkedCode='';return}const parts=val.split('|');const type=parts[0],id=+parts[1];const item=getAllSavedAnalyses().find(x=>x.type===type&&x.id===id);qDraft.linkedType=type;qDraft.linkedId=id;qDraft.linkedCode=item?item.code:''}
+function qRenderModal(){
+  const box=document.getElementById('qModalOverlay');
+  const d=qDraft;
+  const linkOptions=getAllSavedAnalyses().map(x=>`<option value="${x.type}|${x.id}" ${d.linkedType===x.type&&d.linkedId===x.id?'selected':''}>${esc(typeLabel(x.type))} · ${esc(x.code)} — ${esc(x.title)}</option>`).join('');
+  box.innerHTML=`<div class="q-modal-card">
+    <h2>${qEditingId?esc(t('q_edit_title')):esc(t('q_new_title'))}</h2>
+    <div class="q-modal-sub">No. ${d.no}</div>
+    <div class="q-modal-section">
+      <h4>${esc(t('general_data'))}</h4>
+      <div class="grid">
+        <div class="field"><label>${esc(t('date'))}</label><input type="date" value="${esc(d.date)}" oninput="qDraftFieldChanged('date',this)"></div>
+        <div class="field span2"><label>${esc(t('q_project'))}</label><input type="text" value="${esc(d.projectIssue)}" oninput="qDraftFieldChanged('projectIssue',this)"></div>
+        <div class="field"><label>${esc(t('qrqc_type'))}</label><select onchange="qDraftFieldChanged('type',this)">
+          <option value="interno" ${d.type==='interno'?'selected':''}>${esc(t('qrqc_type_internal'))}</option>
+          <option value="ncr" ${d.type==='ncr'?'selected':''}>${esc(t('qrqc_type_ncr'))}</option>
+        </select></div>
+        <div class="field span3"><label>${esc(t('q_nonconformity'))}</label><input type="text" value="${esc(d.nonConformity)}" oninput="qDraftFieldChanged('nonConformity',this)"></div>
+        <div class="field"><label>${esc(t('qrqc_status'))}</label><select onchange="qDraftFieldChanged('status',this)">
+          <option value="OPEN" ${d.status==='OPEN'?'selected':''}>OPEN</option>
+          <option value="CLOSE" ${d.status==='CLOSE'?'selected':''}>CLOSE</option>
+        </select></div>
+        <div class="field span2"><label>${esc(t('responsible'))}</label><input type="text" value="${esc(d.actionLeader)}" oninput="qDraftFieldChanged('actionLeader',this)"></div>
+        <div class="field span2"><label>${esc(t('q_image'))}</label>
+          <div class="q-img-upload">
+            <img id="qModalImgPreview" src="${d.image||''}" style="${d.image?'':'display:none'}">
+            <input type="file" accept="image/*" onchange="qHandleImageUpload(event)">
+            ${d.image?`<button type="button" class="light icon-btn" onclick="qRemoveImage()">${esc(t('q_remove_image'))}</button>`:''}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="q-modal-section"><h4>${esc(t('q_occurrence'))}</h4><div class="grid">
+      <div class="field span2"><label>${esc(t('qrqc_root_cause'))}</label><textarea oninput="qDraftFieldChanged('occCause',this)">${esc(d.occCause)}</textarea></div>
+      <div class="field span2"><label>${esc(t('qrqc_action'))}</label><textarea oninput="qDraftFieldChanged('occAction',this)">${esc(d.occAction)}</textarea></div>
+    </div></div>
+    <div class="q-modal-section"><h4>${esc(t('q_detection'))}</h4><div class="grid">
+      <div class="field span2"><label>${esc(t('qrqc_root_cause'))}</label><textarea oninput="qDraftFieldChanged('detCause',this)">${esc(d.detCause)}</textarea></div>
+      <div class="field span2"><label>${esc(t('qrqc_action'))}</label><textarea oninput="qDraftFieldChanged('detAction',this)">${esc(d.detAction)}</textarea></div>
+    </div></div>
+    ${qStagesFor(d.linkedType).length?`<div class="q-modal-section"><h4>${esc(t('q_sla_title'))}</h4><div class="q-modal-sub">${esc(t('q_sla_hint'))}</div><div class="grid">
+      ${qStagesFor(d.linkedType).map(([k,off,lk])=>`<div class="field"><label>${esc(t(lk))}</label><input type="date" value="${esc((d.stages||{})[k]||'')}" oninput="qDraftStageChanged('${k}',this)"></div>`).join('')}
+    </div></div>`:''}
+    <div class="q-modal-section"><h4>${esc(t('q_dates_progress'))}</h4><div class="grid">
+      <div class="field"><label>${esc(t('q_date_opened'))}</label><input type="date" value="${esc(d.dateOpened)}" oninput="qDraftFieldChanged('dateOpened',this)"></div>
+      <div class="field"><label>${esc(t('due_date'))}</label><input type="date" value="${esc(d.targetClose)}" oninput="qDraftFieldChanged('targetClose',this)"></div>
+      <div class="field"><label>${esc(t('closed_date'))}</label><input type="date" value="${esc(d.actualClose)}" oninput="qDraftFieldChanged('actualClose',this)"></div>
+      <div class="field"></div>
+      <div class="field span4"><label>${esc(t('q_progress'))}</label><div class="q-progress-check">
+        <label><input type="checkbox" ${d.progress.comm?'checked':''} onchange="qDraftProgressChanged('comm',this)"> ${esc(t('q_comm'))}</label>
+        <label><input type="checkbox" ${d.progress.ps?'checked':''} onchange="qDraftProgressChanged('ps',this)"> ${esc(t('q_ps'))}</label>
+        <label><input type="checkbox" ${d.progress.solved?'checked':''} onchange="qDraftProgressChanged('solved',this)"> ${esc(t('q_solved'))}</label>
+        <label><input type="checkbox" ${d.progress.systemic?'checked':''} onchange="qDraftProgressChanged('systemic',this)"> ${esc(t('q_systemic'))}</label>
+      </div></div>
+    </div></div>
+    <div class="q-modal-section"><h4>${esc(t('q_gemba'))}</h4><div class="field span4"><textarea oninput="qDraftFieldChanged('gemba',this)">${esc(d.gemba)}</textarea></div></div>
+    <div class="q-modal-section"><h4>${esc(t('qrqc_link_title'))}</h4><div class="grid">
+      <div class="field span3"><select onchange="qLinkChanged(this)"><option value="">${esc(t('qrqc_no_link'))}</option>${linkOptions}</select></div>
+      <div class="field">${d.linkedType?`<button type="button" class="light" onclick="qCloseModal();openSavedAnalysis('${d.linkedType}',${d.linkedId})">${esc(t('qrqc_open_linked'))} →</button>`:''}</div>
+    </div></div>
+    <div class="q-modal-actions">
+      ${qEditingId?`<button type="button" class="danger" onclick="qDeleteFromModal()">${esc(t('btn_delete'))}</button>`:''}
+      <button type="button" class="light" onclick="qCloseModal()">${esc(t('btn_cancel'))}</button>
+      <button type="button" class="primary" onclick="qSaveEntry()">${esc(t('btn_save'))}</button>
+    </div>
+  </div>`;
+}
+function qSaveEntry(){
+  if(!qDraft.projectIssue||!qDraft.projectIssue.trim()){alert(t('q_err_project'));return}
+  if(!qDraft.nonConformity||!qDraft.nonConformity.trim()){alert(t('q_err_nc'));return}
+  const idx=qboard.findIndex(b=>b.id===qDraft.id);
+  if(idx>=0)qboard[idx]=clone(qDraft);else qboard.unshift(clone(qDraft));
+  persistQBoard();qCloseModal();qRenderTable();qRenderKpis();renderQrqcdDashboard();
+}
+function qDeleteEntry(id){
+  const r=qboard.find(b=>b.id===id);
+  if(!confirm(t('delete_confirm',{report:r?('No. '+r.no):id})))return;
+  qboard=qboard.filter(b=>b.id!==id);
+  persistQBoard();qRenderTable();qRenderKpis();
+}
+function qDeleteFromModal(){if(qEditingId!=null){const id=qEditingId;qCloseModal();qDeleteEntry(id)}}
+function qOpenLightbox(src){document.getElementById('qLightboxImg').src=src;document.getElementById('qLightbox').hidden=false}
+function qCloseLightbox(){document.getElementById('qLightbox').hidden=true;document.getElementById('qLightboxImg').src=''}
+function qFilteredEntries(){
+  return qboard.filter(b=>{
+    if(qFilters.status&&b.status!==qFilters.status)return false;
+    if(qFilters.type&&b.type!==qFilters.type)return false;
+    if(qFilters.month&&(b.date||'').slice(0,7)!==qFilters.month)return false;
+    if(qFilters.q){const q=qFilters.q.toLowerCase();const hay=(b.projectIssue+' '+b.nonConformity+' '+b.actionLeader).toLowerCase();if(!hay.includes(q))return false}
+    return true;
+  }).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.no-a.no));
+}
+function qMonthLabel(y,mo){
+  const d=new Date(+y,+mo-1,1);
+  const locale=currentLang==='ko'?'ko-KR':currentLang==='en'?'en-US':'es-MX';
+  const label=d.toLocaleDateString(locale,{month:'long',year:'numeric'});
+  return label.charAt(0).toUpperCase()+label.slice(1);
+}
+function qBuildMonthOptions(){
+  const sel=document.getElementById('qFilterMonth');if(!sel)return;
+  const months=[...new Set(qboard.map(b=>(b.date||'').slice(0,7)).filter(Boolean))].sort().reverse();
+  if(qFilters.month&&!months.includes(qFilters.month))qFilters.month='';
+  const cur=qFilters.month;
+  sel.innerHTML=`<option value="">${esc(t('qrqc_all_months'))}</option>`+months.map(m=>{const parts=m.split('-');return `<option value="${m}" ${cur===m?'selected':''}>${esc(qMonthLabel(parts[0],parts[1]))}</option>`}).join('');
+}
+function qProgressDots(p){
+  const items=[['comm',t('q_comm')],['ps',t('q_ps')],['solved',t('q_solved')],['systemic',t('q_systemic')]];
+  return '<div class="q-progress-dots">'+items.map(it=>`<span class="${p[it[0]]?'on':''}" title="${esc(it[1])}"></span>`).join('')+'</div>';
+}
+
+/* ===== Plazos 8D / DMAIC (días desde la fecha de apertura) ===== */
+const Q_RULES={
+  '8d':[['cont',1,'q_st_cont','24h'],['rca',5,'q_st_rca','RCA'],['act',15,'q_st_act','AC'],['close',20,'q_st_close','GEMBA']],   // días desde la apertura
+  '2p':[['fin',2,'q_st_2p','2D']],
+  '9b':[['fin',2,'q_st_9b','2D']],                                                                                              // Dead Line 2 días
+  'dmaic':[['d',1,'q_st_d','D'],['m',11,'q_st_m','M'],['a',14,'q_st_a','A'],['i',29,'q_st_i','I'],['c',34,'q_st_c','C']]          // D 1 · M 10 · A 3 · I 15 · C 5 (acumulado)
+};
+function qStagesFor(type){return Q_RULES[type]||[]}
+function qDayDiff(a,b){const pa=a.split('-').map(Number),pb=b.split('-').map(Number);return Math.round((Date.UTC(pb[0],pb[1]-1,pb[2])-Date.UTC(pa[0],pa[1]-1,pa[2]))/864e5)}
+function qAddDays(d,n){const p=d.split('-').map(Number);return new Date(Date.UTC(p[0],p[1]-1,p[2]+n)).toISOString().slice(0,10)}
+function qSlaApplies(e){return !!Q_RULES[e.linkedType]}
+function qStageInfo(e){
+  const open=e.dateOpened||e.date;if(!open||!qSlaApplies(e))return null;
+  const td=today(),rules=qStagesFor(e.linkedType);
+  return rules.map(([k,off,lk,sh],idx)=>{
+    const due=qAddDays(open,off);let done=(e.stages&&e.stages[k])||'';
+    if(idx===rules.length-1&&!done&&e.actualClose)done=e.actualClose;
+    let delay=0,state,left=0;
+    if(done){delay=Math.max(0,qDayDiff(due,done));state=delay>0?'late':'ok'}
+    else{const over=qDayDiff(due,td);if(over>0){delay=over;state='over'}else{state='pend';left=-over}}
+    return{k,lk,sh,due,done,delay,state,left};
+  });
+}
+function qMaxDelay(e){const s=qStageInfo(e);if(!s)return 0;return Math.max(0,...s.filter(x=>x.state==='over').map(x=>x.delay))}
+function qSlaCell(e){
+  const s=qStageInfo(e);if(!s)return '<span class="q-no-img">—</span>';
+  const md=qMaxDelay(e);
+  const chips=s.map(x=>{
+    const txt=x.state==='ok'?'✓':x.state==='late'?'✓ +'+x.delay+'d':x.state==='over'?'+'+x.delay+'d':x.left+'d';
+    const tip=`${t(x.lk)} · ${t('q_sla_due')}: ${x.due}${x.done?' · '+t('q_sla_done')+': '+x.done:''}`;
+    return `<span class="q-sla q-sla-${x.state}" title="${esc(tip)}"><b>${x.sh}</b> ${txt}</span>`;
+  }).join('');
+  const ml=Math.max(0,...s.filter(x=>x.state==='late').map(x=>x.delay));
+  const head=md>0?`<div class="q-delay-total q-delay-bad">${esc(t('q_delay'))}: +${md} ${esc(t('q_days'))}</div>`:ml>0?`<div class="q-delay-total q-delay-warn">${esc(t('q_sla_late'))}: +${ml} ${esc(t('q_days'))}</div>`:`<div class="q-delay-total q-delay-ok">${esc(t('q_sla_ok'))}</div>`;
+  return head+'<div class="q-sla-chips">'+chips+'</div>';
+}
+function qRenderLate(){const el=document.getElementById('qStatLate');if(el)el.textContent=qboard.filter(e=>e.status==='OPEN'&&qMaxDelay(e)>0).length}
+function qRenderTable(){
+  qBuildMonthOptions();qRenderLate();
+  const body=document.getElementById('qBoardBody');if(!body)return;
+  const items=qFilteredEntries();
+  if(!items.length){body.innerHTML=`<tr><td colspan="15"><div class="q-empty-note">${esc(t('q_empty_board'))}</div></td></tr>`;return}
+  body.innerHTML=items.map(e=>{
+    const statusPill=e.status==='OPEN'?'<span class="pill pill-open">OPEN</span>':'<span class="pill pill-close">CLOSE</span>';
+    const typePill=e.type==='ncr'?`<span class="pill pill-ncr" title="${esc(t('qrqc_type_ncr'))}">NCR</span>`:`<span class="pill pill-interno" title="${esc(t('qrqc_type_internal'))}">GP12</span>`;
+    const img=e.image?`<img class="q-thumb" src="${e.image}" onclick="qOpenLightbox(this.src)">`:'<span class="q-no-img">—</span>';
+    const doeBtn=(e.doe&&e.doe.required&&e.doe.id)?`<button class="q-doe-btn" title="${esc(t('q_doe_title'))}" onclick="openSavedAnalysis('doe',${e.doe.id})">${esc(t('q_doe_btn'))} →</button><span class="q-doe-st q-doe-${e.doe.status==='done'?'done':'open'}">${esc(t(e.doe.status==='done'?'q_doe_done':'q_doe_pending'))}</span>`:'';
+    const linkBtn=e.linkedType?`<button class="primary q-follow-btn" title="${esc(t('qrqc_open_linked'))}" onclick="openSavedAnalysis('${e.linkedType}',${e.linkedId})">${esc(t('q_followup'))} →</button>`:'';
+    const cl=(v)=>{const x=String(v||'').trim();return x?`<div class="q-clamp" title="${esc(x)}">${esc(x)}</div>`:'—'};
+    const dates=`<div class="q-dates"><div title="${esc(t('q_date_opened'))}"><b>A</b> ${esc(e.dateOpened)||'—'}</div><div title="${esc(t('due_date'))}"><b>C</b> ${esc(e.targetClose)||'—'}</div><div title="${esc(t('closed_date'))}"><b>F</b> ${esc(e.actualClose)||'—'}</div></div>`;
+    return `
+    <tr class="q-entry-occ">
+      <td rowspan="2" class="cell-mono"><b>${e.no}</b><div class="q-dates">${esc(e.date)}</div></td>
+      <td rowspan="2" class="cell-title">${cl(e.projectIssue)}</td>
+      <td rowspan="2">${typePill}</td>
+      <td rowspan="2">${cl(e.nonConformity)}</td>
+      <td rowspan="2">${img}</td>
+      <td rowspan="2">${statusPill}</td>
+      <td rowspan="2" class="q-sla-cell">${qSlaCell(e)}${(linkBtn||doeBtn)?`<div class="q-btn-row">${linkBtn}${doeBtn}</div>`:''}</td>
+      <td rowspan="2">${cl(e.actionLeader)}</td>
+      <td><span class="q-phase-tag" title="OCCURRENCE">OCC</span></td>
+      <td>${cl(e.occCause)}</td>
+      <td>${cl(e.occAction)}</td>
+      <td rowspan="2">${dates}</td>
+      <td rowspan="2">${qProgressDots(e.progress)}</td>
+      <td rowspan="2" class="q-gemba-cell">${cl(e.gemba)}</td>
+      <td rowspan="2" class="q-row-actions no-print">
+        <button class="icon-btn light" onclick="qOpenModal(${e.id})">✎</button>
+        <button class="icon-btn danger" onclick="qDeleteEntry(${e.id})">🗑</button>
+      </td>
+    </tr>
+    <tr class="q-entry-det">
+      <td><span class="q-phase-tag" title="DETECTION">DET</span></td>
+      <td>${cl(e.detCause)}</td>
+      <td>${cl(e.detAction)}</td>
+    </tr>`;
+  }).join('');
+}
+function renderQrqcdDashboard(){
+  const mp=document.getElementById('qMetaProject'),my=document.getElementById('qMetaYear'),ip=document.getElementById('qInpProduced'),idf=document.getElementById('qInpDefect');
+  if(mp)mp.value=qmeta.project; if(my)my.value=qmeta.year; if(ip)ip.value=qkpi.producedQty; if(idf)idf.value=qkpi.defectQty;
+  qRenderTable();qRenderKpis();
+}
+
+Object.assign(I18N.es,{q_followup:'Seguimiento',q_sla_th:'Plazos / Retraso (8D · DMAIC)',q_st_cont:'Contención (24 h)',q_st_rca:'RCA (5 días)',q_st_act:'Acciones correctivas (15 días)',q_st_close:'Cierre con GEMBA (20 días)',q_sla_title:'Cumplimiento de plazos (8D / DMAIC)',q_sla_hint:'Fecha en que se cumplió cada etapa. Se llena sola desde ROCA; puedes corregirla aquí. Plazos contados desde la fecha de apertura.',q_sla_due:'Vence',q_sla_done:'Cumplida',q_delay:'Retraso',q_days:'días',q_sla_ok:'En tiempo',q_sla_late:'Cumplido con retraso',q_stat_late:'Con retraso (abiertos 8D/DMAIC)'});
+Object.assign(I18N.en,{q_followup:'Follow-up',q_sla_th:'Deadlines / Delay (8D · DMAIC)',q_st_cont:'Containment (24 h)',q_st_rca:'RCA (5 days)',q_st_act:'Corrective actions (15 days)',q_st_close:'Closure with GEMBA (20 days)',q_sla_title:'Deadline compliance (8D / DMAIC)',q_sla_hint:'Date each stage was completed. Filled automatically from ROCA; you can correct it here. Deadlines count from the opening date.',q_sla_due:'Due',q_sla_done:'Completed',q_delay:'Delay',q_days:'days',q_sla_ok:'On time',q_sla_late:'Completed late',q_stat_late:'Overdue (open 8D/DMAIC)'});
+Object.assign(I18N.ko,{q_followup:'후속 조치',q_sla_th:'기한 / 지연 (8D · DMAIC)',q_st_cont:'봉쇄 (24시간)',q_st_rca:'RCA (5일)',q_st_act:'시정조치 (15일)',q_st_close:'GEMBA 종결 확인 (20일)',q_sla_title:'기한 준수 (8D / DMAIC)',q_sla_hint:'각 단계 완료일. ROCA에서 자동 입력되며 여기서 수정할 수 있습니다. 기한은 시작일 기준입니다.',q_sla_due:'기한',q_sla_done:'완료',q_delay:'지연',q_days:'일',q_sla_ok:'정상',q_sla_late:'지연 완료',q_stat_late:'지연 (진행 중 8D/DMAIC)'});
+(function(){const st=document.createElement('style');st.textContent='.q-sla-cell{min-width:190px}.q-sla-chips{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}.q-sla{font:600 10.5px "IBM Plex Mono",monospace;padding:2px 7px;border-radius:999px;border:1px solid var(--line);background:#F2F5F9;color:var(--ink-soft);white-space:nowrap}.q-sla b{color:var(--accent-ink)}.q-sla-ok{background:#E8F6EF;color:#16834E;border-color:#BFE6D1}.q-sla-late{background:#FFF1E0;color:#B45F06;border-color:#F6D3A6}.q-sla-over{background:var(--danger-bg);color:var(--danger);border-color:#F3B8C0}.q-sla-over b,.q-sla-ok b,.q-sla-late b{color:inherit}.q-delay-total{font:800 12px "IBM Plex Mono",monospace}.q-delay-bad{color:var(--danger)}.q-delay-ok{color:#16834E}.q-delay-warn{color:#B45F06}.q-stat-late .q-stat-dot{background:#8E1B2B}.q-follow-btn{padding:6px 10px!important;font-size:11.5px!important}';document.head.appendChild(st)})();
+Object.assign(I18N.es,{q_th_nodate:'No. / Fecha',q_th_dates:'Fechas (A·C·F)'});Object.assign(I18N.en,{q_th_nodate:'No. / Date',q_th_dates:'Dates (O·T·A)'});Object.assign(I18N.ko,{q_th_nodate:'번호 / 일자',q_th_dates:'일자 (시작·목표·종료)'});
+Object.assign(I18N.es,{q_st_9b:'Auditoría 9B completa (2 días)'});Object.assign(I18N.en,{q_st_9b:'9B audit completed (2 days)'});Object.assign(I18N.ko,{q_st_9b:'9B 감사 완료 (2일)'});
+Object.assign(I18N.es,{q_st_2p:'Mejora implementada (2 días)',q_st_d:'D · Definir (1 día)',q_st_m:'M · Medir (10 días)',q_st_a:'A · Analizar (3 días)',q_st_i:'I · Mejorar (15 días)',q_st_c:'C · Controlar (5 días)',q_sla_th:'Plazos / Retraso',q_sla_title:'Cumplimiento de plazos',q_stat_late:'Con retraso (abiertos)',q_doe_btn:'DOE',q_doe_title:'Abrir el DOE de este problema',q_doe_pending:'DOE pendiente',q_doe_done:'DOE realizado'});
+Object.assign(I18N.en,{q_st_2p:'Improvement implemented (2 days)',q_st_d:'D · Define (1 day)',q_st_m:'M · Measure (10 days)',q_st_a:'A · Analyze (3 days)',q_st_i:'I · Improve (15 days)',q_st_c:'C · Control (5 days)',q_sla_th:'Deadlines / Delay',q_sla_title:'Deadline compliance',q_stat_late:'Overdue (open)',q_doe_btn:'DOE',q_doe_title:'Open the DOE for this problem',q_doe_pending:'DOE pending',q_doe_done:'DOE done'});
+Object.assign(I18N.ko,{q_st_2p:'개선 적용 (2일)',q_st_d:'D · 정의 (1일)',q_st_m:'M · 측정 (10일)',q_st_a:'A · 분석 (3일)',q_st_i:'I · 개선 (15일)',q_st_c:'C · 관리 (5일)',q_sla_th:'기한 / 지연',q_sla_title:'기한 준수',q_stat_late:'지연 (진행 중)',q_doe_btn:'DOE',q_doe_title:'이 문제의 DOE 열기',q_doe_pending:'DOE 대기',q_doe_done:'DOE 완료'});
+(function(){const st=document.createElement('style');st.textContent='.q-btn-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:7px}.q-doe-btn{background:#C47F00!important;color:#fff!important;padding:6px 10px!important;font-size:11.5px!important}.q-doe-st{font:700 10px "IBM Plex Mono",monospace}.q-doe-open{color:#B45F06}.q-doe-done{color:#16834E}';document.head.appendChild(st)})();
+HPMSync.ready.then(()=>{
+loadQ();applyI18n();renderQrqcdDashboard();
+const refresh=()=>{loadQ();if(qDraft==null)renderQrqcdDashboard()};
+window.addEventListener('storage',e=>{if(e.key===KEY_QBOARD||e.key===KEY_QKPI||e.key===KEY_QMETA)refresh()});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
+HPMSync.onRemote(()=>{loadQ();if(qDraft==null)renderQrqcdDashboard()});
+});
+
+</script>
+</body>
+</html>
